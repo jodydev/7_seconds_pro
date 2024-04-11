@@ -1,23 +1,15 @@
-import { useState } from "react";
 import Job from "./Modal/Job";
+import { useAppContext } from "../context/AppContext";
 
 export default function JobPostings() {
-  const [modalOpen, setModalOpen] = useState(false);
-
-  const openModal = () => {
-    setModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setModalOpen(false);
-  };
+  const { modalOpen, openModal, closeModal } = useAppContext();
 
   return (
     <section id="jobposting">
       {modalOpen && <Job closeModal={closeModal} />}
       <div
         className={`${
-          modalOpen ? "opacity-30" : "opacity-100"
+          modalOpen ? "opacity-10" : "opacity-100"
         } bg-white px-4 py-4 sm:px-6 shadow-lg rounded-2xl mt-10`}
       >
         <div className="flex flex-wrap items-center justify-between sm:flex-nowrap border-b border-gray-200">

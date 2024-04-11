@@ -1,4 +1,5 @@
 import { useLocation } from "react-router-dom";
+import { useAppContext } from "../context/AppContext";
 import { MdSettings } from "react-icons/md";
 import { FaUsers } from "react-icons/fa";
 import { BsStars } from "react-icons/bs";
@@ -32,10 +33,11 @@ function classNames(...classes) {
 
 export default function Sidebar() {
   const location = useLocation();
+  const { modalOpen } = useAppContext();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <header>
+    <header className={`${modalOpen ? "opacity-10" : "opacity-100"}`}>
       {/* Mobile sidebar */}
       <Transition.Root show={sidebarOpen} as={Fragment}>
         <Dialog
@@ -140,11 +142,10 @@ export default function Sidebar() {
       {/* Static sidebar for desktop */}
       <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
         <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6">
-        
-            <h3 className="text-2xl font-semibold leading-6 text-gray-900 mt-10 ">
-              Dashboard
-            </h3>
-     
+          <h3 className="text-2xl font-semibold leading-6 text-gray-900 mt-10 ">
+            Dashboard
+          </h3>
+
           <nav className="flex flex-1 flex-col border-t text-gray-900">
             <ul role="list" className="flex flex-1 flex-col gap-y-7">
               <li>

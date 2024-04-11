@@ -1,6 +1,10 @@
+import { useAppContext } from "../context/AppContext";
+
 export default function BannerAi() {
+  const { modalOpen } = useAppContext();
+
   return (
-      <div className="mx-auto py-24 sm:px-6 sm:py-12 lg:px-0">
+      <div className={`${modalOpen ? "opacity-10" : "opacity-100"} mx-auto py-24 sm:px-6 sm:py-12 lg:px-0`}>
         <div className="relative isolate overflow-hidden bg-indigo-600 px-6 pt-16 shadow-2xl sm:rounded-2xl sm:px-16 md:pt-24 lg:flex lg:gap-x-20 lg:px-24 lg:pt-0">
           <svg
             viewBox="0 0 1024 1024"

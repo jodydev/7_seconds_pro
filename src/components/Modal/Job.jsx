@@ -26,11 +26,11 @@ export default function Job({ closeModal }) {
       id="crud-modal"
       tabIndex="-1"
       aria-hidden="true"
-      className="flex overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+      className="flex overflow-hidden overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
     >
-      <div className="relative p-10 w-full  max-w-[50%]">
-        <div className="relative bg-white rounded-lg shadow dark:bg-gray-700 py-10 px-20">
-          <div className="flex items-center justify-between my-2 border-b rounded-t dark:border-gray-600">
+      <div className="relative p-10 w-full max-w-[50%] ">
+        <div className="relative bg-white rounded-lg  dark:bg-gray-700 py-6 px-12 drop-shadow-xl border-2 border-indigo-500">
+          <div className="flex items-center justify-between my-2 border-b rounded-t dark:border-gray-600 ">
             <h3 className="text-3xl my-2 font-semibold text-gray-900 dark:text-white">
               Add New Job
             </h3>
@@ -70,7 +70,7 @@ export default function Job({ closeModal }) {
                 </p>
 
                 <div className="mt-5 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                  <div className="sm:col-span-3">
+                  <div className="sm:col-span-2">
                     <label
                       htmlFor="first-name"
                       className="block text-sm font-medium leading-6 text-gray-900"
@@ -88,7 +88,7 @@ export default function Job({ closeModal }) {
                     </div>
                   </div>
 
-                  <div className="sm:col-span-3">
+                  <div className="sm:col-span-2">
                     <label
                       htmlFor="last-name"
                       className="block text-sm font-medium leading-6 text-gray-900"
@@ -103,6 +103,27 @@ export default function Job({ closeModal }) {
                         autoComplete="family-name"
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                       />
+                    </div>
+                  </div>
+
+                  <div className="sm:col-span-2">
+                    <label
+                      htmlFor="country"
+                      className="block text-sm font-medium leading-6 text-gray-900"
+                    >
+                      Seniority
+                    </label>
+                    <div className="mt-2">
+                      <select
+                        id="seniority"
+                        name="seniority"
+                        autoComplete="seniority-name"
+                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                      >
+                        <option>Junior</option>
+                        <option>Mid</option>
+                        <option>Senior</option>
+                      </select>
                     </div>
                   </div>
 
@@ -144,28 +165,9 @@ export default function Job({ closeModal }) {
                     </div>
                   </div>
 
-                  <div className="sm:col-span-1">
-                    <label
-                      htmlFor="country"
-                      className="block text-sm font-medium leading-6 text-gray-900"
-                    >
-                      Seniority
-                    </label>
-                    <div className="mt-2">
-                      <select
-                        id="seniority"
-                        name="seniority"
-                        autoComplete="seniority-name"
-                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                      >
-                        <option>Junior</option>
-                        <option>Mid</option>
-                        <option>Senior</option>
-                      </select>
-                    </div>
-                  </div>
+                  
 
-                  <div className="sm:col-span-1">
+                  <div className="sm:col-span-2">
                     <label
                       htmlFor="country"
                       className="block text-sm font-medium leading-6 text-gray-900"
@@ -208,7 +210,7 @@ export default function Job({ closeModal }) {
                         />
                         <div
                           className={`relative w-11 h-6 bg-gray-200 rounded-full peer ${
-                            isChecked ? "bg-blue-600" : "dark:bg-gray-700"
+                            isChecked ? "bg-indigo-500" : "dark:bg-gray-700"
                           } transition-all duration-300`}
                         >
                           <div

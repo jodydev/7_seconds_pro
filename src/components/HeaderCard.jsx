@@ -4,8 +4,11 @@ import {
 } from "@heroicons/react/24/outline";
 import { BsStars } from "react-icons/bs";
 import { FaUsers } from "react-icons/fa";
+import { useAppContext } from "../context/AppContext";
 
 export default function HeaderCard() {
+  const { modalOpen } = useAppContext();
+
   const stats = [
     { name: "Jobs", stat: "+71,897", icon: BriefcaseIcon },
     { name: "Users", stat: "+588", icon: FaUsers },
@@ -14,9 +17,9 @@ export default function HeaderCard() {
   ];
 
   return (
-    <div>
+    <div className={`${modalOpen ? "opacity-10" : "opacity-100"}`}>
       <img
-        className="w-auto h-[60px]"
+        className="w-auto h-[50px]"
         src="/7secondspro-logo/1.png"
         alt="Your Company"
       />
