@@ -1,8 +1,13 @@
-import Job from "./Modal/Job";
 import { useAppContext } from "../context/AppContext";
+import Job from "./Modal/Job";
+
 
 export default function JobPostings() {
   const { modalOpen, openModal, closeModal } = useAppContext();
+
+  const goToDetails = () => {
+    window.location.href = "/job-details";
+  };
 
   return (
     <section id="jobposting">
@@ -75,19 +80,18 @@ export default function JobPostings() {
               </tr>
             </thead>
 
-            <tbody>
-              <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <th
-                  scope="row"
-                  className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white"
-                >
-                  <div className="text-base font-semibold">Apple.inc</div>
-                </th>
-                <td className="px-6 py-4">React Developer</td>
-                <td className="px-6 py-4">50.000$</td>
+            <tbody className=" hover:cursor-pointer">
+              <tr
+                onClick={goToDetails}
+                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+              >
+                
+                <td className="px-6 py-4">Apple.inc</td>
+                <td className="px-6 py-4">Front End Developer</td>
+                <td className="px-6 py-4">120.000$</td>
 
                 <td className="px-6 py-4">Junior</td>
-                <td className="px-6 py-4">Part-time</td>
+                <td className="px-6 py-4">Stage</td>
                 <td className="px-6 py-4">
                   <div className="flex items-center">
                     <div className="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div>{" "}
@@ -100,17 +104,13 @@ export default function JobPostings() {
               </tr>
 
               <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <th
-                  scope="row"
-                  className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white"
-                >
-                  <div className="text-base font-semibold">Apple.inc</div>
-                </th>
-                <td className="px-6 py-4">React Developer</td>
-                <td className="px-6 py-4">50.000$</td>
+                
+                <td className="px-6 py-4">Apple.inc</td>
+                <td className="px-6 py-4">Front End Developer</td>
+                <td className="px-6 py-4">120.000$</td>
 
                 <td className="px-6 py-4">Junior</td>
-                <td className="px-6 py-4">Part-time</td>
+                <td className="px-6 py-4">Stage</td>
                 <td className="px-6 py-4">
                   <div className="flex items-center">
                     <div className="h-2.5 w-2.5 rounded-full bg-red-500 me-2"></div>{" "}
@@ -123,17 +123,13 @@ export default function JobPostings() {
               </tr>
 
               <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <th
-                  scope="row"
-                  className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white"
-                >
-                  <div className="text-base font-semibold">Apple.inc</div>
-                </th>
-                <td className="px-6 py-4">React Developer</td>
-                <td className="px-6 py-4">50.000$</td>
+                
+                <td className="px-6 py-4">Apple.inc</td>
+                <td className="px-6 py-4">Front End Developer</td>
+                <td className="px-6 py-4">120.000$</td>
 
                 <td className="px-6 py-4">Junior</td>
-                <td className="px-6 py-4">Part-time</td>
+                <td className="px-6 py-4">Stage</td>
                 <td className="px-6 py-4">
                   <div className="flex items-center">
                     <div className="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div>{" "}
@@ -146,17 +142,13 @@ export default function JobPostings() {
               </tr>
 
               <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <th
-                  scope="row"
-                  className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white"
-                >
-                  <div className="text-base font-semibold">Apple.inc</div>
-                </th>
-                <td className="px-6 py-4">React Developer</td>
-                <td className="px-6 py-4">50.000$</td>
+                
+                <td className="px-6 py-4">Apple.inc</td>
+                <td className="px-6 py-4">Front End Developer</td>
+                <td className="px-6 py-4">120.000$</td>
 
                 <td className="px-6 py-4">Junior</td>
-                <td className="px-6 py-4">Part-time</td>
+                <td className="px-6 py-4">Stage</td>
                 <td className="px-6 py-4">
                   <div className="flex items-center">
                     <div className="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div>{" "}
@@ -169,17 +161,13 @@ export default function JobPostings() {
               </tr>
 
               <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <th
-                  scope="row"
-                  className="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white"
-                >
-                  <div className="text-base font-semibold">Apple.inc</div>
-                </th>
-                <td className="px-6 py-4">React Developer</td>
-                <td className="px-6 py-4">50.000$</td>
+                
+                <td className="px-6 py-4">Apple.inc</td>
+                <td className="px-6 py-4">Front End Developer</td>
+                <td className="px-6 py-4">120.000$</td>
 
                 <td className="px-6 py-4">Junior</td>
-                <td className="px-6 py-4">Part-time</td>
+                <td className="px-6 py-4">Stage</td>
                 <td className="px-6 py-4">
                   <div className="flex items-center">
                     <div className="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div>{" "}
@@ -188,6 +176,19 @@ export default function JobPostings() {
                 </td>
                 <td className="px-6 py-4">
                   Via del successo 1, Bologna Italy 40010
+                </td>
+              </tr>
+
+              <tr>
+                <td colSpan="7" className="px-4 py-2">
+                  <div className="flex items-center justify-end">
+                    <a
+                      href="/jobs"
+                      className="flex items-center justify-end px-6 py-4 underline text-indigo-500 whitespace-nowrap dark:text-white"
+                    >
+                      See all job postings
+                    </a>
+                  </div>
                 </td>
               </tr>
             </tbody>

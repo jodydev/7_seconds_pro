@@ -21,7 +21,7 @@ export default function Routing() {
       <Route path="/register" element={<Register />} />
 
       <Route path="*" element={<PageNotFound />} />
-      <Route path="/detailsjob" element={<DetailsJob />} />
+      <Route path="/job-details" element={<DetailsJob />} />
     </Routes>
   );
 }

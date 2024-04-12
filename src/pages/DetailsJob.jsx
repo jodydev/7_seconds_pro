@@ -1,14 +1,12 @@
-import { PaperClipIcon, ArrowUturnLeftIcon } from "@heroicons/react/20/solid";
 import { Fragment } from "react";
 import {
   BriefcaseIcon,
   CalendarIcon,
-  CheckIcon,
   ChevronDownIcon,
   CurrencyDollarIcon,
-  LinkIcon,
   MapPinIcon,
   PencilIcon,
+  PaperClipIcon, ArrowUturnLeftIcon
 } from "@heroicons/react/20/solid";
 import { BsStars } from "react-icons/bs";
 import { Menu, Transition } from "@headlessui/react";
@@ -51,23 +49,24 @@ export default function DetailsJob() {
                 className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400"
                 aria-hidden="true"
               />
-                Publish on Aprile 9, 2024
+              Publish on Aprile 9, 2024
             </div>
           </div>
         </div>
         <div className="mt-5 flex lg:ml-4 lg:mt-0">
-
-        <span className="ml-3 hidden sm:block">
-            <button
-              type="button"
-              className="inline-flex items-center rounded-md bg-white me-3 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-            >
-              <ArrowUturnLeftIcon
-                className="-ml-0.5 mr-1.5 h-5 w-5 text-gray-400"
-                aria-hidden="true"
-              />
-              Go back
-            </button>
+          <span className="ml-3 hidden sm:block">
+            <a href="/">
+              <button
+                type="button"
+                className="inline-flex items-center rounded-md bg-white me-3 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+              >
+                <ArrowUturnLeftIcon
+                  className="-ml-0.5 mr-1.5 h-5 w-5 text-gray-400"
+                  aria-hidden="true"
+                />
+                Go back
+              </button>
+            </a>
           </span>
 
           <span className="hidden sm:block">
@@ -83,17 +82,12 @@ export default function DetailsJob() {
             </button>
           </span>
 
-      
-
           <span className="sm:ml-3">
             <button
               type="button"
               className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
-              <BsStars
-                className="-ml-0.5 mr-1.5 h-5 w-5"
-                aria-hidden="true"
-              />
+              <BsStars className="-ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
               Ai
             </button>
           </span>
@@ -155,59 +149,82 @@ export default function DetailsJob() {
           Applicant Information
         </h3>
         <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
-          Personal details and application.
+        Review or edit the job description, requirements, and qualifications.
         </p>
       </div>
       <div className="mt-6 border-t border-gray-100">
         <dl className="divide-y divide-gray-100">
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900">
-              Full name
-            </dt>
+            <p className="text-sm font-medium leading-6 text-gray-900">
+              Company Name
+            </p>
             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-              Margot Foster
+              Apple.inc
             </dd>
           </div>
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900">
+            <p className="text-sm font-medium leading-6 text-gray-900">
               Application for
-            </dt>
+            </p>
             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-              Backend Developer
+              Front End Developer
             </dd>
           </div>
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900">
-              Email address
-            </dt>
+            <p className="text-sm font-medium leading-6 text-gray-900">
+              Seniority
+            </p>
             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-              margotfoster@example.com
+              Junior
             </dd>
           </div>
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900">
-              Salary expectation
-            </dt>
+            <p className="text-sm font-medium leading-6 text-gray-900">
+              Work type
+            </p>
+            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+              Remote
+            </dd>
+          </div>
+          <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+            <p className="text-sm font-medium leading-6 text-gray-900">
+              Protected categories
+            </p>
+            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+              No
+            </dd>
+          </div>
+          <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+            <p className="text-sm font-medium leading-6 text-gray-900">
+              Contract
+            </p>
+            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+              Stage
+            </dd>
+          </div>
+
+          <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+            <p className="text-sm font-medium leading-6 text-gray-900">
+              Salary
+            </p>
             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
               $120,000
             </dd>
           </div>
+
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900">
-              About
-            </dt>
+            <p className="text-sm font-medium leading-6 text-gray-900">
+              Location
+            </p>
             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-              Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim
-              incididunt cillum culpa consequat. Excepteur qui ipsum aliquip
-              consequat sint. Sit id mollit nulla mollit nostrud in ea officia
-              proident. Irure nostrud pariatur mollit ad adipisicing
-              reprehenderit deserunt qui eu.
+            Apple Park, One Apple Park Way, Cupertino, CA 95014, Stati Uniti
             </dd>
           </div>
+         
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900">
-              Attachments
-            </dt>
+            <p className="text-sm font-medium leading-6 text-gray-900">
+              Ai CVs
+            </p>
             <dd className="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
               <ul
                 role="list"
