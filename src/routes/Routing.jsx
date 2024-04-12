@@ -6,6 +6,8 @@ import Documents from "../pages/Documents";
 import Ai from "../pages/Ai";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
+import PageNotFound from "../pages/PageNotFound";
+import DetailsJob from "../pages/DetailsJob";
 
 export default function Routing() {
   return (
@@ -17,6 +19,9 @@ export default function Routing() {
       <Route path="/ai" element={<Ai />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+
+      <Route path="*" element={<PageNotFound />} />
+      <Route path="/detailsjob" element={<DetailsJob />} />
     </Routes>
   );
 }
