@@ -1,4 +1,5 @@
 import { useAppContext } from "../context/AppContext";
+import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { FaUsers } from "react-icons/fa";
 import { BsStars } from "react-icons/bs";
@@ -86,13 +87,13 @@ export default function HeaderCard() {
 
   return (
     <div className={`${modalOpen ? "opacity-10" : "opacity-100"}`}>
-      <a href="/home" className="hidden sm:block">
+      <Link to="/home" className="hidden sm:block">
         <img
           className="w-auto h-[50px]"
           src="/7secondspro-logo/1.png"
           alt="7Seconds Pro"
         />
-      </a>
+      </Link>
 
       <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {renderCards(location.pathname)}

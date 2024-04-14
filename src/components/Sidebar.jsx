@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import { useAppContext } from "../context/AppContext";
 import { MdSettings } from "react-icons/md";
 import { FaUsers } from "react-icons/fa";
@@ -14,17 +14,17 @@ import {
 } from "@heroicons/react/24/outline";
 
 const navigation = [
-  { name: "Home", href: "/home", icon: HomeIcon, current: true },
-  { name: "AI", href: "/ai", icon: BsStars, current: false },
-  { name: "Jobs", href: "/jobs", icon: BriefcaseIcon, current: false },
-  { name: "Users", href: "/users", icon: FaUsers, current: false },
+  { name: "Home", to: "/home", icon: HomeIcon, current: true },
+  { name: "AI", to: "/ai", icon: BsStars, current: false },
+  { name: "Jobs", to: "/jobs", icon: BriefcaseIcon, current: false },
+  { name: "Users", to: "/users", icon: FaUsers, current: false },
   {
     name: "Documents",
-    href: "/documents",
+    to: "/documents",
     icon: DocumentDuplicateIcon,
     current: false,
   },
-  { name: "Settings", href: "/settings", icon: MdSettings, current: false },
+  { name: "Settings", to: "/settings", icon: MdSettings, current: false },
 ];
 
 function classNames(...classes) {
@@ -104,8 +104,8 @@ export default function Sidebar() {
                         <ul role="list" className="-mx-2 space-y-1">
                           {navigation.map((item) => (
                             <li key={item.name}>
-                              <a
-                                href={item.href}
+                              <Link
+                                to={item.to}
                                 className={classNames(
                                   item.current
                                     ? "bg-gray-50 text-indigo-600"
@@ -123,7 +123,7 @@ export default function Sidebar() {
                                   aria-hidden="true"
                                 />
                                 {item.name}
-                              </a>
+                              </Link>
                             </li>
                           ))}
                         </ul>
@@ -150,10 +150,10 @@ export default function Sidebar() {
                 <ul role="list" className="-mx-2 space-y-1">
                   {navigation.map((item) => (
                     <li key={item.name}>
-                      <a
-                        href={item.href}
+                      <Link
+                        to={item.to}
                         className={classNames(
-                          location.pathname === item.href
+                          location.pathname === item.to
                             ? "bg-gray-50 text-indigo-600"
                             : "text-gray-700 hover:text-indigo-600 hover:bg-gray-50",
                           "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
@@ -161,7 +161,7 @@ export default function Sidebar() {
                       >
                         <item.icon
                           className={classNames(
-                            location.pathname === item.href
+                            location.pathname === item.to
                               ? "text-indigo-600"
                               : "text-gray-400 group-hover:text-indigo-600",
                             "h-6 w-6 shrink-0"
@@ -169,7 +169,7 @@ export default function Sidebar() {
                           aria-hidden="true"
                         />
                         {item.name}
-                      </a>
+                      </Link>
                     </li>
                   ))}
                 </ul>

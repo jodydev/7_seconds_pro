@@ -1,4 +1,7 @@
 import { Fragment } from "react";
+import { Link } from "react-router-dom";
+import { BsStars } from "react-icons/bs";
+import { Menu, Transition } from "@headlessui/react";
 import {
   BriefcaseIcon,
   CalendarIcon,
@@ -6,10 +9,9 @@ import {
   CurrencyDollarIcon,
   MapPinIcon,
   PencilIcon,
-  PaperClipIcon, ArrowUturnLeftIcon
+  PaperClipIcon,
+  ArrowUturnLeftIcon,
 } from "@heroicons/react/20/solid";
-import { BsStars } from "react-icons/bs";
-import { Menu, Transition } from "@headlessui/react";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -55,7 +57,7 @@ export default function JobDetails() {
         </div>
         <div className="mt-5 flex lg:ml-4 lg:mt-0">
           <span className="ml-3 hidden sm:block">
-            <a href="/jobs">
+            <Link to="/jobs">
               <button
                 type="button"
                 className="inline-flex items-center rounded-md bg-white me-3 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
@@ -66,7 +68,7 @@ export default function JobDetails() {
                 />
                 Go back
               </button>
-            </a>
+            </Link>
           </span>
 
           <span className="hidden sm:block">
@@ -83,16 +85,18 @@ export default function JobDetails() {
           </span>
 
           <span className="sm:ml-3">
-            <a href="/ai">
-            <button
-              type="button"
-              className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              <BsStars className="-ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
-              Ai
-            </button>
-            </a>
-           
+            <Link to="/ai">
+              <button
+                type="button"
+                className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              >
+                <BsStars
+                  className="-ml-0.5 mr-1.5 h-5 w-5"
+                  aria-hidden="true"
+                />
+                Ai
+              </button>
+            </Link>
           </span>
 
           {/* Dropdown for mobile*/}
@@ -117,28 +121,28 @@ export default function JobDetails() {
               <Menu.Items className="absolute right-0 z-10 -mr-1 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <Menu.Item>
                   {({ active }) => (
-                    <a
-                      href="#"
+                    <Link
+                      to="#"
                       className={classNames(
                         active ? "bg-gray-100" : "",
                         "block px-4 py-2 text-sm text-gray-700"
                       )}
                     >
                       Edit
-                    </a>
+                    </Link>
                   )}
                 </Menu.Item>
                 <Menu.Item>
                   {({ active }) => (
-                    <a
-                      href="#"
+                    <Link
+                      to="#"
                       className={classNames(
                         active ? "bg-gray-100" : "",
                         "block px-4 py-2 text-sm text-gray-700"
                       )}
                     >
                       View
-                    </a>
+                    </Link>
                   )}
                 </Menu.Item>
               </Menu.Items>
@@ -152,7 +156,7 @@ export default function JobDetails() {
           Applicant Information
         </h3>
         <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">
-        Review or edit the job description, requirements, and qualifications.
+          Review or edit the job description, requirements, and qualifications.
         </p>
       </div>
       <div className="mt-6 border-t border-gray-100">
@@ -220,10 +224,10 @@ export default function JobDetails() {
               Location
             </p>
             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-            Apple Park, One Apple Park Way, Cupertino, CA 95014, Stati Uniti
+              Apple Park, One Apple Park Way, Cupertino, CA 95014, Stati Uniti
             </dd>
           </div>
-         
+
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
             <p className="text-sm font-medium leading-6 text-gray-900">
               Ai CVs for this job
@@ -247,12 +251,12 @@ export default function JobDetails() {
                     </div>
                   </div>
                   <div className="ml-4 flex-shrink-0">
-                    <a
-                      href="#"
+                    <Link
+                      to="#"
                       className="font-medium text-indigo-600 hover:text-indigo-500"
                     >
                       Download
-                    </a>
+                    </Link>
                   </div>
                 </li>
                 <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
@@ -269,12 +273,12 @@ export default function JobDetails() {
                     </div>
                   </div>
                   <div className="ml-4 flex-shrink-0">
-                    <a
-                      href="#"
+                    <Link
+                      to="#"
                       className="font-medium text-indigo-600 hover:text-indigo-500"
                     >
                       Download
-                    </a>
+                    </Link>
                   </div>
                 </li>
               </ul>

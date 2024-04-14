@@ -1,4 +1,6 @@
 import { Fragment } from "react";
+import { Link } from "react-router-dom";
+import { Menu, Transition } from "@headlessui/react";
 import {
   BriefcaseIcon,
   CalendarIcon,
@@ -9,8 +11,6 @@ import {
   PaperClipIcon,
   ArrowUturnLeftIcon,
 } from "@heroicons/react/20/solid";
-import { BsStars } from "react-icons/bs";
-import { Menu, Transition } from "@headlessui/react";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -49,7 +49,7 @@ export default function UserDetails() {
         </div>
         <div className="mt-5 flex lg:ml-4 lg:mt-0">
           <span className="ml-3 hidden sm:block">
-            <a href="/users">
+            <Link to="/users">
               <button
                 type="button"
                 className="inline-flex items-center rounded-md bg-white me-3 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
@@ -60,7 +60,7 @@ export default function UserDetails() {
                 />
                 Go back
               </button>
-            </a>
+            </Link>
           </span>
 
           {/* Dropdown for mobile */}
@@ -85,28 +85,28 @@ export default function UserDetails() {
               <Menu.Items className="absolute right-0 z-10 -mr-1 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <Menu.Item>
                   {({ active }) => (
-                    <a
-                      href="#"
+                    <Link
+                      to="#"
                       className={classNames(
                         active ? "bg-gray-100" : "",
                         "block px-4 py-2 text-sm text-gray-700"
                       )}
                     >
                       Edit
-                    </a>
+                    </Link>
                   )}
                 </Menu.Item>
                 <Menu.Item>
                   {({ active }) => (
-                    <a
-                      href="#"
+                    <Link
+                      to="#"
                       className={classNames(
                         active ? "bg-gray-100" : "",
                         "block px-4 py-2 text-sm text-gray-700"
                       )}
                     >
                       View
-                    </a>
+                    </Link>
                   )}
                 </Menu.Item>
               </Menu.Items>
@@ -185,12 +185,12 @@ export default function UserDetails() {
                     </div>
                   </div>
                   <div className="ml-4 flex-shrink-0">
-                    <a
-                      href="#"
+                    <Link
+                      to="#"
                       className="font-medium text-indigo-600 hover:text-indigo-500"
                     >
                       Download
-                    </a>
+                    </Link>
                   </div>
                 </li>
               </ul>
