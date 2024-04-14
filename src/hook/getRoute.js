@@ -4,7 +4,7 @@ export const getRoute = () => {
   const location = useLocation();
   // const { id } = useParams();
 
-  const homePage = "/";
+  const homePage = "/home";
   const aiPage = `/ai`;
   const jobsPage = `/jobs`;
   const usersPage = `/users`;

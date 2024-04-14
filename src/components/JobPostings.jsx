@@ -1,7 +1,6 @@
 import { useAppContext } from "../context/AppContext";
 import Job from "./Modal/Job";
 
-
 export default function JobPostings() {
   const { modalOpen, openModal, closeModal } = useAppContext();
 
@@ -9,8 +8,61 @@ export default function JobPostings() {
     window.location.href = "/job-details";
   };
 
+  const jobs = [
+    {
+      id: 1,
+      companyName: "Google",
+      role: "Front-end Developer",
+      salary: "$120,000",
+      seniority: "Senior",
+      contract: "Full-time",
+      protectedCategories: false,
+      location: "Mountain View, California",
+    },
+    {
+      id: 2,
+      companyName: "Facebook",
+      role: "Ai Engineer",
+      salary: "$130,000",
+      seniority: "Senior",
+      contract: "Full-time",
+      protectedCategories: false,
+      location: "Menlo Park, California",
+    },
+    {
+      id: 3,
+      companyName: "Amazon",
+      role: "Business Analyst",
+      salary: "$110,000",
+      seniority: "Senior",
+      contract: "Full-time",
+      protectedCategories: true,
+      location: "Seattle, Washington",
+    },
+    {
+      id: 4,
+      companyName: "Apple",
+      role: "Software Engineer",
+      salary: "$140,000",
+      seniority: "Senior",
+      contract: "Full-time",
+      protectedCategories: false,
+      location: "Cupertino, California",
+    },
+    {
+      id: 5,
+      companyName: "Google",
+      role: "Front-end Developer",
+      salary: "$120,000",
+      seniority: "Senior",
+      contract: "Full-time",
+      protectedCategories: true,
+      location: "Mountain View, California",
+    },
+  ];
+
   return (
-    <section id="jobposting">
+    <section>
       {modalOpen && <Job closeModal={closeModal} />}
       <div
         className={`${
@@ -27,7 +79,7 @@ export default function JobPostings() {
               corrupti consectetur.
             </p>
           </div>
-          <div className="flex-shrink-0">
+          <div className="flex-shrink-0 my-3 ms-3 sm:my-0 sm:ms-0">
             <button
               onClick={openModal}
               type="button"
@@ -54,7 +106,7 @@ export default function JobPostings() {
 
         <div className="relative overflow-x-auto shadow-md sm:rounded-2xl mt-5">
           <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <thead className="text-sm text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th scope="col" className="px-6 py-3">
                   Company Name
@@ -80,117 +132,33 @@ export default function JobPostings() {
               </tr>
             </thead>
 
-            <tbody className=" hover:cursor-pointer">
-              <tr
-                onClick={goToDetails}
-                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-              >
-                
-                <td className="px-6 py-4">Apple.inc</td>
-                <td className="px-6 py-4">Front End Developer</td>
-                <td className="px-6 py-4">120.000$</td>
-
-                <td className="px-6 py-4">Junior</td>
-                <td className="px-6 py-4">Stage</td>
-                <td className="px-6 py-4">
-                  <div className="flex items-center">
-                    <div className="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div>{" "}
-                    Yes
-                  </div>
-                </td>
-                <td className="px-6 py-4">
-                  Via del successo 1, Bologna Italy 40010
-                </td>
-              </tr>
-
-              <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                
-                <td className="px-6 py-4">Apple.inc</td>
-                <td className="px-6 py-4">Front End Developer</td>
-                <td className="px-6 py-4">120.000$</td>
-
-                <td className="px-6 py-4">Junior</td>
-                <td className="px-6 py-4">Stage</td>
-                <td className="px-6 py-4">
-                  <div className="flex items-center">
-                    <div className="h-2.5 w-2.5 rounded-full bg-red-500 me-2"></div>{" "}
-                    No
-                  </div>
-                </td>
-                <td className="px-6 py-4">
-                  Via del successo 1, Bologna Italy 40010
-                </td>
-              </tr>
-
-              <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                
-                <td className="px-6 py-4">Apple.inc</td>
-                <td className="px-6 py-4">Front End Developer</td>
-                <td className="px-6 py-4">120.000$</td>
-
-                <td className="px-6 py-4">Junior</td>
-                <td className="px-6 py-4">Stage</td>
-                <td className="px-6 py-4">
-                  <div className="flex items-center">
-                    <div className="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div>{" "}
-                    Yes
-                  </div>
-                </td>
-                <td className="px-6 py-4">
-                  Via del successo 1, Bologna Italy 40010
-                </td>
-              </tr>
-
-              <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                
-                <td className="px-6 py-4">Apple.inc</td>
-                <td className="px-6 py-4">Front End Developer</td>
-                <td className="px-6 py-4">120.000$</td>
-
-                <td className="px-6 py-4">Junior</td>
-                <td className="px-6 py-4">Stage</td>
-                <td className="px-6 py-4">
-                  <div className="flex items-center">
-                    <div className="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div>{" "}
-                    Yes
-                  </div>
-                </td>
-                <td className="px-6 py-4">
-                  Via del successo 1, Bologna Italy 40010
-                </td>
-              </tr>
-
-              <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                
-                <td className="px-6 py-4">Apple.inc</td>
-                <td className="px-6 py-4">Front End Developer</td>
-                <td className="px-6 py-4">120.000$</td>
-
-                <td className="px-6 py-4">Junior</td>
-                <td className="px-6 py-4">Stage</td>
-                <td className="px-6 py-4">
-                  <div className="flex items-center">
-                    <div className="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div>{" "}
-                    Yes
-                  </div>
-                </td>
-                <td className="px-6 py-4">
-                  Via del successo 1, Bologna Italy 40010
-                </td>
-              </tr>
-
-              <tr>
-                <td colSpan="7" className="px-4 py-2">
-                  <div className="flex items-center justify-end">
-                    <a
-                      href="/jobs"
-                      className="flex items-center justify-end px-6 py-4 underline text-indigo-500 whitespace-nowrap dark:text-white"
-                    >
-                      See all job postings
-                    </a>
-                  </div>
-                </td>
-              </tr>
+            <tbody className="hover:cursor-pointer">
+              {jobs.map((job) => (
+                <tr
+                  key={job.id}
+                  onClick={goToDetails}
+                  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                >
+                  <td className="px-6 py-4">{job.companyName}</td>
+                  <td className="px-6 py-4">{job.role}</td>
+                  <td className="px-6 py-4">{job.salary}</td>
+                  <td className="px-6 py-4">{job.seniority}</td>
+                  <td className="px-6 py-4">{job.contract}</td>
+                  <td className="px-6 py-4">
+                    <div className="flex items-center">
+                      <div
+                        className={`${
+                          job.protectedCategories
+                            ? "bg-green-500"
+                            : "bg-red-500"
+                        } h-2.5 w-2.5 rounded-full  me-2`}
+                      ></div>
+                      {job.protectedCategories ? "Yes" : "No"}
+                    </div>
+                  </td>
+                  <td className="px-6 py-4">{job.location}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

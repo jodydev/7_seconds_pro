@@ -1,27 +1,24 @@
-import { PlusIcon, PencilIcon } from "@heroicons/react/20/solid";
+import { PlusIcon } from "@heroicons/react/20/solid";
 import { BsStars } from "react-icons/bs";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import SelectJob from "./SelectJob";
 
 export default function FileUpload() {
   const [loading, setLoading] = useState(false);
   const [files, setFiles] = useState([]);
-  const [readyFiles, setReadyFiles] = useState([]);
 
   const getFile = (e) => {
     const newFiles = Array.from(e.target.files);
     setFiles((prevFiles) => prevFiles.concat(newFiles));
-    console.log("get Files success:", newFiles);
   };
 
   const sendFile = (files) => {
     setLoading(true);
-    console.log("Files uploaded success:", files);
 
     setTimeout(() => {
       setLoading(false);
-      setReadyFiles(files);
       setFiles([]);
-    }, 1232000);
+    }, 1222000);
   };
 
   const deleteFile = (indexToDelete) => {
@@ -52,7 +49,7 @@ export default function FileUpload() {
       </div>
 
       <div className="w-full">
-        <div className="flex justify-center w-full px-6 py-20">
+        <div className="flex justify-center w-full px-6 py-0 sm:py-10">
           <div className="text-center">
             {loading ? (
               <div className="loader my-40">
@@ -115,31 +112,34 @@ export default function FileUpload() {
                   </div>
                 ) : (
                   <div>
-                    {files.map((file, index) => (
-                      <div key={index}>
-                        <svg
-                          className="mx-auto h-26 w-26 max-h-[250px] text-gray-400"
-                          dataslot="icon"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                          xmlns="http://www.w3.org/2000/svg"
-                          aria-hidden="true"
+                    <svg
+                      className="mx-auto h-26 w-26 max-h-[250px] text-gray-400"
+                      dataslot="icon"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden="true"
+                    >
+                      <path
+                        clipRule="evenodd"
+                        fillRule="evenodd"
+                        d="M16.403 12.652a3 3 0 0 0 0-5.304 3 3 0 0 0-3.75-3.751 3 3 0 0 0-5.305 0 3 3 0 0 0-3.751 3.75 3 3 0 0 0 0 5.305 3 3 0 0 0 3.75 3.751 3 3 0 0 0 5.305 0 3 3 0 0 0 3.751-3.75Zm-2.546-4.46a.75.75 0 0 0-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z"
+                      />
+                    </svg>
+                    <h3 className="mt-2 text-sm font-semibold text-gray-900">
+                      <span className="text-sm font-semibold text-indigo-500">
+                        +{files.length}
+                      </span>{" "}
+                      File Uploaded
+                    </h3>
+                    <div className="bg-gray-50 px-4 py-1 rounded-xl my-3">
+                      {files.map((file, index) => (
+                        <div
+                          key={index}
+                          className="lg:flex lg:items-center lg:justify-between my-5"
                         >
-                          <path
-                            clipRule="evenodd"
-                            fillRule="evenodd"
-                            d="M16.403 12.652a3 3 0 0 0 0-5.304 3 3 0 0 0-3.75-3.751 3 3 0 0 0-5.305 0 3 3 0 0 0-3.751 3.75 3 3 0 0 0 0 5.305 3 3 0 0 0 3.75 3.751 3 3 0 0 0 5.305 0 3 3 0 0 0 3.751-3.75Zm-2.546-4.46a.75.75 0 0 0-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z"
-                          />
-                        </svg>
-                        <h3 className="mt-2 text-sm font-semibold text-gray-900">
-                          <span className="text-sm font-semibold text-indigo-500">
-                            +{files.length}
-                          </span>{" "}
-                          File Uploaded
-                        </h3>
-                        <div className="lg:flex lg:items-center lg:justify-between my-5">
                           <div className="min-w-0 flex-1">
-                            <p className="text-lg font-bold leading-7 text-gray-900 sm:truncate sm:text-xl sm:tracking-tight">
+                            <p className="text-base font-semibold leading-7 text-gray-900 sm:truncate sm:text-xl sm:tracking-tight">
                               {file.name}
                             </p>
                           </div>
@@ -148,7 +148,7 @@ export default function FileUpload() {
                               <button
                                 onClick={() => deleteFile(index)}
                                 type="button"
-                                className="inline-flex items-center rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-600 hover:cursor-pointer"
+                                className="inline-flex items-center rounded-md bg-red-500 px-3 py-2 text-xs font-semibold text-white shadow-sm hover:bg-red-600 hover:cursor-pointer"
                               >
                                 <svg
                                   className="-ml-0.5 mr-1.5 h-5 w-5 text-white"
@@ -169,8 +169,11 @@ export default function FileUpload() {
                             </span>
                           </div>
                         </div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
+
+                    <SelectJob />
+
                     <div className="mt-10 flex justify-center gap-3">
                       <div className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                         <label
@@ -191,13 +194,6 @@ export default function FileUpload() {
                       </div>
                     </div>
                   </div>
-                )}
-
-                {readyFiles.length >= 1 && (
-                  <p>
-                    File caricato con successo attendi che Ai elabori la
-                    risposta!
-                  </p>
                 )}
               </div>
             )}

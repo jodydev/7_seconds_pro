@@ -14,7 +14,7 @@ import {
 } from "@heroicons/react/24/outline";
 
 const navigation = [
-  { name: "Home", href: "/", icon: HomeIcon, current: true },
+  { name: "Home", href: "/home", icon: HomeIcon, current: true },
   { name: "AI", href: "/ai", icon: BsStars, current: false },
   { name: "Jobs", href: "/jobs", icon: BriefcaseIcon, current: false },
   { name: "Users", href: "/users", icon: FaUsers, current: false },
@@ -93,12 +93,10 @@ export default function Sidebar() {
                 </Transition.Child>
 
                 <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-2">
-                  <div className="flex h-16 shrink-0 items-center">
-                    <img
-                      className="h-8 w-auto"
-                      src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                      alt="Your Company"
-                    />
+                  <div className="flex h-16 shrink-0 items-center border-b border-gray-200">
+                    <h3 className="text-2xl font-semibold leading-6 text-gray-900 mt-5 ">
+                      Dashboard
+                    </h3>
                   </div>
                   <nav className="flex flex-1 flex-col">
                     <ul role="list" className="flex flex-1 flex-col gap-y-7">
@@ -176,22 +174,6 @@ export default function Sidebar() {
                   ))}
                 </ul>
               </li>
-
-              {/* Profile card */}
-              <li className="-mx-6 mt-auto">
-                <a
-                  href="#"
-                  className="flex items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-50"
-                >
-                  <img
-                    className="h-8 w-8 rounded-full bg-gray-50"
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                    alt=""
-                  />
-                  <span className="sr-only">Your profile</span>
-                  <span aria-hidden="true">Tom Cook</span>
-                </a>
-              </li>
             </ul>
           </nav>
         </div>
@@ -207,16 +189,12 @@ export default function Sidebar() {
           <Bars3Icon className="h-6 w-6" aria-hidden="true" />
         </button>
         <div className="flex-1 text-sm font-semibold leading-6 text-gray-900">
-          Dashboard
+        <img
+          className="w-auto h-[30px]"
+          src="/7secondspro-logo/1.png"
+          alt="7Seconds Pro"
+        />
         </div>
-        <a href="#">
-          <span className="sr-only">Your profile</span>
-          <img
-            className="h-8 w-8 rounded-full bg-gray-50"
-            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-            alt=""
-          />
-        </a>
       </div>
     </header>
   );

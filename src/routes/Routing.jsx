@@ -8,11 +8,12 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import PageNotFound from "../pages/PageNotFound";
 import DetailsJob from "../pages/DetailsJob";
+import DetailsUser from "../pages/DetailsUser";
 
 export default function Routing() {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+      <Route path="/home" element={<Home />} />
       <Route path="/users" element={<Users />} />
       <Route path="/jobs" element={<Jobs />} />
       <Route path="/documents" element={<Documents />} />
@@ -22,6 +23,7 @@ export default function Routing() {
 
       <Route path="*" element={<PageNotFound />} />
       <Route path="/job-details" element={<DetailsJob />} />
+      <Route path="/user-details" element={<DetailsUser />} />
     </Routes>
   );
 }

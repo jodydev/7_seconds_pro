@@ -38,7 +38,7 @@ export default function BannerAi() {
             <div className="mt-10 flex items-center justify-center gap-x-6 lg:justify-start">
               <a
                 href="/ai"
-                className="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                className="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-indigo-500 border  shadow-sm hover:bg-indigo-600 hover:text-white hover:border focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
               >
                 Get started
               </a>
