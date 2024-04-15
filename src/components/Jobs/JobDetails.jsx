@@ -1,6 +1,5 @@
 import { Fragment } from "react";
 import { Link } from "react-router-dom";
-import { BsStars } from "react-icons/bs";
 import { Menu, Transition } from "@headlessui/react";
 import {
   BriefcaseIcon,
@@ -16,6 +15,7 @@ import {
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
+
 export default function JobDetails() {
   return (
     <section id="detailsjob" className="px-20 py-10">
@@ -30,34 +30,27 @@ export default function JobDetails() {
                 className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400"
                 aria-hidden="true"
               />
-              Full-time
+              Front-end Developer
             </div>
-            <div className="mt-2 flex items-center text-sm text-gray-500">
+            {/* <div className="mt-2 flex items-center text-sm text-gray-500">
               <MapPinIcon
                 className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400"
                 aria-hidden="true"
               />
-              Remote
-            </div>
-            <div className="mt-2 flex items-center text-sm text-gray-500">
-              <CurrencyDollarIcon
-                className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400"
-                aria-hidden="true"
-              />
-              $120.000
-            </div>
+              Bologna, Italy
+            </div> */}
             <div className="mt-2 flex items-center text-sm text-gray-500">
               <CalendarIcon
                 className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400"
                 aria-hidden="true"
               />
-              Publish on Aprile 9, 2024
+              Insert at April 9, 2024
             </div>
           </div>
         </div>
         <div className="mt-5 flex lg:ml-4 lg:mt-0">
           <span className="ml-3 hidden sm:block">
-            <Link to="/jobs">
+            <Link to="/users">
               <button
                 type="button"
                 className="inline-flex items-center rounded-md bg-white me-3 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
@@ -71,35 +64,7 @@ export default function JobDetails() {
             </Link>
           </span>
 
-          <span className="hidden sm:block">
-            <button
-              type="button"
-              className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-            >
-              <PencilIcon
-                className="-ml-0.5 mr-1.5 h-5 w-5 text-gray-400"
-                aria-hidden="true"
-              />
-              Edit
-            </button>
-          </span>
-
-          <span className="sm:ml-3">
-            <Link to="/ai">
-              <button
-                type="button"
-                className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                <BsStars
-                  className="-ml-0.5 mr-1.5 h-5 w-5"
-                  aria-hidden="true"
-                />
-                Ai
-              </button>
-            </Link>
-          </span>
-
-          {/* Dropdown for mobile*/}
+          {/* Dropdown for mobile */}
           <Menu as="div" className="relative ml-3 sm:hidden">
             <Menu.Button className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400">
               More
@@ -187,50 +152,69 @@ export default function JobDetails() {
           </div>
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
             <p className="text-sm font-medium leading-6 text-gray-900">
-              Work type
+              Job Description
             </p>
             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-              Remote
+              About Us: Tech Innovations Ltd. is a cutting-edge technology
+              company specializing in developing innovative software solutions
+              for various industries. Our team is composed of highly skilled
+              professionals dedicated to pushing the boundaries of technology
+              and creating impactful software products that solve real-world
+              problems. Position Overview: We are seeking a talented and
+              motivated Software Engineer to join our dynamic team. The
+              successful candidate will play a key role in designing,
+              developing, and maintaining software applications that drive our
+              company's growth and success. This is an exciting opportunity for
+              individuals passionate about technology and eager to contribute to
+              groundbreaking projects in a fast-paced environment.
+              Responsibilities: Collaborate with cross-functional teams to
+              gather and analyze requirements. Design and develop high-quality
+              software solutions that meet project requirements. Write clean,
+              efficient, and maintainable code following best practices and
+              coding standards. Conduct code reviews and provide constructive
+              feedback to team members. Participate in the entire software
+              development lifecycle, from concept to deployment and beyond.
+              Troubleshoot and debug software issues as they arise, ensuring
+              timely resolution. Stay updated on emerging technologies and
+              trends in the software development industry. Qualifications:
+              Bachelor's degree in Computer Science, Engineering, or related
+              field (or equivalent experience). Proven experience in software
+              development, with proficiency in one or more programming languages
+              such as Java, Python, C++, etc. Strong understanding of software
+              engineering principles, algorithms, and data structures.
+              Experience with modern software development tools, frameworks, and
+              methodologies. Excellent problem-solving skills and attention to
+              detail. Effective communication and collaboration skills. Ability
+              to work independently and in a team environment. Passion for
+              learning and continuous improvement. Benefits: Competitive salary
+              and performance-based incentives. Remote work opportunities with
+              flexible schedules. Comprehensive health, dental, and vision
+              insurance plans. Retirement savings plans with employer matching
+              contributions. Professional development and training
+              opportunities. Vibrant company culture with regular team-building
+              activities and events.
             </dd>
           </div>
-          <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          {/* <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
             <p className="text-sm font-medium leading-6 text-gray-900">
-              Protected categories
+              Email address
             </p>
             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-              No
+              jody@example.com
             </dd>
           </div>
-          <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <p className="text-sm font-medium leading-6 text-gray-900">
-              Contract
-            </p>
-            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-              Stage
-            </dd>
-          </div>
-
-          <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <p className="text-sm font-medium leading-6 text-gray-900">
-              Salary
-            </p>
-            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-              $120,000
-            </dd>
-          </div>
-
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
             <p className="text-sm font-medium leading-6 text-gray-900">
               Location
             </p>
             <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-              Apple Park, One Apple Park Way, Cupertino, CA 95014, Stati Uniti
+              Via del Successo 1, Bologna, Italy
             </dd>
           </div>
 
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
             <p className="text-sm font-medium leading-6 text-gray-900">
-              Ai CVs for this job
+              Ai CVs
             </p>
             <dd className="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
               <ul
@@ -245,7 +229,7 @@ export default function JobDetails() {
                     />
                     <div className="ml-4 flex min-w-0 flex-1 gap-2">
                       <span className="truncate font-medium">
-                        resume_back_end_developer.pdf
+                        resume_jody_ossino.pdf
                       </span>
                       <span className="flex-shrink-0 text-gray-400">2.4mb</span>
                     </div>
@@ -259,31 +243,9 @@ export default function JobDetails() {
                     </Link>
                   </div>
                 </li>
-                <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
-                  <div className="flex w-0 flex-1 items-center">
-                    <PaperClipIcon
-                      className="h-5 w-5 flex-shrink-0 text-gray-400"
-                      aria-hidden="true"
-                    />
-                    <div className="ml-4 flex min-w-0 flex-1 gap-2">
-                      <span className="truncate font-medium">
-                        coverletter_back_end_developer.pdf
-                      </span>
-                      <span className="flex-shrink-0 text-gray-400">4.5mb</span>
-                    </div>
-                  </div>
-                  <div className="ml-4 flex-shrink-0">
-                    <Link
-                      to="#"
-                      className="font-medium text-indigo-600 hover:text-indigo-500"
-                    >
-                      Download
-                    </Link>
-                  </div>
-                </li>
               </ul>
             </dd>
-          </div>
+          </div> */}
         </dl>
       </div>
     </section>

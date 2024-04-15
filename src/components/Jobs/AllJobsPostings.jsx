@@ -166,21 +166,18 @@ export default function AllJobsPostings() {
                 <th scope="col" className="px-6 py-3">
                   Role
                 </th>
-                <th scope="col" className="px-6 py-3">
+                {/* <th scope="col" className="px-6 py-3">
                   Salary
-                </th>
+                </th> */}
                 <th scope="col" className="px-6 py-3">
                   Seniority
                 </th>
-                <th scope="col" className="px-6 py-3">
+                {/* <th scope="col" className="px-6 py-3">
                   Contract
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Protected categories
-                </th>
-                <th scope="col" className="px-6 py-3">
                   Location
-                </th>
+                </th> */}
               </tr>
             </thead>
 
@@ -193,22 +190,10 @@ export default function AllJobsPostings() {
                 >
                   <td className="px-6 py-4">{job.companyName}</td>
                   <td className="px-6 py-4">{job.role}</td>
-                  <td className="px-6 py-4">{job.salary}</td>
+                  {/* <td className="px-6 py-4">{job.salary}</td> */}
                   <td className="px-6 py-4">{job.seniority}</td>
-                  <td className="px-6 py-4">{job.contract}</td>
-                  <td className="px-6 py-4">
-                    <div className="flex items-center">
-                      <div
-                        className={`${
-                          job.protectedCategories
-                            ? "bg-green-500"
-                            : "bg-red-500"
-                        } h-2.5 w-2.5 rounded-full  me-2`}
-                      ></div>
-                      {job.protectedCategories ? "Yes" : "No"}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4">{job.location}</td>
+                  {/* <td className="px-6 py-4">{job.contract}</td>
+                  <td className="px-6 py-4">{job.location}</td> */}
                 </tr>
               ))}
 

@@ -1,7 +1,7 @@
 import { useAppContext } from "../context/AppContext";
 import Job from "./Modal/Job";
 
-export default function JobPostings() {
+export default function RecentJobPostings() {
   const { modalOpen, openModal, closeModal } = useAppContext();
 
   const goToDetails = () => {
@@ -16,7 +16,6 @@ export default function JobPostings() {
       salary: "$120,000",
       seniority: "Senior",
       contract: "Full-time",
-      protectedCategories: false,
       location: "Mountain View, California",
     },
     {
@@ -26,7 +25,6 @@ export default function JobPostings() {
       salary: "$130,000",
       seniority: "Senior",
       contract: "Full-time",
-      protectedCategories: false,
       location: "Menlo Park, California",
     },
     {
@@ -36,7 +34,6 @@ export default function JobPostings() {
       salary: "$110,000",
       seniority: "Senior",
       contract: "Full-time",
-      protectedCategories: true,
       location: "Seattle, Washington",
     },
     {
@@ -46,7 +43,6 @@ export default function JobPostings() {
       salary: "$140,000",
       seniority: "Senior",
       contract: "Full-time",
-      protectedCategories: false,
       location: "Cupertino, California",
     },
     {
@@ -56,7 +52,6 @@ export default function JobPostings() {
       salary: "$120,000",
       seniority: "Senior",
       contract: "Full-time",
-      protectedCategories: true,
       location: "Mountain View, California",
     },
   ];
@@ -124,9 +119,6 @@ export default function JobPostings() {
                   Contract
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Protected categories
-                </th>
-                <th scope="col" className="px-6 py-3">
                   Location
                 </th>
               </tr>
@@ -144,18 +136,6 @@ export default function JobPostings() {
                   <td className="px-6 py-4">{job.salary}</td>
                   <td className="px-6 py-4">{job.seniority}</td>
                   <td className="px-6 py-4">{job.contract}</td>
-                  <td className="px-6 py-4">
-                    <div className="flex items-center">
-                      <div
-                        className={`${
-                          job.protectedCategories
-                            ? "bg-green-500"
-                            : "bg-red-500"
-                        } h-2.5 w-2.5 rounded-full  me-2`}
-                      ></div>
-                      {job.protectedCategories ? "Yes" : "No"}
-                    </div>
-                  </td>
                   <td className="px-6 py-4">{job.location}</td>
                 </tr>
               ))}

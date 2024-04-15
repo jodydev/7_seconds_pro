@@ -4,14 +4,15 @@ import { AppProvider } from "./context/AppContext";
 import Routing from "./routes/Routing";
 import Layout from "./pages/Layout";
 
+
 export default function App() {
   const isLoggedIn = true;
 
-  useEffect(() => {
-    if (isLoggedIn && window.location.pathname !== "/home") {
-      window.location.href = "/home";
-    }
-  }, [isLoggedIn]);
+  // useEffect(() => {
+  //   if (isLoggedIn && window.location.pathname !== "/home") {
+  //     window.location.href = "/home";
+  //   }
+  // }, [isLoggedIn]);
 
   return (
     <AppProvider>

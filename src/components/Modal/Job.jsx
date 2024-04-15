@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Label, Textarea } from "flowbite-react";
 
 export default function Job({ closeModal }) {
   const [isChecked, setIsChecked] = useState(false);
@@ -29,7 +30,7 @@ export default function Job({ closeModal }) {
       className="flex overflow-hidden overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
     >
       <div className="relative p-10 w-full max-w-[50%]">
-        <div className="relative bg-white rounded-lg  dark:bg-gray-700 py-6 px-12 drop-shadow-xl border-2 border-indigo-500">
+        <div className="relative bg-white rounded-lg  dark:bg-gray-700 py-6 px-12 border border-indigo-50 shadow-lg shadow-indigo-500/50">
           <div className="flex items-center justify-between my-2 border-b rounded-t dark:border-gray-600 ">
             <h3 className="text-3xl my-2 font-semibold text-gray-900 dark:text-white">
               Add New Job
@@ -127,7 +128,22 @@ export default function Job({ closeModal }) {
                     </div>
                   </div>
 
-                  <div className="sm:col-span-1">
+                  <div className="sm:col-span-3">
+                  <label
+                      htmlFor="country"
+                      className="block text-sm font-medium leading-6 text-gray-900 mb-2"
+                    >
+                      Job Description
+                    </label>
+                    <Textarea
+                      id="comment"
+                      placeholder="Enter your job description here..."
+                      required
+                      rows={4}
+                    />
+                  </div>
+
+                  {/* <div className="sm:col-span-1">
                     <label
                       htmlFor="country"
                       className="block text-sm font-medium leading-6 text-gray-900"
@@ -245,6 +261,7 @@ export default function Job({ closeModal }) {
                       </label>
                     </div>
                   </div>
+
                   <div className="sm:col-span-4">
                     <label
                       htmlFor="first-name"
@@ -336,7 +353,7 @@ export default function Job({ closeModal }) {
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                       />
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
