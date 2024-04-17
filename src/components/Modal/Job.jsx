@@ -1,8 +1,31 @@
 import { useState } from "react";
-import { Label, Textarea } from "flowbite-react";
+import { Textarea } from "flowbite-react";
+import { Fragment } from "react";
+import { Listbox, Transition } from "@headlessui/react";
+import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
+
+const senioritys = [
+  {
+    id: 1,
+    name: "Junior",
+  },
+  {
+    id: 2,
+    name: "Mid",
+  },
+  {
+    id: 3,
+    name: "Senior",
+  },
+];
+
+function classNames(...classes) {
+  return classes.filter(Boolean).join(" ");
+}
 
 export default function Job({ closeModal }) {
   const [isChecked, setIsChecked] = useState(false);
+  const [selected, setSelected] = useState(senioritys[0]);
 
   const toggleCheckbox = () => {
     setIsChecked(!isChecked);
@@ -24,6 +47,7 @@ export default function Job({ closeModal }) {
 
   return (
     <div
+      data-aos="zoom-in"
       id="crud-modal"
       tabIndex="-1"
       aria-hidden="true"
@@ -115,21 +139,90 @@ export default function Job({ closeModal }) {
                       Seniority
                     </label>
                     <div className="mt-2">
-                      <select
-                        id="seniority"
-                        name="seniority"
-                        autoComplete="seniority-name"
-                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                      >
-                        <option>Junior</option>
-                        <option>Mid</option>
-                        <option>Senior</option>
-                      </select>
+                      <Listbox value={selected} onChange={setSelected}>
+                        {({ open }) => (
+                          <>
+                            <div className="relative mt-2">
+                              <Listbox.Button className="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6">
+                                <span className="flex items-center">
+                                  <span className="block truncate">
+                                    {selected.name}
+                                  </span>
+                                </span>
+                                <span className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
+                                  <ChevronUpDownIcon
+                                    className="h-5 w-5 text-gray-400"
+                                    aria-hidden="true"
+                                  />
+                                </span>
+                              </Listbox.Button>
+
+                              <Transition
+                                show={open}
+                                as={Fragment}
+                                leave="transition ease-in duration-100"
+                                leaveFrom="opacity-100"
+                                leaveTo="opacity-0"
+                              >
+                                <Listbox.Options className="absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                                  {senioritys.map((seniority) => (
+                                    <Listbox.Option
+                                      key={seniority.id}
+                                      className={({ active }) =>
+                                        classNames(
+                                          active
+                                            ? "bg-indigo-600 text-white"
+                                            : "text-gray-900",
+                                          "relative cursor-default select-none py-2 pl-3 pr-9"
+                                        )
+                                      }
+                                      value={seniority}
+                                    >
+                                      {({ selected, active }) => (
+                                        <>
+                                          <div className="flex items-center">
+                                            <span
+                                              className={classNames(
+                                                selected
+                                                  ? "font-semibold"
+                                                  : "font-normal",
+                                                "block truncate"
+                                              )}
+                                            >
+                                              {seniority.name}
+                                            </span>
+                                          </div>
+
+                                          {selected ? (
+                                            <span
+                                              className={classNames(
+                                                active
+                                                  ? "text-white"
+                                                  : "text-indigo-600",
+                                                "absolute inset-y-0 right-0 flex items-center pr-4"
+                                              )}
+                                            >
+                                              <CheckIcon
+                                                className="h-5 w-5"
+                                                aria-hidden="true"
+                                              />
+                                            </span>
+                                          ) : null}
+                                        </>
+                                      )}
+                                    </Listbox.Option>
+                                  ))}
+                                </Listbox.Options>
+                              </Transition>
+                            </div>
+                          </>
+                        )}
+                      </Listbox>
                     </div>
                   </div>
 
                   <div className="sm:col-span-3">
-                  <label
+                    <label
                       htmlFor="country"
                       className="block text-sm font-medium leading-6 text-gray-900 mb-2"
                     >

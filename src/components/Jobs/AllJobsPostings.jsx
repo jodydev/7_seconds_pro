@@ -153,7 +153,7 @@ export default function AllJobsPostings() {
   ];
 
   return (
-    <section>
+    <section data-aos="fade-up">
       {modalOpen && <Job closeModal={closeModal} />}
 
       <div

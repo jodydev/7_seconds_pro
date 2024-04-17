@@ -48,7 +48,7 @@ export default function FileUpload() {
           ) : (
             <div>
               {files.length <= 0 ? (
-                <div>
+                <div data-aos="flip-right">
                   <svg
                     className="mx-auto h-26 w-26 text-gray-400"
                     fill="none"

@@ -139,7 +139,7 @@ export default function AllUsers() {
   ];
 
   return (
-    <section>
+    <section data-aos="fade-up">
       <div className="bg-white px-4 py-4 sm:px-6 shadow-lg rounded-2xl mt-10">
         <div className="flex flex-wrap items-center justify-between sm:flex-nowrap border-b border-gray-200">
           <div className="ml-4 mb-4">

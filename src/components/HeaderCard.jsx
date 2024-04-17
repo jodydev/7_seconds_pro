@@ -16,45 +16,89 @@ export default function HeaderCard() {
 
   const config = {
     home: [
-      { name: "Jobs", stat: "71,897", icon: BriefcaseIcon },
-      { name: "Users", stat: "588", icon: FaUsers },
-      { name: "Request", stat: "248", icon: BsStars },
-      { name: "CVs", stat: "248", icon: DocumentDuplicateIcon },
+      { name: "Jobs", stat: "71,897", icon: BriefcaseIcon, aos: "fade-down" },
+      { name: "Users", stat: "588", icon: FaUsers, aos: "fade-down" },
+      { name: "Request", stat: "248", icon: BsStars, aos: "fade-down" },
+      {
+        name: "CVs",
+        stat: "248",
+        icon: DocumentDuplicateIcon,
+        aos: "fade-down",
+      },
     ],
     users: [
-      { name: "Total Users", stat: "588", icon: FaUsers },
+      { name: "Total Users", stat: "588", icon: FaUsers, aos: "fade-down" },
       {
         name: "Add Today",
         stat: "6",
         icon: MdGroupAdd,
-        bgCard: "blue",
-        bgProgress: "blue-light",
+        aos: "fade-down",
       },
-      { name: "Add This Week", stat: "48", icon: MdGroupAdd },
-      { name: "Add This Month", stat: "248", icon: MdGroupAdd },
+      { name: "Add This Week", stat: "48", icon: MdGroupAdd, aos: "fade-down" },
+      {
+        name: "Add This Month",
+        stat: "248",
+        icon: MdGroupAdd,
+        aos: "fade-down",
+      },
     ],
     jobs: [
       {
         name: "Total Jobs",
         stat: "71,897",
         icon: BriefcaseIcon,
-        bgCard: "blue",
+        aos: "fade-down",
       },
-      { name: "Add Today", stat: "6", icon: MdDomainAdd, bgCard: "blue" },
-      { name: "Add This Week", stat: "48", icon: MdDomainAdd },
-      { name: "Add This Month", stat: "248", icon: MdDomainAdd },
+      { name: "Add Today", stat: "6", icon: MdDomainAdd, aos: "fade-down" },
+      {
+        name: "Add This Week",
+        stat: "48",
+        icon: MdDomainAdd,
+        aos: "fade-down",
+      },
+      {
+        name: "Add This Month",
+        stat: "248",
+        icon: MdDomainAdd,
+        aos: "fade-down",
+      },
     ],
     ai: [
-      { name: "Total Requests", stat: "71,897", icon: BsStars },
-      { name: "Requests Today", stat: "6", icon: FaWandMagicSparkles },
-      { name: "Requests This Week", stat: "48", icon: FaWandMagicSparkles },
-      { name: "Requests This Month", stat: "248", icon: FaWandMagicSparkles },
+      {
+        name: "Total Requests",
+        stat: "71,897",
+        icon: BsStars,
+        aos: "fade-down",
+      },
+      {
+        name: "Requests Today",
+        stat: "6",
+        icon: FaWandMagicSparkles,
+        aos: "fade-down",
+      },
+      {
+        name: "Requests This Week",
+        stat: "48",
+        icon: FaWandMagicSparkles,
+        aos: "fade-down",
+      },
+      {
+        name: "Requests This Month",
+        stat: "248",
+        icon: FaWandMagicSparkles,
+        aos: "fade-down",
+      },
     ],
     documents: [
-      { name: "Total CVs", stat: "71,897", icon: FaFilePdf },
-      { name: "CVs Today", stat: "6", icon: FaFilePdf },
-      { name: "CVs This Week", stat: "48", icon: FaFilePdf },
-      { name: "CVs This Month", stat: "248", icon: FaFilePdf },
+      { name: "Total CVs", stat: "71,897", icon: FaFilePdf, aos: "fade-down" },
+      { name: "CVs Today", stat: "6", icon: FaFilePdf, aos: "fade-down" },
+      { name: "CVs This Week", stat: "48", icon: FaFilePdf, aos: "fade-down" },
+      {
+        name: "CVs This Month",
+        stat: "248",
+        icon: FaFilePdf,
+        aos: "fade-down",
+      },
     ],
   };
 
@@ -64,6 +108,7 @@ export default function HeaderCard() {
 
     return currentConfig.map((item, index) => (
       <div
+        data-aos={item.aos}
         key={index}
         className={`overflow-hidden rounded-2xl ${
           item.bgCard ? `bg-${item.bgCard}` : ""
@@ -87,7 +132,7 @@ export default function HeaderCard() {
 
   return (
     <div className={`${modalOpen ? "opacity-10" : "opacity-100"}`}>
-      <Link to="/home" className="hidden sm:block">
+      <Link data-aos="fade-down" to="/home" className="hidden sm:block">
         <img
           className="w-auto h-[50px]"
           src="/7secondspro-logo/1.png"

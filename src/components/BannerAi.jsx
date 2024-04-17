@@ -10,7 +10,10 @@ export default function BannerAi() {
         modalOpen ? "opacity-10" : "opacity-100"
       } mx-auto py-24 sm:px-6 sm:py-8 lg:px-0`}
     >
-      <div className="relative isolate overflow-hidden bg-indigo-600 px-6 pt-16 shadow-2xl sm:rounded-2xl sm:px-16 md:pt-24 lg:flex lg:gap-x-20 lg:px-24 lg:pt-0">
+      <div
+        data-aos="fade-up"
+        className="relative isolate overflow-hidden bg-indigo-600 px-6 pt-16 shadow-2xl sm:rounded-2xl sm:px-16 md:pt-24 lg:flex lg:gap-x-20 lg:px-24 lg:pt-0"
+      >
         <svg
           viewBox="0 0 1024 1024"
           className="absolute left-1/2 top-1/2 -z-10 h-[64rem] w-[64rem] -translate-y-1/2 [mask-image:radial-gradient(closest-side,white,transparent)] sm:left-full sm:-ml-80 lg:left-1/2 lg:ml-0 lg:-translate-x-1/2 lg:translate-y-0"

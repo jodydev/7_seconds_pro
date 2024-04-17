@@ -4,7 +4,7 @@ import UserScore from "./UserScore";
 
 export default function AiResults() {
   return (
-    <div className="flex justify-between py-10">
+    <div data-aos="fade-left" className="flex justify-between py-10">
       <div className="min-w-0 flex-1">
         <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tigh flex gap-1">
           Results of the AI <BsStars className="h-6 w-6" />

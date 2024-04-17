@@ -46,7 +46,10 @@ export default function SelectJob() {
   };
 
   return (
-    <div className="bg-white px-4 py-4 sm:px-6 shadow-lg rounded-2xl mt-10">
+    <div
+    data-aos="fade-left"
+      className="bg-white px-4 py-4 sm:px-6 shadow-lg rounded-2xl mt-10"
+    >
       <div className="flex flex-wrap items-center justify-between sm:flex-nowrap">
         <div className="flex items-center">
           <h2 className="text-2xl font-semibold leading-6 text-gray-900">
@@ -68,7 +71,7 @@ export default function SelectJob() {
         </p>
       </div>
 
-      <div className="w-full">
+      <div data-aos="zoom-in" className="w-full">
         <div className="flex justify-center w-full px-6 py-0 sm:py-10">
           <div className="text-center">
             {openUploadFile ? (

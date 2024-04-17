@@ -27,14 +27,14 @@ export default function UserDetails() {
       setOpen(true);
       // Apri il download del file qui, ad esempio:
       // window.open('URL_DEL_TUO_FILE');
-    }, 1000); // Simula un ritardo di 1 secondo per il download
+    }, 500); // Simula un ritardo di 1 secondo per il download
   }
 
   useEffect(() => {
     if (open) {
       const timer = setTimeout(() => {
         setOpen(false);
-      }, 3000); // Chiudi il messaggio dopo 5 secondi
+      }, 5000); // Chiudi il messaggio dopo 5 secondi
       return () => clearTimeout(timer);
     }
   }, [open]);
@@ -49,7 +49,7 @@ export default function UserDetails() {
         <SuccessMessage message={"The file has been downloaded successfully"} />
       )}
       <section id="detailsjob" className="px-20 grid lg:grid-cols-2 gap-10">
-        <div className="flex justify-between py-10">
+        <div data-aos="fade-right" className="flex justify-between py-10">
           <div className="min-w-0 flex-1">
             <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
               Jody Ossino

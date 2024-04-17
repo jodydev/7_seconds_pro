@@ -30,7 +30,7 @@ export default function AiCvs() {
   };
 
   return (
-    <div className="bg-white px-4 py-4 sm:px-6 shadow-lg rounded-2xl mt-10">
+    <div data-aos="fade-up" className="bg-white px-4 py-4 sm:px-6 shadow-lg rounded-2xl mt-10">
       <div className="sm:flex sm:items-center border-b border-gray-200">
         <div className="sm:flex-auto">
           <div className="flex items-center ">
