@@ -73,6 +73,34 @@ export default function AllDocuments() {
       type: "PDF",
       date: "2021-09-01",
     },
+    {
+      id: 11,
+      name: "Cv_Jody_Ossino.pdf",
+      size: "1.2 MB",
+      type: "PDF",
+      date: "2021-09-01",
+    },
+    {
+      id: 12,
+      name: "Cv_Jody_Ossino.pdf",
+      size: "1.2 MB",
+      type: "PDF",
+      date: "2021-09-01",
+    },
+    {
+      id: 13,
+      name: "Cv_Jody_Ossino.pdf",
+      size: "1.2 MB",
+      type: "PDF",
+      date: "2021-09-01",
+    },
+    {
+      id: 14,
+      name: "Cv_Jody_Ossino.pdf",
+      size: "1.2 MB",
+      type: "PDF",
+      date: "2021-09-01",
+    },
   ];
 
   return (

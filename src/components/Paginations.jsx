@@ -22,7 +22,7 @@ export default function JobsPaginations() {
         <div>
           <p className="text-xs text-gray-700">
             Showing <span className="font-semibold text-indigo-500">1</span> to{" "}
-            <span className="font-semibold text-indigo-500">10</span> of{" "}
+            <span className="font-semibold text-indigo-500">14</span> of{" "}
             <span className="font-semibold text-indigo-500">97</span> results
           </p>
         </div>

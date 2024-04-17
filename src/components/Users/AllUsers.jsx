@@ -13,6 +13,8 @@ export default function AllUsers() {
       location: "Via del Successo 1, Bologna Italy",
       role: "Front-end Developer",
       email: "jody@example.com",
+      selectedJob: "HR Assistant (Tesla)",
+      score: "5%",
     },
     {
       id: 2,
@@ -21,6 +23,8 @@ export default function AllUsers() {
       location: "Via del Successo 1, Roma Italy",
       role: "Ai Engineer",
       email: "pippo@gmail.com",
+      selectedJob: "HR Assistant (Tesla)",
+      score: "5%",
     },
     {
       id: 3,
@@ -29,6 +33,8 @@ export default function AllUsers() {
       location: "Via del Successo 1, Milano Italy",
       role: "Business Analyst",
       email: "rossi@gmail.com",
+      selectedJob: "HR Assistant (Tesla)",
+      score: "5%",
     },
     {
       id: 4,
@@ -37,6 +43,8 @@ export default function AllUsers() {
       location: "Via del Successo 1, Torino Italy",
       role: "Software Engineer",
       email: "maria@gmail.com",
+      selectedJob: "HR Assistant (Tesla)",
+      score: "5%",
     },
     {
       id: 5,
@@ -45,6 +53,8 @@ export default function AllUsers() {
       location: "Via del Successo 1, Napoli Italy",
       role: "Front-end Developer",
       email: "giulia@gmail.com",
+      selectedJob: "HR Assistant (Tesla)",
+      score: "5%",
     },
     {
       id: 6,
@@ -53,6 +63,8 @@ export default function AllUsers() {
       location: "Via del Successo 1, Bologna Italy",
       role: "Front-end Developer",
       email: "jody@example.com",
+      selectedJob: "HR Assistant (Tesla)",
+      score: "5%",
     },
     {
       id: 7,
@@ -61,6 +73,8 @@ export default function AllUsers() {
       location: "Via del Successo 1, Roma Italy",
       role: "Ai Engineer",
       email: "pippo@gmail.com",
+      selectedJob: "HR Assistant (Tesla)",
+      score: "5%",
     },
     {
       id: 8,
@@ -69,6 +83,8 @@ export default function AllUsers() {
       location: "Via del Successo 1, Milano Italy",
       role: "Business Analyst",
       email: "rossi@gmail.com",
+      selectedJob: "HR Assistant (Tesla)",
+      score: "5%",
     },
     {
       id: 9,
@@ -77,6 +93,8 @@ export default function AllUsers() {
       location: "Via del Successo 1, Torino Italy",
       role: "Software Engineer",
       email: "maria@gmail.com",
+      selectedJob: "HR Assistant (Tesla)",
+      score: "5%",
     },
     {
       id: 10,
@@ -85,6 +103,38 @@ export default function AllUsers() {
       location: "Via del Successo 1, Napoli Italy",
       role: "Front-end Developer",
       email: "giulia@gmail.com",
+      selectedJob: "HR Assistant (Tesla)",
+      score: "5%",
+    },
+    {
+      id: 11,
+      fullname: "Jody Ossino",
+      age: "23",
+      location: "Via del Successo 1, Bologna Italy",
+      role: "Front-end Developer",
+      email: "jody@example.com",
+      selectedJob: "HR Assistant (Tesla)",
+      score: "5%",
+    },
+    {
+      id: 12,
+      fullname: "Giuseppe Bianchi",
+      age: "37",
+      location: "Via del Successo 1, Roma Italy",
+      role: "Ai Engineer",
+      email: "pippo@gmail.com",
+      selectedJob: "HR Assistant (Tesla)",
+      score: "5%",
+    },
+    {
+      id: 13,
+      fullname: "Sandro Rossi",
+      age: "45",
+      location: "Via del Successo 1, Milano Italy",
+      role: "Business Analyst",
+      email: "rossi@gmail.com",
+      selectedJob: "HR Assistant (Tesla)",
+      score: "5%",
     },
   ];
 
@@ -123,7 +173,10 @@ export default function AllUsers() {
                   Email
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Rating
+                  Selected Job
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Score
                 </th>
               </tr>
             </thead>
@@ -149,21 +202,16 @@ export default function AllUsers() {
                   <td className="px-6 py-4">
                     <p className="text-gray-900">{user.email}</p>
                   </td>
-                  <td className="px-6 py-4">
+                  <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                    <p className="text-gray-900">{user.selectedJob}</p>
+                  </td>
+                  <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                     <div className="flex items-center">
-                      <svg
-                        className="w-4 h-4 text-yellow-300 me-1"
-                        aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="currentColor"
-                        viewBox="0 0 22 20"
-                      >
-                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                      </svg>
                       <p className="ms-2 text-sm font-bold text-gray-900 dark:text-white">
-                        4.95
+                        {user.score}
                       </p>
                     </div>
+                    {/* <Score score={user.score} /> */}
                   </td>
                 </tr>
               ))}

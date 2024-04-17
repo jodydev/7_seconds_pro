@@ -1,12 +1,12 @@
 import HeaderCard from "../components/HeaderCard";
 import AiCvs from "../components/Ai/AiCvs";
-import FileUpload from "../components/Ai/FileUpload";
+import SelectJob from "../components/Ai/SelectJob";
 
 export default function Ai() {
   return (
     <>
       <HeaderCard />
-      <FileUpload />
+      <SelectJob />
       <AiCvs />
     </>
   );

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const ScoreMeter = ({ score }) => {
+export default function UserScore({ score }) {
   const [animatedValue, setAnimatedValue] = useState(0);
 
   useEffect(() => {
@@ -44,7 +44,7 @@ const ScoreMeter = ({ score }) => {
   };
 
   return (
-    <div className="container mt-5 px-10 py-5">
+    <div className="container mt-5 py-5">
       <div className="grid grid-cols-2 gap-4">
         <ol className="relative border-s border-gray-200 dark:border-gray-700">
           <li className="mb-5 ms-4">
@@ -84,6 +84,4 @@ const ScoreMeter = ({ score }) => {
       </div>
     </div>
   );
-};
-
-export default ScoreMeter;
+}
