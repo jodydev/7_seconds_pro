@@ -30,11 +30,11 @@ export default function AiCvs() {
   };
 
   return (
-    <div data-aos="fade-up" className="bg-white px-4 py-4 sm:px-6 shadow-lg rounded-2xl mt-10">
+    <div data-aos="fade-up" className="bg-white px-6 py-8 shadow-lg rounded-2xl mt-10">
       <div className="sm:flex sm:items-center border-b border-gray-200">
         <div className="sm:flex-auto">
           <div className="flex items-center ">
-            <h2 className="text-2xl font-semibold leading-6 text-gray-900">
+            <h2 className="text-3xl font-bold leading-6 text-gray-900">
               Results of the AI analysis
             </h2>
             <FaWandMagicSparkles className="w-6 h-6 ml-2" />

@@ -1,7 +1,8 @@
+import { BsStars } from "react-icons/bs";
 import Paginations from "../Paginations";
 import { PiStarFill } from "react-icons/pi";
 
-export default function AllUsers() {
+export default function FilterUsersForJob() {
   const goToDetails = () => {
     window.location.href = "/user-details";
   };
@@ -126,18 +127,28 @@ export default function AllUsers() {
     },
   ];
 
+  const sendToAi = () => {
+    alert("Sent to Ai Ok!");
+  };
+
   return (
     <section data-aos="fade-up">
       <div className="bg-white px-6 py-8 shadow-lg rounded-2xl mt-10">
         <div className="flex flex-wrap items-center justify-between sm:flex-nowrap border-b border-gray-200">
           <div className="ml-4 mb-4">
             <h3 className="text-3xl font-bold leading-6 text-gray-900">
-              All Users
+              User List for this job
             </h3>
-            <p className="mt-2 text-sm text-gray-500">
-              Here you can see all the users insert in the platform. Click on
-              the user to see more details.
-            </p>
+          </div>
+          <div className="flex-shrink-0 my-3 ms-3 mb-3 sm:my-3 sm:ms-0">
+            <button
+              onClick={sendToAi}
+              type="button"
+              className="relative inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            >
+              <BsStars className="me-1" />
+              Send to Ai
+            </button>
           </div>
         </div>
 

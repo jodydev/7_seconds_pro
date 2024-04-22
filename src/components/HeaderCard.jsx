@@ -100,10 +100,14 @@ export default function HeaderCard() {
         aos: "fade-down",
       },
     ],
+    "job-details": [
+      { name: "CVs for this position", stat: "71", icon: BriefcaseIcon, aos: "fade-down" },
+      { name: "Average Rating", stat: "4", icon: BsStars, aos: "fade-down" },
+    ],
   };
 
   const renderCards = (pathname) => {
-    const currentConfig = config[pathname.slice(1)]; // Rimuove lo slash iniziale
+    const currentConfig = config[pathname.slice(1)];
     if (!currentConfig) return null;
 
     return currentConfig.map((item, index) => (

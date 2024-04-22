@@ -54,17 +54,13 @@ export default function RecentJobPostings() {
         <div
           className={`${
             modalOpen ? "opacity-10" : "opacity-100"
-          } bg-white px-4 py-4 sm:px-6 shadow-lg rounded-2xl mt-10`}
+          } bg-white px-6 py-8 shadow-lg rounded-2xl mt-10`}
         >
           <div className="flex flex-wrap items-center justify-between sm:flex-nowrap border-b border-gray-200">
             <div className="ml-4 mb-4">
-              <h3 className="text-2xl font-semibold leading-6 text-gray-900">
+              <h3 className="text-3xl font-bold leading-6 text-gray-900">
                 Recent Job Postings
               </h3>
-              <p className="mt-1 text-sm text-gray-500">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit quam
-                corrupti consectetur.
-              </p>
             </div>
             <div className="flex-shrink-0 my-3 ms-3 sm:my-0 sm:ms-0">
               <button

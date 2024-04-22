@@ -2,6 +2,7 @@ import Paginations from "./Paginations";
 import { FaFilePdf } from "react-icons/fa6";
 
 export default function AllDocuments() {
+
   const documents = [
     {
       id: 1,
@@ -105,13 +106,13 @@ export default function AllDocuments() {
 
   return (
     <section data-aos="fade-up">
-      <div className="bg-white px-4 py-4 sm:px-6 shadow-lg rounded-2xl mt-10">
+      <div className="bg-white px-6 py-8 shadow-lg rounded-2xl mt-10">
         <div className="flex flex-wrap items-center justify-between sm:flex-nowrap border-b border-gray-200">
           <div className="ml-4 mb-4">
-            <h3 className="text-2xl font-semibold leading-6 text-gray-900">
+            <h3 className="text-3xl font-bold leading-6 text-gray-900">
               All Documents
             </h3>
-            <p className="mt-1 text-sm text-gray-500">
+            <p className="mt-2 text-sm text-gray-500">
               All documents uploaded by the users are displayed here.
             </p>
           </div>

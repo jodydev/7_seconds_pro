@@ -48,11 +48,11 @@ export default function SelectJob() {
   return (
     <div
     data-aos="fade-left"
-      className="bg-white px-4 py-4 sm:px-6 shadow-lg rounded-2xl mt-10"
+      className="bg-white px-6 py-8 shadow-lg rounded-2xl mt-10"
     >
       <div className="flex flex-wrap items-center justify-between sm:flex-nowrap">
         <div className="flex items-center">
-          <h2 className="text-2xl font-semibold leading-6 text-gray-900">
+          <h2 className="text-3xl font-bold leading-6 text-gray-900">
             {openUploadFile ? "Upload CVs to Analyze" : "Select Job to Analyze"}
           </h2>
           {openUploadFile ? (
