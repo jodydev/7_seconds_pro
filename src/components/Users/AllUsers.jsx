@@ -1,4 +1,5 @@
 import Paginations from "../Paginations";
+import { PiStarFill } from "react-icons/pi";
 
 export default function AllUsers() {
   const goToDetails = () => {
@@ -10,81 +11,73 @@ export default function AllUsers() {
       id: 1,
       fullname: "Jody Ossino",
       age: "23",
-      location: "Via del Successo 1, Bologna Italy",
-      role: "Front-end Developer",
+
       email: "jody@example.com",
       selectedJob: "HR Assistant (Tesla)",
-      score: "5%",
+      aiRating: 4,
     },
     {
       id: 2,
       fullname: "Giuseppe Bianchi",
       age: "37",
-      location: "Via del Successo 1, Roma Italy",
-      role: "Ai Engineer",
+
       email: "pippo@gmail.com",
       selectedJob: "HR Assistant (Tesla)",
-      score: "5%",
+      aiRating: 2,
     },
     {
       id: 3,
       fullname: "Sandro Rossi",
       age: "45",
-      location: "Via del Successo 1, Milano Italy",
-      role: "Business Analyst",
+
       email: "rossi@gmail.com",
       selectedJob: "HR Assistant (Tesla)",
-      score: "5%",
+      aiRating: 5,
     },
     {
       id: 4,
       fullname: "Maria Verdi",
       age: "28",
-      location: "Via del Successo 1, Torino Italy",
-      role: "Software Engineer",
+
       email: "maria@gmail.com",
       selectedJob: "HR Assistant (Tesla)",
-      score: "5%",
+      aiRating: 2,
     },
     {
       id: 5,
       fullname: "Giulia Neri",
       age: "33",
-      location: "Via del Successo 1, Napoli Italy",
-      role: "Front-end Developer",
+
       email: "giulia@gmail.com",
       selectedJob: "HR Assistant (Tesla)",
-      score: "5%",
+      aiRating: 1,
     },
     {
       id: 6,
       fullname: "Jody Ossino",
       age: "23",
-      location: "Via del Successo 1, Bologna Italy",
-      role: "Front-end Developer",
+
       email: "jody@example.com",
       selectedJob: "HR Assistant (Tesla)",
-      score: "5%",
+      aiRating: 4,
     },
     {
       id: 7,
       fullname: "Giuseppe Bianchi",
       age: "37",
-      location: "Via del Successo 1, Roma Italy",
-      role: "Ai Engineer",
+
       email: "pippo@gmail.com",
       selectedJob: "HR Assistant (Tesla)",
-      score: "5%",
+      aiRating: 5,
     },
     {
       id: 8,
       fullname: "Sandro Rossi",
       age: "45",
-      location: "Via del Successo 1, Milano Italy",
-      role: "Business Analyst",
+
       email: "rossi@gmail.com",
       selectedJob: "HR Assistant (Tesla)",
-      score: "5%",
+      aiRating: 5,
     },
     {
       id: 9,
@@ -94,7 +87,7 @@ export default function AllUsers() {
       role: "Software Engineer",
       email: "maria@gmail.com",
       selectedJob: "HR Assistant (Tesla)",
-      score: "5%",
+      aiRating: 3,
     },
     {
       id: 10,
@@ -104,37 +97,32 @@ export default function AllUsers() {
       role: "Front-end Developer",
       email: "giulia@gmail.com",
       selectedJob: "HR Assistant (Tesla)",
-      score: "5%",
+      aiRating: 3,
     },
     {
       id: 11,
       fullname: "Jody Ossino",
       age: "23",
-      location: "Via del Successo 1, Bologna Italy",
-      role: "Front-end Developer",
+
       email: "jody@example.com",
       selectedJob: "HR Assistant (Tesla)",
-      score: "5%",
+      aiRating: 4,
     },
     {
       id: 12,
       fullname: "Giuseppe Bianchi",
       age: "37",
-      location: "Via del Successo 1, Roma Italy",
-      role: "Ai Engineer",
       email: "pippo@gmail.com",
       selectedJob: "HR Assistant (Tesla)",
-      score: "5%",
+      aiRating: 1,
     },
     {
       id: 13,
       fullname: "Sandro Rossi",
       age: "45",
-      location: "Via del Successo 1, Milano Italy",
-      role: "Business Analyst",
       email: "rossi@gmail.com",
       selectedJob: "HR Assistant (Tesla)",
-      score: "5%",
+      aiRating: 5,
     },
   ];
 
@@ -160,23 +148,21 @@ export default function AllUsers() {
                 <th scope="col" className="px-6 py-3">
                   Full Name
                 </th>
+
                 <th scope="col" className="px-6 py-3">
                   Age
                 </th>
-                <th scope="col" className="px-6 py-3">
-                  Location
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Role
-                </th>
+
                 <th scope="col" className="px-6 py-3">
                   Email
                 </th>
+
                 <th scope="col" className="px-6 py-3">
-                  Selected Job
+                  Application for
                 </th>
-                <th scope="col" className="px-6 py-3">
-                  Score
+
+                <th scope="col" className="px-3 py-3">
+                  Ai Rating
                 </th>
               </tr>
             </thead>
@@ -193,25 +179,23 @@ export default function AllUsers() {
                   <td className="px-6 py-4">
                     <p className="text-gray-900">{user.age}</p>
                   </td>
-                  <td className="px-6 py-4">
-                    <p className="text-gray-900">{user.location}</p>
-                  </td>
-                  <td className="px-6 py-4">
-                    <p className="text-gray-900">{user.role}</p>
-                  </td>
+
                   <td className="px-6 py-4">
                     <p className="text-gray-900">{user.email}</p>
                   </td>
-                  <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+
+                  <td className="px-6 py-4">
                     <p className="text-gray-900">{user.selectedJob}</p>
                   </td>
+
                   <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                     <div className="flex items-center">
-                      <p className="ms-2 text-sm font-bold text-gray-900 dark:text-white">
-                        {user.score}
-                      </p>
+                      {[...Array(user.aiRating)].map((_, index) => (
+                        <p>
+                          <PiStarFill key={index} className="text-yellow-300" />
+                        </p>
+                      ))}
                     </div>
-                    {/* <Score score={user.score} /> */}
                   </td>
                 </tr>
               ))}

@@ -14,141 +14,99 @@ export default function AllJobsPostings() {
       id: 1,
       companyName: "Google",
       role: "Front-end Developer",
-      salary: "$120,000",
       seniority: "Senior",
-      contract: "Full-time",
-      protectedCategories: true,
-      location: "Mountain View, California",
+      cvsNum: 10,
     },
     {
       id: 2,
       companyName: "Facebook",
       role: "Ai Engineer",
-      salary: "$130,000",
       seniority: "Senior",
-      contract: "Full-time",
-      protectedCategories: false,
-      location: "Menlo Park, California",
+      cvsNum: 10,
     },
     {
       id: 3,
       companyName: "Amazon",
       role: "Business Analyst",
-      salary: "$110,000",
       seniority: "Senior",
-      contract: "Full-time",
-      protectedCategories: true,
-      location: "Seattle, Washington",
+      cvsNum: 10,
     },
     {
       id: 4,
       companyName: "Apple",
       role: "Software Engineer",
-      salary: "$140,000",
       seniority: "Senior",
-      contract: "Full-time",
-      protectedCategories: false,
-      location: "Cupertino, California",
+      cvsNum: 10,
     },
     {
       id: 5,
       companyName: "Google",
       role: "Front-end Developer",
-      salary: "$120,000",
       seniority: "Senior",
-      contract: "Full-time",
-      protectedCategories: true,
-      location: "Mountain View, California",
+      cvsNum: 10,
     },
     {
       id: 6,
       companyName: "Facebook",
       role: "Ai Engineer",
-      salary: "$130,000",
       seniority: "Senior",
-      contract: "Full-time",
-      protectedCategories: false,
-      location: "Menlo Park, California",
+      cvsNum: 10,
     },
     {
       id: 7,
       companyName: "Amazon",
       role: "Business Analyst",
-      salary: "$110,000",
       seniority: "Senior",
-      contract: "Full-time",
-      protectedCategories: true,
-      location: "Seattle, Washington",
+      cvsNum: 10,
     },
     {
       id: 8,
       companyName: "Apple",
       role: "Software Engineer",
-      salary: "$140,000",
       seniority: "Senior",
-      contract: "Full-time",
-      protectedCategories: false,
-      location: "Cupertino, California",
+      cvsNum: 10,
     },
     {
       id: 9,
       companyName: "Google",
       role: "Front-end Developer",
-      salary: "$120,000",
       seniority: "Senior",
-      contract: "Full-time",
-      protectedCategories: true,
-      location: "Mountain View, California",
+      cvsNum: 10,
     },
     {
       id: 10,
       companyName: "Facebook",
       role: "Ai Engineer",
-      salary: "$130,000",
       seniority: "Senior",
-      contract: "Full-time",
-      protectedCategories: false,
-      location: "Menlo Park, California",
+      cvsNum: 10,
     },
     {
       id: 11,
       companyName: "Google",
       role: "Front-end Developer",
-      salary: "$120,000",
       seniority: "Senior",
-      contract: "Full-time",
-      protectedCategories: true,
-      location: "Mountain View, California",
+      cvsNum: 10,
     },
     {
       id: 12,
       companyName: "Facebook",
       role: "Ai Engineer",
-      salary: "$130,000",
       seniority: "Senior",
-      contract: "Full-time",
-      protectedCategories: false,
-      location: "Menlo Park, California",
+      cvsNum: 10,
     },
     {
       id: 13,
       companyName: "Amazon",
       role: "Business Analyst",
-      salary: "$110,000",
       seniority: "Senior",
-      contract: "Full-time",
-      protectedCategories: true,
-      location: "Seattle, Washington",
+      cvsNum: 10,
     },
     {
       id: 14,
       companyName: "Apple",
       role: "Software Engineer",
-      salary: "$140,000",
       seniority: "Senior",
-      contract: "Full-time",
-      protectedCategories: false,
-      location: "Cupertino, California",
+      cvsNum: 10,
     },
   ];
 
@@ -206,11 +164,13 @@ export default function AllJobsPostings() {
                 <th scope="col" className="px-6 py-3">
                   Role
                 </th>
-                {/* <th scope="col" className="px-6 py-3">
-                  Salary
-                </th> */}
+
                 <th scope="col" className="px-6 py-3">
                   Seniority
+                </th>
+
+                <th scope="col" className="px-6 py-3">
+                  CVs Number
                 </th>
                 {/* <th scope="col" className="px-6 py-3">
                   Contract
@@ -230,8 +190,8 @@ export default function AllJobsPostings() {
                 >
                   <td className="px-6 py-4">{job.companyName}</td>
                   <td className="px-6 py-4">{job.role}</td>
-                  {/* <td className="px-6 py-4">{job.salary}</td> */}
                   <td className="px-6 py-4">{job.seniority}</td>
+                  <td className="px-6 py-4">{job.cvsNum}</td>
                   {/* <td className="px-6 py-4">{job.contract}</td>
                   <td className="px-6 py-4">{job.location}</td> */}
                 </tr>

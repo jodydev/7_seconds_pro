@@ -8,51 +8,42 @@ export default function RecentJobPostings() {
     window.location.href = "/job-details";
   };
 
+  // ULTIMI 5 LAVORI PUBBLICATI
   const jobs = [
     {
       id: 1,
       companyName: "Google",
       role: "Front-end Developer",
-      salary: "$120,000",
       seniority: "Senior",
-      contract: "Full-time",
-      location: "Mountain View, California",
+      cvsNum: 10,
     },
     {
       id: 2,
       companyName: "Facebook",
       role: "Ai Engineer",
-      salary: "$130,000",
       seniority: "Senior",
-      contract: "Full-time",
-      location: "Menlo Park, California",
+      cvsNum: 10,
     },
     {
       id: 3,
       companyName: "Amazon",
       role: "Business Analyst",
-      salary: "$110,000",
       seniority: "Senior",
-      contract: "Full-time",
-      location: "Seattle, Washington",
+      cvsNum: 10,
     },
     {
       id: 4,
       companyName: "Apple",
       role: "Software Engineer",
-      salary: "$140,000",
       seniority: "Senior",
-      contract: "Full-time",
-      location: "Cupertino, California",
+      cvsNum: 10,
     },
     {
       id: 5,
       companyName: "Google",
       role: "Front-end Developer",
-      salary: "$120,000",
       seniority: "Senior",
-      contract: "Full-time",
-      location: "Mountain View, California",
+      cvsNum: 10,
     },
   ];
 
@@ -110,17 +101,13 @@ export default function RecentJobPostings() {
                   <th scope="col" className="px-6 py-3">
                     Role
                   </th>
-                  <th scope="col" className="px-6 py-3">
-                    Salary
-                  </th>
+
                   <th scope="col" className="px-6 py-3">
                     Seniority
                   </th>
+
                   <th scope="col" className="px-6 py-3">
-                    Contract
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Location
+                    CVs Number
                   </th>
                 </tr>
               </thead>
@@ -134,10 +121,10 @@ export default function RecentJobPostings() {
                   >
                     <td className="px-6 py-4">{job.companyName}</td>
                     <td className="px-6 py-4">{job.role}</td>
-                    <td className="px-6 py-4">{job.salary}</td>
                     <td className="px-6 py-4">{job.seniority}</td>
-                    <td className="px-6 py-4">{job.contract}</td>
-                    <td className="px-6 py-4">{job.location}</td>
+                    <td className="px-6 py-4">{job.cvsNum}</td>
+                    {/* <td className="px-6 py-4">{job.contract}</td>
+                  <td className="px-6 py-4">{job.location}</td> */}
                   </tr>
                 ))}
               </tbody>
