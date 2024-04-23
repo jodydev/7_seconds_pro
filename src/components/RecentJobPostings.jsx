@@ -62,7 +62,7 @@ export default function RecentJobPostings() {
                 Recent Job Postings
               </h3>
             </div>
-            <div className="flex-shrink-0 my-3 ms-3 sm:my-0 sm:ms-0">
+            <div className="flex-shrink-0 ms-3 mb-3">
               <button
                 onClick={openModal}
                 type="button"

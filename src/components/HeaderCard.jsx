@@ -103,6 +103,7 @@ export default function HeaderCard() {
     "job-details": [
       { name: "CVs for this position", stat: "71", icon: BriefcaseIcon, aos: "fade-down" },
       { name: "Average Rating", stat: "4", icon: BsStars, aos: "fade-down" },
+      
     ],
   };
 

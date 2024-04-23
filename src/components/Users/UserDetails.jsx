@@ -9,6 +9,7 @@ import { MdEmail } from "react-icons/md";
 import { Menu, Transition } from "@headlessui/react";
 import { FaFilePdf } from "react-icons/fa6";
 import { PiStarFill } from "react-icons/pi";
+import { MdDownload } from "react-icons/md";
 import {
   BriefcaseIcon,
   CalendarIcon,
@@ -58,25 +59,27 @@ export default function UserDetails() {
       <section id="detailsjob" className="grid lg:grid-cols-2 gap-10">
         <div data-aos="fade-right" className="flex justify-between py-10 ">
           <div className="min-w-0 flex-1 ">
-            <div className="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6 bg-white  py-8 shadow-lg rounded-2xl">
-              <div className="flex gap-5">
-                <h2 className="text-3xl ms-6 font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
-                  Jody Ossino
-                </h2>
-                <div className="flex items-center">
-                  {[...Array(5)].map((_, index) => (
-                    <PiStarFill
-                      key={index}
-                      className={`text-${
-                        index < aiRating ? "yellow" : "gray"
-                      }-300 w-6 h-6 hover:translate-y-0.5 transition-all duration-300 ease-in-out`}
-                    />
-                  ))}
+            <div className="px-4 py-6 w-full mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6 bg-white shadow-lg rounded-2xl">
+              <div className="flex justify-between items-center gap-0 2xl:gap-60">
+                <div className="flex">
+                  <h2 className="text-3xl ms-6 font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
+                    Jody Ossino
+                  </h2>
+                  <div className="flex items-center ml-3">
+                    {[...Array(5)].map((_, index) => (
+                      <PiStarFill
+                        key={index}
+                        className={`text-${
+                          index < aiRating ? "yellow" : "gray"
+                        }-300 w-6 h-6 hover:translate-y-0.5 transition-all duration-300 ease-in-out`}
+                      />
+                    ))}
+                  </div>
                 </div>
 
                 {/* Go back button */}
                 <div className="mt-5 lg:ml-4 lg:mt-0">
-                  <span className="ml-3 hidden sm:block ms-96">
+                  <span className="ml-3 hidden sm:block">
                     <Link to="/users">
                       <button
                         type="button"
@@ -236,30 +239,38 @@ export default function UserDetails() {
                       </ul>
                     </div>
 
-                    {/* More fields can be added here */}
-                  </dl>
-                </div>
-                <div className="px-4 py-6 border-t border-gray-100 sm:px-0 flex items-center gap-72">
-                  <p className="text-sm font-medium leading-6 text-gray-900">
-                    CVs:
-                  </p>
-                  <ul role="list" className="flex items-center gap-32">
-                    <li className="flex items-center gap-1 ms-10">
-                      <FaFilePdf
-                        className="h-4 w-4 text-gray-400"
-                        aria-hidden="true"
-                      />
-                      <p className="text-sm">resume_back_end_developer.pdf</p>
-                    </li>
-                    <li>
-                      <button
-                        onClick={downloadFile}
-                        className="font-semibold py-2 px-4 text-sm rounded-full bg-indigo-500 text-white hover:bg-indigo-600 hover:text-white"
+                    {/* <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-5 sm:px-0">
+                      <p className="text-sm font-medium leading-6 text-gray-900">
+                        CVs:
+                      </p>
+                      <ul
+                        role="list"
+                        className="flex items-center gap-10 sm:gap-16"
                       >
-                        Download
-                      </button>
-                    </li>
-                  </ul>
+                        <li className="flex items-center gap-2">
+                          <FaFilePdf
+                            className="h-4 w-4 text-gray-400"
+                            aria-hidden="true"
+                          />
+                          <p className="text-sm">
+                            resume_back_end_developer.pdf
+                          </p>
+                        </li>
+                        <li>
+                          <button
+                            onClick={downloadFile}
+                            className="flex items-center gap-1 font-semibold py-2 px-4 text-sm rounded-full bg-indigo-500 text-white hover:bg-indigo-600 hover:text-white"
+                          >
+                            Download
+                            <MdDownload
+                              className="h-4 w-5"
+                              aria-hidden="true"
+                            />
+                          </button>
+                        </li>
+                      </ul>
+                    </div> */}
+                  </dl>
                 </div>
               </div>
             </div>
@@ -269,9 +280,7 @@ export default function UserDetails() {
         </div>
 
         {/* Seconda colonna */}
-        <PDFViewer pdfUrl={pdfUrl} onError={console.error}>
-          {/* Resto del codice */}
-        </PDFViewer>
+        <PDFViewer pdfUrl={pdfUrl} onError={console.error} />
       </section>
     </>
   );

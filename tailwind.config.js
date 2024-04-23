@@ -8,12 +8,12 @@ export default {
   theme: {
     extend: {},
   },
-  screens: {
-    'sm': '576px',
-    'md': '768px',
-    'lg': '1400px',
-    'xl': '1920px',
-    '2xl': '2440px'
-  },
+   screens: {
+      'sm': '576px',
+      'md': '768px',
+      'lg': '992px',
+      'xl': '1200px',
+      '2xl': '1400px'
+    },
   plugins: [require("flowbite/plugin")],
 };

@@ -1,5 +1,5 @@
 import HeaderCard from "../components/HeaderCard";
-import AiCvs from "../components/Ai/AiCvs";
+// import AiCvs from "../components/Ai/AiCvs";
 import SelectJob from "../components/Ai/SelectJob";
 
 export default function Ai() {
@@ -7,7 +7,7 @@ export default function Ai() {
     <>
       <HeaderCard />
       <SelectJob />
-      <AiCvs />
+      {/* <AiCvs /> */}
     </>
   );
 }

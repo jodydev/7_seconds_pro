@@ -4,19 +4,20 @@ import { Menu, Transition } from "@headlessui/react";
 import {
   BriefcaseIcon,
   CalendarIcon,
-  ChevronDownIcon,
-  CurrencyDollarIcon,
-  MapPinIcon,
-  PencilIcon,
-  PaperClipIcon,
   ArrowUturnLeftIcon,
 } from "@heroicons/react/20/solid";
 import { BsBuildingsFill } from "react-icons/bs";
+import { BsStars } from "react-icons/bs";
 import FilterUsersForJob from "../Users/FilterUsersForJob";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
+
+// Questa funzione dovrà salvare il job selezionato ed andare alla pagina "/ai" per inviare i file al server
+const sendToAi = () => {
+  window.location.href = "/ai";
+};
 
 export default function JobDetails() {
   return (
@@ -53,70 +54,27 @@ export default function JobDetails() {
             </div>
           </div>
           <div className="mt-5 flex lg:ml-4 lg:mt-0">
-            <span className="ml-3 hidden sm:block">
-              <Link to="/jobs">
-                <button
-                  type="button"
-                  className="inline-flex items-center rounded-md bg-white me-3 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-                >
-                  <ArrowUturnLeftIcon
-                    className="-ml-0.5 mr-1.5 h-5 w-5 text-gray-400"
-                    aria-hidden="true"
-                  />
-                  Go back
-                </button>
-              </Link>
-            </span>
+            <button
+              onClick={sendToAi}
+              type="button"
+              className="relative inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            >
+              <BsStars className="me-1" />
+              Upload File to Ai
+            </button>
 
-            {/* Dropdown for mobile */}
-            <Menu as="div" className="relative ml-3 sm:hidden">
-              <Menu.Button className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400">
-                More
-                <ChevronDownIcon
-                  className="-mr-1 ml-1.5 h-5 w-5 text-gray-400"
+            <Link to="/jobs" className="ml-3">
+              <button
+                type="button"
+                className="inline-flex items-center rounded-md bg-white me-3 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+              >
+                <ArrowUturnLeftIcon
+                  className="-ml-0.5 mr-1.5 h-5 w-5 text-gray-400"
                   aria-hidden="true"
                 />
-              </Menu.Button>
-
-              <Transition
-                as={Fragment}
-                enter="transition ease-out duration-200"
-                enterFrom="transform opacity-0 scale-95"
-                enterTo="transform opacity-100 scale-100"
-                leave="transition ease-in duration-75"
-                leaveFrom="transform opacity-100 scale-100"
-                leaveTo="transform opacity-0 scale-95"
-              >
-                <Menu.Items className="absolute right-0 z-10 -mr-1 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                  <Menu.Item>
-                    {({ active }) => (
-                      <Link
-                        to="#"
-                        className={classNames(
-                          active ? "bg-gray-100" : "",
-                          "block px-4 py-2 text-sm text-gray-700"
-                        )}
-                      >
-                        Edit
-                      </Link>
-                    )}
-                  </Menu.Item>
-                  <Menu.Item>
-                    {({ active }) => (
-                      <Link
-                        to="#"
-                        className={classNames(
-                          active ? "bg-gray-100" : "",
-                          "block px-4 py-2 text-sm text-gray-700"
-                        )}
-                      >
-                        View
-                      </Link>
-                    )}
-                  </Menu.Item>
-                </Menu.Items>
-              </Transition>
-            </Menu>
+                Go back
+              </button>
+            </Link>
           </div>
         </div>
 
