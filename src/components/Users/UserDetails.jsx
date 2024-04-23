@@ -57,7 +57,7 @@ export default function UserDetails() {
         <SuccessMessage message={"The file has been downloaded successfully"} />
       )}
       <section id="detailsjob" className="grid lg:grid-cols-2 gap-10">
-        <div data-aos="fade-right" className="flex justify-between py-10 ">
+        <div data-aos="fade-right" className="flex justify-between py-10">
           <div className="min-w-0 flex-1 ">
             <div className="px-4 py-6 w-full mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6 bg-white shadow-lg rounded-2xl">
               <div className="flex justify-between items-center gap-0 2xl:gap-60">
@@ -71,7 +71,7 @@ export default function UserDetails() {
                         key={index}
                         className={`text-${
                           index < aiRating ? "yellow" : "gray"
-                        }-300 w-6 h-6 hover:translate-y-0.5 transition-all duration-300 ease-in-out`}
+                        }-300 w-6 h-6`}
                       />
                     ))}
                   </div>

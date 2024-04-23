@@ -1,7 +1,9 @@
 import Paginations from "../Paginations";
 import { PiStarFill } from "react-icons/pi";
+import { useAppContext } from "../../context/AppContext";
 
 export default function FilterUsersForJob() {
+  const { modalOpen, openModal, closeModal } = useAppContext();
   const goToDetails = () => {
     window.location.href = "/user-details";
   };
@@ -128,7 +130,11 @@ export default function FilterUsersForJob() {
 
   return (
     <section data-aos="fade-up">
-      <div className="bg-white px-6 py-8 shadow-lg rounded-2xl mt-10">
+      <div
+        className={`${
+          modalOpen ? "opacity-10" : "opacity-100"
+        } bg-white px-6 py-8 shadow-lg rounded-2xl mt-10`}
+      >
         <div className="flex flex-wrap items-center justify-between sm:flex-nowrap border-b border-gray-200">
           <div className="ml-4 mb-4">
             <h3 className="text-3xl font-bold leading-6 text-gray-900">

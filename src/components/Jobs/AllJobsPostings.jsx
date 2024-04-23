@@ -15,98 +15,112 @@ export default function AllJobsPostings() {
       companyName: "Google",
       role: "Front-end Developer",
       seniority: "Senior",
-      cvsNum: 10,
+      cvsNum: 5,
+      jobDate: "2024-04-23",
     },
     {
       id: 2,
       companyName: "Facebook",
       role: "Ai Engineer",
       seniority: "Senior",
-      cvsNum: 10,
+      cvsNum: 5,
+      jobDate: "2024-04-23",
     },
     {
       id: 3,
       companyName: "Amazon",
       role: "Business Analyst",
       seniority: "Senior",
-      cvsNum: 10,
+      cvsNum: 5,
+      jobDate: "2024-04-23",
     },
     {
       id: 4,
       companyName: "Apple",
       role: "Software Engineer",
       seniority: "Senior",
-      cvsNum: 10,
+      cvsNum: 5,
+      jobDate: "2024-04-23",
     },
     {
       id: 5,
       companyName: "Google",
       role: "Front-end Developer",
       seniority: "Senior",
-      cvsNum: 10,
+      cvsNum: 5,
+      jobDate: "2024-04-23",
     },
     {
       id: 6,
       companyName: "Facebook",
       role: "Ai Engineer",
       seniority: "Senior",
-      cvsNum: 10,
+      cvsNum: 5,
+      jobDate: "2024-04-23",
     },
     {
       id: 7,
       companyName: "Amazon",
       role: "Business Analyst",
       seniority: "Senior",
-      cvsNum: 10,
+      cvsNum: 5,
+      jobDate: "2024-04-23",
     },
     {
       id: 8,
       companyName: "Apple",
       role: "Software Engineer",
       seniority: "Senior",
-      cvsNum: 10,
+      cvsNum: 5,
+      jobDate: "2024-04-23",
     },
     {
       id: 9,
       companyName: "Google",
       role: "Front-end Developer",
       seniority: "Senior",
-      cvsNum: 10,
+      cvsNum: 5,
+      jobDate: "2024-04-23",
     },
     {
       id: 10,
       companyName: "Facebook",
       role: "Ai Engineer",
       seniority: "Senior",
-      cvsNum: 10,
+      cvsNum: 5,
+      jobDate: "2024-04-23",
     },
     {
       id: 11,
       companyName: "Google",
       role: "Front-end Developer",
       seniority: "Senior",
-      cvsNum: 10,
+      cvsNum: 5,
+      jobDate: "2024-04-23",
     },
     {
       id: 12,
       companyName: "Facebook",
       role: "Ai Engineer",
       seniority: "Senior",
-      cvsNum: 10,
+      cvsNum: 5,
+      jobDate: "2024-04-23",
     },
     {
       id: 13,
       companyName: "Amazon",
       role: "Business Analyst",
       seniority: "Senior",
-      cvsNum: 10,
+      cvsNum: 5,
+      jobDate: "2024-04-23",
     },
     {
       id: 14,
       companyName: "Apple",
       role: "Software Engineer",
       seniority: "Senior",
-      cvsNum: 10,
+      cvsNum: 5,
+      jobDate: "2024-04-23",
     },
   ];
 
@@ -125,8 +139,8 @@ export default function AllJobsPostings() {
               All Jobs Postings
             </h3>
             <p className="mt-2 text-sm text-gray-500">
-              Here you can see all the jobs insert in the platform. Click on
-              the user to see more details.
+              Here you can see all the jobs insert in the platform. Click on the
+              user to see more details.
             </p>
           </div>
           <div className="flex-shrink-0">
@@ -164,7 +178,6 @@ export default function AllJobsPostings() {
                 <th scope="col" className="px-6 py-3">
                   Role
                 </th>
-
                 <th scope="col" className="px-6 py-3">
                   Seniority
                 </th>
@@ -172,12 +185,10 @@ export default function AllJobsPostings() {
                 <th scope="col" className="px-6 py-3">
                   CVs Number
                 </th>
-                {/* <th scope="col" className="px-6 py-3">
-                  Contract
-                </th>
+
                 <th scope="col" className="px-6 py-3">
-                  Location
-                </th> */}
+                  Upload Date
+                </th>
               </tr>
             </thead>
 
@@ -192,8 +203,7 @@ export default function AllJobsPostings() {
                   <td className="px-6 py-4">{job.role}</td>
                   <td className="px-6 py-4">{job.seniority}</td>
                   <td className="px-6 py-4">{job.cvsNum}</td>
-                  {/* <td className="px-6 py-4">{job.contract}</td>
-                  <td className="px-6 py-4">{job.location}</td> */}
+                  <td className="px-6 py-4">{job.jobDate}</td>
                 </tr>
               ))}
 

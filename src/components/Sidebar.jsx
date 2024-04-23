@@ -15,15 +15,15 @@ import {
 
 const navigation = [
   { name: "Home", to: "/home", icon: HomeIcon, current: true },
-  { name: "AI", to: "/ai", icon: BsStars, current: false },
+  // { name: "AI", to: "/ai", icon: BsStars, current: false },
   { name: "Jobs", to: "/jobs", icon: BriefcaseIcon, current: false },
   { name: "Users", to: "/users", icon: FaUsers, current: false },
-  {
-    name: "Documents",
-    to: "/documents",
-    icon: DocumentDuplicateIcon,
-    current: false,
-  },
+  // {
+  //   name: "Documents",
+  //   to: "/documents",
+  //   icon: DocumentDuplicateIcon,
+  //   current: false,
+  // },
   { name: "Settings", to: "/settings", icon: MdSettings, current: false },
 ];
 

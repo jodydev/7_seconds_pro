@@ -1,6 +1,5 @@
-import { Fragment } from "react";
+import { useAppContext } from "../../context/AppContext";
 import { Link } from "react-router-dom";
-import { Menu, Transition } from "@headlessui/react";
 import {
   BriefcaseIcon,
   CalendarIcon,
@@ -9,20 +8,19 @@ import {
 import { BsBuildingsFill } from "react-icons/bs";
 import { BsStars } from "react-icons/bs";
 import FilterUsersForJob from "../Users/FilterUsersForJob";
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
-
-// Questa funzione dovrà salvare il job selezionato ed andare alla pagina "/ai" per inviare i file al server
-const sendToAi = () => {
-  window.location.href = "/ai";
-};
+import Ai from "../Modal/Ai";
 
 export default function JobDetails() {
+  const { modalOpen, openModal, closeModal } = useAppContext();
+
   return (
     <section data-aos="fade-right" id="detailsjob">
-      <div className="bg-white px-6 py-8 shadow-lg rounded-2xl mt-10">
+      {modalOpen && <Ai closeModal={closeModal} />}
+      <div
+        className={`${
+          modalOpen ? "opacity-10" : "opacity-100"
+        } bg-white px-6 py-8 shadow-lg rounded-2xl mt-10`}
+      >
         <div className="lg:flex lg:items-center lg:justify-between">
           <div className="min-w-0 flex-1">
             <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
@@ -55,7 +53,7 @@ export default function JobDetails() {
           </div>
           <div className="mt-5 flex lg:ml-4 lg:mt-0">
             <button
-              onClick={sendToAi}
+              onClick={openModal}
               type="button"
               className="relative inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >

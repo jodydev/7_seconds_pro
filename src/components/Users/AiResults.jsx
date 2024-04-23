@@ -3,7 +3,7 @@ import { MdOutlineTipsAndUpdates } from "react-icons/md";
 
 export default function AiResults() {
   return (
-    <div data-aos="fade-up" className="flex justify-between mt-5">
+    <div data-aos="fade-up" className="flex justify-between mt-10">
       <div className="min-w-0 flex-1 bg-white px-10 py-8 shadow-lg rounded-2xl">
         <h2 className="text-3xl font-bold leading-7 text-gray-900 flex gap-1">
           Results of the AI <BsStars className="h-6 w-6" />
@@ -14,8 +14,6 @@ export default function AiResults() {
             Ai Rating Score of Jody Ossino CVs for Front End Developer at
             Apple.inc
           </h3>
-
-
 
           <div className="mt-3 border-t border-gray-100">
             <h4 className="text-lg font-semibold leading-7 text-gray-900 mt-3 flex gap-1">
