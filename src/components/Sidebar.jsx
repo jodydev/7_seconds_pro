@@ -14,10 +14,10 @@ import {
 } from "@heroicons/react/24/outline";
 
 const navigation = [
-  { name: "Home", to: "/home", icon: HomeIcon, current: true },
+  { name: "Dashboard", to: "/home", icon: HomeIcon, current: true },
   // { name: "AI", to: "/ai", icon: BsStars, current: false },
-  { name: "Jobs", to: "/jobs", icon: BriefcaseIcon, current: false },
-  { name: "Users", to: "/users", icon: FaUsers, current: false },
+  // { name: "Jobs", to: "/jobs", icon: BriefcaseIcon, current: false },
+  // { name: "Users", to: "/users", icon: FaUsers, current: false },
   // {
   //   name: "Documents",
   //   to: "/documents",
@@ -95,7 +95,7 @@ export default function Sidebar() {
                 <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-2">
                   <div className="flex h-16 shrink-0 items-center border-b border-gray-200">
                     <h3 className="text-2xl font-semibold leading-6 text-gray-900 mt-5 ">
-                      Dashboard
+                      Menu
                     </h3>
                   </div>
                   <nav className="flex flex-1 flex-col">
@@ -141,7 +141,7 @@ export default function Sidebar() {
       <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
         <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6">
           <h3 className="text-2xl font-semibold leading-6 text-gray-900 mt-10 ">
-            Dashboard
+            Menu
           </h3>
 
           <nav className="flex flex-1 flex-col border-t text-gray-900">

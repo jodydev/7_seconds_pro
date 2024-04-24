@@ -3,6 +3,7 @@ import { Textarea } from "flowbite-react";
 import { Fragment } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
+import { BriefcaseIcon } from "@heroicons/react/24/outline";
 
 const senioritys = [
   {
@@ -58,6 +59,7 @@ export default function Job({ closeModal }) {
           <div className="flex items-center justify-between my-2 border-b rounded-t dark:border-gray-600 ">
             <h3 className="text-3xl my-2 font-semibold text-gray-900 dark:text-white">
               Add New Job
+              {/* <BriefcaseIcon className="w-6 h-6 ml-2" /> */}
             </h3>
             <button
               onClick={closeModal}
@@ -221,7 +223,7 @@ export default function Job({ closeModal }) {
                     </div>
                   </div>
 
-                  <div className="sm:col-span-3">
+                  <div className="sm:col-span-6">
                     <label
                       htmlFor="country"
                       className="block text-sm font-medium leading-6 text-gray-900 mb-2"

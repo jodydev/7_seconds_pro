@@ -24,11 +24,11 @@ export default function JobDetails() {
         <div className="lg:flex lg:items-center lg:justify-between">
           <div className="min-w-0 flex-1">
             <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
-              Applicant Information
+              Front End Developer [Apple.inc] - Junior
             </h2>
 
             <div className="mt-1 flex flex-col sm:flex-row sm:flex-wrap sm:space-x-6">
-              <div className="mt-2 flex items-center text-sm text-gray-500">
+              {/* <div className="mt-2 flex items-center text-sm text-gray-500">
                 <BsBuildingsFill
                   className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400"
                   aria-hidden="true"
@@ -41,13 +41,13 @@ export default function JobDetails() {
                   aria-hidden="true"
                 />
                 Front-end Developer
-              </div>
+              </div> */}
               <div className="mt-2 flex items-center text-sm text-gray-500">
                 <CalendarIcon
                   className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400"
                   aria-hidden="true"
                 />
-                Insert at April 9, 2024
+                Created at April 9, 2024
               </div>
             </div>
           </div>
@@ -55,13 +55,13 @@ export default function JobDetails() {
             <button
               onClick={openModal}
               type="button"
-              className="relative inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="relative inline-flex items-center rounded-md bg-indigo-600 px-10 py-6 text-3xl font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
-              <BsStars className="me-1" />
-              Upload File to Ai
+              <BsStars className="me-2" />
+              Upload CVs
             </button>
 
-            <Link to="/jobs" className="ml-3">
+            {/* <Link to="/jobs" className="ml-3">
               <button
                 type="button"
                 className="inline-flex items-center rounded-md bg-white me-3 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
@@ -72,13 +72,13 @@ export default function JobDetails() {
                 />
                 Go back
               </button>
-            </Link>
+            </Link> */}
           </div>
         </div>
 
         <div className="mt-6 border-t border-gray-100">
           <dl className="divide-y divide-gray-100">
-            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+            {/* <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
               <p className="text-sm font-medium leading-6 text-gray-900">
                 Company Name
               </p>
@@ -101,13 +101,10 @@ export default function JobDetails() {
               <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                 Junior
               </dd>
-            </div>
-            <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-              <p className="text-sm font-medium leading-6 text-gray-900">
-                Job Description
-              </p>
-              <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                About Us: Tech Innovations Ltd. is a cutting-edge technology
+            </div> */}
+            <div className="px-10 py-16 w-full">
+              <p className="text-base font-medium leading-6 text-gray-900">
+                Job Description: <br /> <br /> About Us: Tech Innovations Ltd. is a cutting-edge technology
                 company specializing in developing innovative software solutions
                 for various industries. Our team is composed of highly skilled
                 professionals dedicated to pushing the boundaries of technology
@@ -127,7 +124,10 @@ export default function JobDetails() {
                 constructive feedback to team members. Participate in the entire
                 software development lifecycle, from concept to deployment and
                 beyond.
-              </dd>
+              </p>
+              {/* <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                
+              </dd> */}
             </div>
             {/* <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
             <p className="text-sm font-medium leading-6 text-gray-900">

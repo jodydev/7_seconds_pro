@@ -16,13 +16,13 @@ export default function HeaderCard() {
 
   const config = {
     home: [
-      { name: "Jobs", stat: "71,897", icon: BriefcaseIcon, aos: "fade-down" },
-      { name: "Users", stat: "588", icon: FaUsers, aos: "fade-down" },
-      { name: "Request", stat: "248", icon: BsStars, aos: "fade-down" },
+      { name: "Jobs", stat: "5", icon: BriefcaseIcon, aos: "fade-down" },
+      { name: "CVs", stat: "1", icon: DocumentDuplicateIcon, aos: "fade-down" },
+      { name: "Credits", stat: "259/500", icon: BsStars, aos: "fade-down" },
       {
-        name: "CVs",
-        stat: "248",
-        icon: DocumentDuplicateIcon,
+        name: "Subscription",
+        stat: "Premium",
+        icon: FaUsers,
         aos: "fade-down",
       },
     ],
@@ -100,11 +100,11 @@ export default function HeaderCard() {
         aos: "fade-down",
       },
     ],
-    "job-details": [
-      { name: "CVs for this position", stat: "71", icon: BriefcaseIcon, aos: "fade-down" },
-      { name: "Average Rating", stat: "4", icon: BsStars, aos: "fade-down" },
-      
-    ],
+    // "job-details": [
+    //   { name: "CVs for this position", stat: "71", icon: BriefcaseIcon, aos: "fade-down" },
+    //   { name: "Average Rating", stat: "4", icon: BsStars, aos: "fade-down" },
+
+    // ],
   };
 
   const renderCards = (pathname) => {
@@ -117,34 +117,25 @@ export default function HeaderCard() {
         key={index}
         className={`overflow-hidden rounded-2xl ${
           item.bgCard ? `bg-${item.bgCard}` : ""
-        } px-4 py-5 shadow sm:p-6`}
+        } px-4 py-5 shadow sm:p-6 flex-col items-center justify-center `}
       >
-        <div className="flex items-center gap-3">
-          <p className="ml-2 truncate text-lg font-medium text-gray-500">
+        <div className="flex items-center justify-center gap-3">
+          <p className="ml-2 truncate text-3xl font-medium text-gray-500">
             {item.name}
           </p>
           <item.icon className="h-5 w-5 text-indigo-500" />
         </div>
-        <p className="mt-1 text-2xl sm:text-4xl font-semibold flex gap-1 tracking-tight text-gray-900">
-          <span className="flex items-center text-xl  text-indigo-500 font-semibold">
-            +
-          </span>{" "}
-          {item.stat}
-        </p>
+        <div className="flex items-center justify-center">
+          <p className="mt-1 text-5xl font-semibold flex gap-1 tracking-tight text-gray-900">
+            {item.stat}
+          </p>
+        </div>
       </div>
     ));
   };
 
   return (
     <div className={`${modalOpen ? "opacity-10" : "opacity-100"}`}>
-      <Link data-aos="fade-down" to="/home" className="hidden sm:block">
-        <img
-          className="w-auto h-[50px]"
-          src="/7secondspro-logo/1.png"
-          alt="7Seconds Pro"
-        />
-      </Link>
-
       <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {renderCards(location.pathname)}
       </div>

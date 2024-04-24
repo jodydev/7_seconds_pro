@@ -20,7 +20,7 @@ export default function JobsPaginations() {
       </div>
       <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
         <div>
-          <p className="text-xs text-gray-700">
+          <p className="text-base text-gray-700">
             Showing <span className="font-semibold text-indigo-500">1</span> to{" "}
             <span className="font-semibold text-indigo-500">14</span> of{" "}
             <span className="font-semibold text-indigo-500">97</span> results

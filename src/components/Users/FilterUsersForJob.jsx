@@ -138,7 +138,7 @@ export default function FilterUsersForJob() {
         <div className="flex flex-wrap items-center justify-between sm:flex-nowrap border-b border-gray-200">
           <div className="ml-4 mb-4">
             <h3 className="text-3xl font-bold leading-6 text-gray-900">
-              User List for this job
+              Applicants
             </h3>
           </div>
         </div>

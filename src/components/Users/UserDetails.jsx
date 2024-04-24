@@ -135,20 +135,19 @@ export default function UserDetails() {
 
               <div className="mt-1 w-full">
                 <h3 className="text-base font-semibold leading-7 text-gray-900">
-                  Application for the position of Front End Developer at
-                  Apple.inc
+                  Applied for: <span className="font-bold text-indigo-500">Front End Developer at Apple.inc</span>
                 </h3>
 
                 <div className="mt-3 border-t border-gray-100">
                   <dl className="divide-y divide-gray-100">
-                    <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    {/* <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                       <p className="text-sm font-medium leading-6 text-gray-900">
                         Full Name:
                       </p>
                       <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                         Jody Ossino
                       </dd>
-                    </div>
+                    </div> */}
                     <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                       <p className="text-sm font-medium leading-6 text-gray-900">
                         Age:
@@ -165,23 +164,23 @@ export default function UserDetails() {
                         Via del Successo 1, Bologna, Italy
                       </dd>
                     </div>
-                    <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    {/* <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                       <p className="text-sm font-medium leading-6 text-gray-900">
                         Role:
                       </p>
                       <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                         Front End Developer
                       </dd>
-                    </div>
-                    <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    </div> */}
+                    {/* <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                       <p className="text-sm font-medium leading-6 text-gray-900">
                         Education:
                       </p>
                       <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                         High school graduation
                       </dd>
-                    </div>
-                    <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    </div> */}
+                    {/* <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                       <p className="text-sm font-medium leading-6 text-gray-900">
                         Experience:
                       </p>
@@ -196,8 +195,8 @@ export default function UserDetails() {
                           - Intership Business at Microsoft.inc
                         </li>
                       </ul>
-                    </div>
-                    <div className="px-4 py-6 sm:grid sm:grid-cols-3 lg:grid-cols-4 sm:gap-4 sm:px-0 xl:grid-cols-3">
+                    </div> */}
+                    {/* <div className="px-4 py-6 sm:grid sm:grid-cols-3 lg:grid-cols-4 sm:gap-4 sm:px-0 xl:grid-cols-3">
                       <p className="text-sm font-medium leading-6 text-gray-900">
                         Skills:
                       </p>
@@ -221,7 +220,7 @@ export default function UserDetails() {
                           SUPABASE
                         </span>
                       </dd>
-                    </div>
+                    </div> */}
 
                     <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-5 sm:px-0">
                       <p className="text-sm font-medium leading-6 text-gray-900">

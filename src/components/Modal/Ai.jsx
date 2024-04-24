@@ -19,7 +19,7 @@ export default function Ai({ closeModal }) {
     const newFiles = Array.from(e.target.files);
     setFiles((prevFiles) => prevFiles.concat(newFiles));
   };
-    
+
   const sendFile = (files) => {
     window.scrollTo(0, 0);
     setLoading(true);
@@ -97,7 +97,8 @@ export default function Ai({ closeModal }) {
                   ) : (
                     <div>
                       {files.length <= 0 ? (
-                        <div data-aos="zoom-in">
+                        // <div data-aos="zoom-in">
+                        <div>
                           <svg
                             className="mx-auto h-26 w-26 text-gray-400"
                             fill="none"
@@ -125,11 +126,11 @@ export default function Ai({ closeModal }) {
                                 htmlFor="file-upload"
                                 className="cursor-pointer flex items-center"
                               >
-                                Upload File
                                 <PlusIcon
-                                  className="ms-1 h-5 w-5"
+                                  className="me-1 h-5 w-5"
                                   aria-hidden="true"
                                 />
+                                Upload File
                               </label>
                               <input
                                 id="file-upload"

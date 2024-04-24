@@ -8,7 +8,7 @@ export default function Home() {
     <>
       <HeaderCard />
       <RecentJobPostings />
-      <BannerAi />
+      {/* <BannerAi /> */}
     </>
   )
 }
