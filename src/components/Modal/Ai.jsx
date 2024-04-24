@@ -10,10 +10,6 @@ export default function Ai({ closeModal }) {
   const [loading, setLoading] = useState(false);
   const [files, setFiles] = useState([]);
 
-  const resetForm = () => {
-    const form = document.querySelector("form");
-    form.reset();
-  };
 
   const getFile = (e) => {
     const newFiles = Array.from(e.target.files);
@@ -47,7 +43,7 @@ export default function Ai({ closeModal }) {
       aria-hidden="true"
       className="fixed inset-x-0 top-0 z-50 flex justify-center items-center"
     >
-      <div className="relative p-10 w-full max-w-[90%] md:max-w-[50%]">
+      <div className="relative w-full max-w-[90%] 2xl:max-w-[50%]">
         <div className="relative bg-white rounded-lg  dark:bg-gray-700 py-6 px-12 border border-indigo-50 shadow-lg shadow-indigo-500/50">
           <div className="flex items-center justify-between my-2 border-b rounded-t dark:border-gray-600 ">
             <h3 className="text-3xl my-2 font-semibold text-gray-900 dark:text-white">
@@ -97,7 +93,6 @@ export default function Ai({ closeModal }) {
                   ) : (
                     <div>
                       {files.length <= 0 ? (
-                        // <div data-aos="zoom-in">
                         <div>
                           <svg
                             className="mx-auto h-26 w-26 text-gray-400"

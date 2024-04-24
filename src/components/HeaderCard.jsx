@@ -120,13 +120,13 @@ export default function HeaderCard() {
         } px-4 py-5 shadow sm:p-6 flex-col items-center justify-center `}
       >
         <div className="flex items-center justify-center gap-3">
-          <p className="ml-2 truncate text-3xl font-medium text-gray-500">
+          <p className="ml-2 truncate text-xl 2xl:text-3xlfont-medium text-gray-500">
             {item.name}
           </p>
-          <item.icon className="h-5 w-5 text-indigo-500" />
+          <item.icon className="h-6 w-6 2xl:h-8 2xl:w-8 text-indigo-500" />
         </div>
         <div className="flex items-center justify-center">
-          <p className="mt-1 text-5xl font-semibold flex gap-1 tracking-tight text-gray-900">
+          <p className="mt-1 text-2xl 2xl:text-5xl font-semibold flex gap-1 tracking-tight text-gray-900">
             {item.stat}
           </p>
         </div>

@@ -23,7 +23,7 @@ export default function JobDetails() {
       >
         <div className="lg:flex lg:items-center lg:justify-between">
           <div className="min-w-0 flex-1">
-            <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
+            <h2 className="text-xl 2xl:text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
               Front End Developer [Apple.inc] - Junior
             </h2>
 
@@ -55,7 +55,7 @@ export default function JobDetails() {
             <button
               onClick={openModal}
               type="button"
-              className="relative inline-flex items-center rounded-md bg-indigo-600 px-10 py-6 text-3xl font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="relative inline-flex items-center rounded-md bg-indigo-600 px-4 2xl:px-10 py-2 2xl:py-6 text:xl 2xl:text-3xl font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
               <BsStars className="me-2" />
               Upload CVs
