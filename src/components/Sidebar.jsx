@@ -1,4 +1,6 @@
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
+import useAuth from "../hook/useAuth";
+import supabase from "../supabase/client";
 import { useAppContext } from "../context/AppContext";
 import { MdSettings } from "react-icons/md";
 import { FaUsers } from "react-icons/fa";
@@ -12,9 +14,11 @@ import {
   XMarkIcon,
   BriefcaseIcon,
 } from "@heroicons/react/24/outline";
+import { TbLogout2 } from "react-icons/tb";
 
 const navigation = [
   { name: "Dashboard", to: "/home", icon: HomeIcon, current: true },
+  { name: "Settings", to: "/settings", icon: MdSettings, current: false },
   // { name: "AI", to: "/ai", icon: BsStars, current: false },
   // { name: "Jobs", to: "/jobs", icon: BriefcaseIcon, current: false },
   // { name: "Users", to: "/users", icon: FaUsers, current: false },
@@ -24,7 +28,6 @@ const navigation = [
   //   icon: DocumentDuplicateIcon,
   //   current: false,
   // },
-  { name: "Settings", to: "/settings", icon: MdSettings, current: false },
 ];
 
 function classNames(...classes) {
@@ -32,9 +35,12 @@ function classNames(...classes) {
 }
 
 export default function Sidebar() {
+  const navigate = useNavigate();
   const location = useLocation();
   const { modalOpen } = useAppContext();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const signOut = async () => await supabase.auth.signOut() && navigate("/login");
 
   return (
     <header className={`${modalOpen ? "opacity-10" : "opacity-100"}`}>
@@ -174,6 +180,15 @@ export default function Sidebar() {
                   ))}
                 </ul>
               </li>
+              <li className="absolute bottom-5 w-3/4">
+                <button
+                  onClick={() => signOut()}
+                  className=" text-gray-700 hover:text-indigo-600 hover:bg-gray-50 group flex w-full gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+                >
+                  <TbLogout2 className="h-6 w-6 shrink-0 text-gray-400" />
+                  Sign out
+                </button>
+              </li>
             </ul>
           </nav>
         </div>
@@ -189,11 +204,11 @@ export default function Sidebar() {
           <Bars3Icon className="h-6 w-6" aria-hidden="true" />
         </button>
         <div className="flex-1 text-sm font-semibold leading-6 text-gray-900">
-        <img
-          className="w-auto h-[30px]"
-          src="/7secondspro-logo/1.png"
-          alt="7Seconds Pro"
-        />
+          <img
+            className="w-auto h-[30px]"
+            src="/7secondspro-logo/1.png"
+            alt="7Seconds Pro"
+          />
         </div>
       </div>
     </header>

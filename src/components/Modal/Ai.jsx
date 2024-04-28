@@ -1,29 +1,16 @@
 import { useState } from "react";
 import { BsStars } from "react-icons/bs";
 import { PlusIcon } from "@heroicons/react/20/solid";
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
+import { TbSquareRoundedPlusFilled } from "react-icons/tb";
+import supabase from "../../supabase/client";
 
 export default function Ai({ closeModal }) {
   const [loading, setLoading] = useState(false);
   const [files, setFiles] = useState([]);
 
-
   const getFile = (e) => {
     const newFiles = Array.from(e.target.files);
     setFiles((prevFiles) => prevFiles.concat(newFiles));
-  };
-
-  const sendFile = (files) => {
-    window.scrollTo(0, 0);
-    setLoading(true);
-
-    setTimeout(() => {
-      setLoading(false);
-      setFiles([]);
-    }, 1222000);
   };
 
   const deleteFile = (indexToDelete) => {
@@ -35,15 +22,39 @@ export default function Ai({ closeModal }) {
     });
   };
 
+  const sendFile = async (files) => {
+    setLoading(true);
+
+    try {
+      for (const file of files) {
+        const { data, error } = await supabase.storage
+          .from("cvfiles")
+          .upload(`Curriculum-${file.name}`, file);
+
+        if (error) {
+          console.error("Error uploading file:", error.message);
+        } else {
+          console.log("File uploaded successfully:", data.Key);
+        }
+      }
+
+      setLoading(false);
+      setFiles([]);
+    } catch (error) {
+      console.error("Error uploading file:", error.message);
+      setLoading(false);
+    }
+  };
+
   return (
     <div
       data-aos="zoom-in"
       id="crud-modal"
       tabIndex="-1"
       aria-hidden="true"
-      className="fixed inset-x-0 top-0 z-50 flex justify-center items-center"
+      className="fixed inset-x-0 top-0 bottom-0 z-50 flex justify-center items-center"
     >
-      <div className="relative w-full max-w-[90%] 2xl:max-w-[50%]">
+      <div className="relative p-10 w-full max-w-[90%] 2xl:max-w-[50%]">
         <div className="relative bg-white rounded-lg  dark:bg-gray-700 py-6 px-12 border border-indigo-50 shadow-lg shadow-indigo-500/50">
           <div className="flex items-center justify-between my-2 border-b rounded-t dark:border-gray-600 ">
             <h3 className="text-3xl my-2 font-semibold text-gray-900 dark:text-white">
@@ -121,10 +132,7 @@ export default function Ai({ closeModal }) {
                                 htmlFor="file-upload"
                                 className="cursor-pointer flex items-center"
                               >
-                                <PlusIcon
-                                  className="me-1 h-5 w-5"
-                                  aria-hidden="true"
-                                />
+                                <TbSquareRoundedPlusFilled className="me-2 h-5 w-5" />
                                 Upload File
                               </label>
                               <input
@@ -164,7 +172,7 @@ export default function Ai({ closeModal }) {
                           {files.map((file, index) => (
                             <div className="bg-gray-50 px-4 py-1 my-3 rounded-xl hover:cursor-pointer">
                               <div
-                                key={index}
+                                key={`${file.name}-${index}`}
                                 className="lg:flex lg:items-center lg:justify-between my-3"
                               >
                                 <div className="min-w-0 flex-1">

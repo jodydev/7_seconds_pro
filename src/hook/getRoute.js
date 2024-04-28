@@ -5,10 +5,10 @@ export const getRoute = () => {
   // const { id } = useParams();
 
   const homePage = "/home";
-  const aiPage = `/ai`;
-  const jobsPage = `/jobs`;
-  const usersPage = `/users`;
-  const documentsPage = `/documents`;
+  // const aiPage = `/ai`;
+  // const jobsPage = `/jobs`;
+  // const usersPage = `/users`;
+  // const documentsPage = `/documents`;
 
   const ishomePage = () => location.pathname === homePage;
   const isUsersPage = () => location.pathname === usersPage;

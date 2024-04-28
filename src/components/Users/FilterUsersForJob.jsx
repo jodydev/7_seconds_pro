@@ -101,31 +101,6 @@ export default function FilterUsersForJob() {
       selectedJob: "HR Assistant (Tesla)",
       aiRating: 3,
     },
-    {
-      id: 11,
-      fullname: "Jody Ossino",
-      age: "23",
-
-      email: "jody@example.com",
-      selectedJob: "HR Assistant (Tesla)",
-      aiRating: 4,
-    },
-    {
-      id: 12,
-      fullname: "Giuseppe Bianchi",
-      age: "37",
-      email: "pippo@gmail.com",
-      selectedJob: "HR Assistant (Tesla)",
-      aiRating: 1,
-    },
-    {
-      id: 13,
-      fullname: "Sandro Rossi",
-      age: "45",
-      email: "rossi@gmail.com",
-      selectedJob: "HR Assistant (Tesla)",
-      aiRating: 5,
-    },
   ];
 
   return (
@@ -193,8 +168,8 @@ export default function FilterUsersForJob() {
                   <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                     <div className="flex items-center">
                       {[...Array(user.aiRating)].map((_, index) => (
-                        <p>
-                          <PiStarFill key={index} className="text-yellow-300" />
+                        <p key={index}>
+                          <PiStarFill className="text-yellow-300" />
                         </p>
                       ))}
                     </div>
