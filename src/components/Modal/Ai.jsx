@@ -8,40 +8,60 @@ export default function Ai({ closeModal }) {
   const [loading, setLoading] = useState(false);
   const [files, setFiles] = useState([]);
 
-  const getFile = (e) => {
-    const newFiles = Array.from(e.target.files);
-    setFiles((prevFiles) => prevFiles.concat(newFiles));
-  };
+  //! DA RIVEDERE
 
-  const deleteFile = (indexToDelete) => {
-    setFiles((prevFiles) => {
-      const updatedFiles = prevFiles.filter(
-        (file, index) => index !== indexToDelete
-      );
-      return updatedFiles;
-    });
-  };
+  // const deleteFile = async (fileKey) => {
+  //   try {
+  //     setFiles((prevFiles) => {
+  //       const updatedFiles = prevFiles.filter(
+  //         (file, index) => index !== indexToDelete
+  //       );
+  //       return updatedFiles;
+  //     });
+  //     const { error } = await supabase.storage
+  //       .from("cvfiles")
+  //       .remove([fileKey]);
 
-  const sendFile = async (files) => {
-    setLoading(true);
+  //     if (error) {
+  //       console.error("Error deleting file:", error.message);
+  //     } else {
+  //       console.log("File deleted successfully:", fileKey);
+  //       // Aggiorna lo stato o esegui altre azioni necessarie
+  //     }
+  //   } catch (error) {
+  //     console.error("Error deleting file:", error.message);
+  //   }
+  // };
+
+  const uploadFile = async (e) => {
+    const selectedFiles = Array.from(e.target.files);
+
+    if (selectedFiles.length === 0) {
+      console.error("No files selected");
+      return;
+    }
 
     try {
-      for (const file of files) {
+      const uploadPromises = selectedFiles.map(async (file) => {
         const { data, error } = await supabase.storage
           .from("cvfiles")
           .upload(`Curriculum-${file.name}`, file);
 
         if (error) {
           console.error("Error uploading file:", error.message);
+          return null;
         } else {
           console.log("File uploaded successfully:", data.Key);
+          return data;
         }
-      }
+      });
+
+      const results = await Promise.all(uploadPromises);
 
       setLoading(false);
-      setFiles([]);
+      setFiles(results);
     } catch (error) {
-      console.error("Error uploading file:", error.message);
+      console.error("Error uploading files:", error.message);
       setLoading(false);
     }
   };
@@ -126,6 +146,7 @@ export default function Ai({ closeModal }) {
                           <p className="mt-1 text-sm text-gray-500">
                             Upload your files to start processing
                           </p>
+
                           <div className="mt-10">
                             <div className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                               <label
@@ -135,13 +156,14 @@ export default function Ai({ closeModal }) {
                                 <TbSquareRoundedPlusFilled className="me-2 h-5 w-5" />
                                 Upload File
                               </label>
+
                               <input
                                 id="file-upload"
                                 type="file"
                                 className="hidden"
                                 accept=".pdf,.doc,.docx"
                                 multiple
-                                onChange={getFile}
+                                onChange={uploadFile}
                               />
                             </div>
                           </div>
@@ -221,11 +243,7 @@ export default function Ai({ closeModal }) {
                                 />
                                 Send Files to AI
                               </label>
-                              <button
-                                id="send-file"
-                                type="submit"
-                                onClick={sendFile}
-                              />
+                              <button id="send-file" type="submit" />
                             </div>
                           </div>
                         </div>
