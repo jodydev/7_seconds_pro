@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import supabase from "../supabase/client";
-import AppContext from "../contexts/AppContext";
+import AppContext from "../context/AppContext";
 
 // Hook per ottenere il profilo dell'utente corrente
 function useProfile() {
@@ -20,14 +20,14 @@ function useProfile() {
       const { user } = session;
 
       const { data, error } = await supabase
-        .from("profiles")
+        .from("users")
         .select(`*`)
         .eq("id", user.id)
         .single();
 
       if (!ignore) {
         if (error) {
-          console.warn(error);
+          console.error(error);
         } else if (data) {
           setProfile(data); // Imposta il profilo ottenuto dal database
         }

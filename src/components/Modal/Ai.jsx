@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { BsStars } from "react-icons/bs";
 import { PlusIcon } from "@heroicons/react/20/solid";
+import { GrDocumentPdf } from "react-icons/gr";
 import { TbSquareRoundedPlusFilled } from "react-icons/tb";
 import supabase from "../../supabase/client";
 
@@ -8,26 +9,17 @@ export default function Ai({ closeModal }) {
   const [loading, setLoading] = useState(false);
   const [files, setFiles] = useState([]);
 
-  //! DA RIVEDERE
-
-  // const deleteFile = async (fileKey) => {
+  // const deleteFile = async (indexToDelete) => {
   //   try {
+  //     const fileToDelete = files[indexToDelete];
+  //     await supabase.storage.from("cvfiles").remove([fileToDelete.id]);
   //     setFiles((prevFiles) => {
   //       const updatedFiles = prevFiles.filter(
   //         (file, index) => index !== indexToDelete
   //       );
   //       return updatedFiles;
   //     });
-  //     const { error } = await supabase.storage
-  //       .from("cvfiles")
-  //       .remove([fileKey]);
-
-  //     if (error) {
-  //       console.error("Error deleting file:", error.message);
-  //     } else {
-  //       console.log("File deleted successfully:", fileKey);
-  //       // Aggiorna lo stato o esegui altre azioni necessarie
-  //     }
+  //     console.log("File deleted successfully:", fileToDelete);
   //   } catch (error) {
   //     console.error("Error deleting file:", error.message);
   //   }
@@ -43,26 +35,46 @@ export default function Ai({ closeModal }) {
 
     try {
       const uploadPromises = selectedFiles.map(async (file) => {
+        const fileName = `${file.name}-${Date.now()}`;
         const { data, error } = await supabase.storage
           .from("cvfiles")
-          .upload(`Curriculum-${file.name}`, file);
+          .upload(fileName, file);
 
         if (error) {
           console.error("Error uploading file:", error.message);
           return null;
         } else {
-          console.log("File uploaded successfully:", data.Key);
           return data;
         }
       });
 
       const results = await Promise.all(uploadPromises);
 
+      await sendData(results);
+
       setLoading(false);
       setFiles(results);
     } catch (error) {
       console.error("Error uploading files:", error.message);
       setLoading(false);
+    }
+  };
+
+  const sendData = async (results) => {
+    try {
+      const endPoint =
+        "https://mwhhpzjnpnmparvwqpua.supabase.co/storage/v1/object/public/";
+      const cvsData = results.map((res) => ({
+        file: `${endPoint}${res.fullPath}`,
+        filename: res.path,
+      }));
+      const { error } = await supabase.from("cvs").insert(cvsData);
+
+      if (error) {
+        console.error("Error sending data to Supabase:", error.message);
+      }
+    } catch (error) {
+      console.error("Error sending data to Supabase:", error.message);
     }
   };
 
@@ -188,21 +200,22 @@ export default function Ai({ closeModal }) {
                             <span className="font-semibold text-indigo-500">
                               +{files.length}
                             </span>{" "}
-                            File Uploaded
+                            File Uploaded Successfully
                           </h3>
 
                           {files.map((file, index) => (
-                            <div className="bg-gray-50 px-4 py-1 my-3 rounded-xl hover:cursor-pointer">
-                              <div
-                                key={`${file.name}-${index}`}
-                                className="lg:flex lg:items-center lg:justify-between my-3"
-                              >
-                                <div className="min-w-0 flex-1">
-                                  <p className="text-base font-semibold leading-7 text-gray-900 sm:truncate sm:text-xl sm:tracking-tight">
-                                    {file.name}
+                            <div
+                              key={file.id}
+                              className="bg-gray-50 px-4 py-1 my-3 rounded-xl hover:cursor-pointer"
+                            >
+                              <div className="lg:flex lg:items-center lg:justify-between my-3">
+                                <div className="min-w-0 flex ">
+                                  <GrDocumentPdf className="mx-3 h-5 w-5" />
+                                  <p className="text-base font-semibold leading-7 text-gray-900 sm:truncate sm:text-base sm:tracking-tight">
+                                    {file.path}
                                   </p>
                                 </div>
-                                <div className="mt-5 flex lg:ml-4 lg:mt-0">
+                                {/* <div className="mt-5 flex lg:ml-4 lg:mt-0">
                                   <span className="hidden sm:block">
                                     <button
                                       onClick={() => deleteFile(index)}
@@ -226,26 +239,10 @@ export default function Ai({ closeModal }) {
                                       Delete
                                     </button>
                                   </span>
-                                </div>
+                                </div> */}
                               </div>
                             </div>
                           ))}
-
-                          <div className="mt-10 flex justify-center gap-3">
-                            <div className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                              <label
-                                htmlFor="send-file"
-                                className="cursor-pointer flex items-center"
-                              >
-                                <BsStars
-                                  className="me-1 h-5 w-5"
-                                  aria-hidden="true"
-                                />
-                                Send Files to AI
-                              </label>
-                              <button id="send-file" type="submit" />
-                            </div>
-                          </div>
                         </div>
                       )}
                     </div>
