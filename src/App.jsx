@@ -38,8 +38,6 @@ export function App() {
 }
 
 function LayoutWithRoutes() {
-  const userData = useAuth();
-
   return (
     <Layout>
       <Routes>
@@ -54,26 +52,13 @@ function LayoutWithRoutes() {
 
 
 function Root() {
-  const userData = useAuth();
 
-  const [session, setSession] = useState(null);
+  const { session } = useAuth();
 
-  // Effetto per ottenere e impostare la sessione corrente
-  useEffect(() => {
-    // Ottiene la sessione corrente
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-    });
+  console.log(session);
 
-    // Ascolta i cambiamenti di autenticazione
-    supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-    });
-  }, []);
-
-  // Restituisce la struttura dell'applicazione
   return (
-    <AppProvider value={{ session, setSession, userData }}>
+    <AppProvider value={{ session }}>
       <Router>
         <App /> 
       </Router>

@@ -28,17 +28,14 @@ function useAuth() {
     });
 
     // Registra un ascoltatore per i cambiamenti di autenticazione
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
+    supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
     });
 
     // Annulla l'iscrizione all'ascoltatore quando il componente viene smontato
-    return () => subscription.unsubscribe();
+    // return () => subscription.unsubscribe();
   }, []);
 
-  // Restituisce le funzioni e i dati relativi all'autenticazione
   return {
     session,
     signIn,

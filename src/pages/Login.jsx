@@ -1,25 +1,52 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { IoCloseCircleOutline } from "react-icons/io5";
 import useAuth from "../hook/useAuth";
 
 export default function Login() {
-  const { signIn } = useAuth();
+  const { signIn, session } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    if (session) {
+      navigate("/home");
+    }
+  }, [session, navigate]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     try {
       await signIn(email, password);
-      navigate("/home");
+      setError(true);
     } catch (error) {
       console.error("Error logging in:", error.message);
     }
   };
+
   return (
     <>
+      {error && (
+        <div className="text-center mt-10">
+          <div
+            className="p-3 bg-red-500 items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex"
+            role="alert"
+          >
+            <span className="flex rounded-full bg-red-600 uppercase px-2 py-1 text-xs font-bold mr-3">
+              Error
+            </span>
+            <span className="font-semibold mr-2 text-left flex-auto">
+              Invalid credentials or user does not exist, please try again.
+            </span>
+            <IoCloseCircleOutline
+              className="cursor-pointer w-5 h-5"
+              onClick={() => setError(false)}
+            />
+          </div>
+        </div>
+      )}
       <div className="flex min-h-full flex-1 flex-col items-center justify-center px-6 py-96 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">

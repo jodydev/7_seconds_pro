@@ -5,7 +5,7 @@ import { useAppContext } from "../context/AppContext";
 import { MdSettings } from "react-icons/md";
 import { FaUsers } from "react-icons/fa";
 import { BsStars } from "react-icons/bs";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
@@ -35,12 +35,21 @@ function classNames(...classes) {
 }
 
 export default function Sidebar() {
+  const { modalOpen } = useAppContext();
+  // const { session } = useAuth();
+
   const navigate = useNavigate();
   const location = useLocation();
-  const { modalOpen } = useAppContext();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const signOut = async () => await supabase.auth.signOut() && navigate("/login");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  // const [user, setUser] = useState(null);
+
+  // useEffect(() => {
+  //   setUser(session.user.email);
+  // }, [session]);
+
+  const signOut = async () =>
+    (await supabase.auth.signOut()) && navigate("/login");
 
   return (
     <header className={`${modalOpen ? "opacity-10" : "opacity-100"}`}>
@@ -150,40 +159,50 @@ export default function Sidebar() {
             Menu
           </h3>
 
-          <nav className="flex flex-1 flex-col border-t text-gray-900">
-            <ul role="list" className="flex flex-1 flex-col gap-y-7">
+          <nav className="flex flex-1 flex-col border-t text-gray-900 ">
+            <ul role="list" className="flex flex-1 flex-col gap-y-2 mt-3">
+              {navigation.map((item) => (
+                <li key={item.name}>
+                  <Link
+                    to={item.to}
+                    className={classNames(
+                      location.pathname === item.to
+                        ? "bg-gray-50 text-indigo-600"
+                        : "text-gray-700 hover:text-indigo-600 hover:bg-gray-50",
+                      "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+                    )}
+                  >
+                    <item.icon
+                      className={classNames(
+                        location.pathname === item.to
+                          ? "text-indigo-600"
+                          : "text-gray-400 group-hover:text-indigo-600",
+                        "h-6 w-6 shrink-0"
+                      )}
+                      aria-hidden="true"
+                    />
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+
+            {/* User profile and sign out */}
+            <ul className="flex flex-col items-center mb-5">
+              {/* <li className="my-2">
+                <div className="group flex  gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold  text-gray-700 hover:text-indigo-600 hover:bg-gray-50">
+                  <img
+                    className="inline-block h-6 w-6 p-1 rounded-full ring-2 ring-indigo-500"
+                    src="/7secondspro-logo/7secondspro-svg.png"
+                    alt="User Profile"
+                  />
+                  {user && <p>{session.user.email}</p>}
+                </div>
+              </li> */}
               <li>
-                <ul role="list" className="-mx-2 mt-3 space-y-1">
-                  {navigation.map((item) => (
-                    <li key={item.name}>
-                      <Link
-                        to={item.to}
-                        className={classNames(
-                          location.pathname === item.to
-                            ? "bg-gray-50 text-indigo-600"
-                            : "text-gray-700 hover:text-indigo-600 hover:bg-gray-50",
-                          "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
-                        )}
-                      >
-                        <item.icon
-                          className={classNames(
-                            location.pathname === item.to
-                              ? "text-indigo-600"
-                              : "text-gray-400 group-hover:text-indigo-600",
-                            "h-6 w-6 shrink-0"
-                          )}
-                          aria-hidden="true"
-                        />
-                        {item.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </li>
-              <li className="absolute bottom-5 w-3/4">
                 <button
                   onClick={() => signOut()}
-                  className=" text-gray-700 hover:text-indigo-600 hover:bg-gray-50 group flex w-full gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+                  className="flex  gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold text-gray-700 hover:text-indigo-600 hover:bg-gray-50"
                 >
                   <TbLogout2 className="h-6 w-6 shrink-0 text-gray-400" />
                   Sign out

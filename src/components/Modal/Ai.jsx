@@ -1,57 +1,58 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BsStars } from "react-icons/bs";
 import { PlusIcon } from "@heroicons/react/20/solid";
 import { GrDocumentPdf } from "react-icons/gr";
 import { TbSquareRoundedPlusFilled } from "react-icons/tb";
 import supabase from "../../supabase/client";
+import useAuth from "../../hook/useAuth";
 
 export default function Ai({ closeModal }) {
+  const { session } = useAuth();
   const [loading, setLoading] = useState(false);
   const [files, setFiles] = useState([]);
 
-  // const deleteFile = async (indexToDelete) => {
-  //   try {
-  //     const fileToDelete = files[indexToDelete];
-  //     await supabase.storage.from("cvfiles").remove([fileToDelete.id]);
-  //     setFiles((prevFiles) => {
-  //       const updatedFiles = prevFiles.filter(
-  //         (file, index) => index !== indexToDelete
-  //       );
-  //       return updatedFiles;
-  //     });
-  //     console.log("File deleted successfully:", fileToDelete);
-  //   } catch (error) {
-  //     console.error("Error deleting file:", error.message);
-  //   }
-  // };
+  const deleteFile = async (indexToDelete) => {
+    try {
+      const fileToDelete = files[indexToDelete];
+      await supabase.storage.from("cvfiles").remove([fileToDelete.id]);
+      setFiles((prevFiles) => {
+        const updatedFiles = prevFiles.filter(
+          (file, index) => index !== indexToDelete
+        );
+        return updatedFiles;
+      });
+      console.log("File deleted successfully:", fileToDelete);
+    } catch (error) {
+      console.error("Error deleting file:", error.message);
+    }
+  };
 
   const uploadFile = async (e) => {
-    const selectedFiles = Array.from(e.target.files);
-
-    if (selectedFiles.length === 0) {
-      console.error("No files selected");
-      return;
-    }
-
     try {
-      const uploadPromises = selectedFiles.map(async (file) => {
-        const fileName = `${file.name}-${Date.now()}`;
+      const selectedFiles = Array.from(e.target.files);
+
+      const upload = selectedFiles.map(async (file) => {
+        const currentDate = Date.now();     
+        const fileName = `${file.name.trim()}-${currentDate}`;
+
         const { data, error } = await supabase.storage
           .from("cvfiles")
-          .upload(fileName, file);
+          .upload(fileName, file, {
+            cacheControl: "3600",
+            expiresIn: "3600",
+          });
 
         if (error) {
           console.error("Error uploading file:", error.message);
-          return null;
         } else {
           return data;
         }
       });
 
-      const results = await Promise.all(uploadPromises);
-
+      const results = await Promise.all(upload);
       await sendData(results);
 
+      
       setLoading(false);
       setFiles(results);
     } catch (error) {
@@ -62,13 +63,14 @@ export default function Ai({ closeModal }) {
 
   const sendData = async (results) => {
     try {
-      const endPoint =
-        "https://mwhhpzjnpnmparvwqpua.supabase.co/storage/v1/object/public/";
+      const endPoint = "https://mwhhpzjnpnmparvwqpua.supabase.co/storage/v1/object/public/";
       const cvsData = results.map((res) => ({
         file: `${endPoint}${res.fullPath}`,
         filename: res.path,
       }));
-      const { error } = await supabase.from("cvs").insert(cvsData);
+      const { data, error } = await supabase.from("cvs")
+        .insert(cvsData)
+        .select();
 
       if (error) {
         console.error("Error sending data to Supabase:", error.message);
@@ -215,7 +217,7 @@ export default function Ai({ closeModal }) {
                                     {file.path}
                                   </p>
                                 </div>
-                                {/* <div className="mt-5 flex lg:ml-4 lg:mt-0">
+                                <div className="mt-5 flex lg:ml-4 lg:mt-0">
                                   <span className="hidden sm:block">
                                     <button
                                       onClick={() => deleteFile(index)}
@@ -239,7 +241,7 @@ export default function Ai({ closeModal }) {
                                       Delete
                                     </button>
                                   </span>
-                                </div> */}
+                                </div>
                               </div>
                             </div>
                           ))}
