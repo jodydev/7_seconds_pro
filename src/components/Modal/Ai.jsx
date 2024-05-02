@@ -1,38 +1,51 @@
 import { useState, useEffect } from "react";
 import { BsStars } from "react-icons/bs";
 import { PlusIcon } from "@heroicons/react/20/solid";
+import { FaMagic } from "react-icons/fa";
+import { IoCloseCircle } from "react-icons/io5";
 import { GrDocumentPdf } from "react-icons/gr";
 import { TbSquareRoundedPlusFilled } from "react-icons/tb";
 import supabase from "../../supabase/client";
 import useAuth from "../../hook/useAuth";
+import { useParams } from "react-router-dom";
 
 export default function Ai({ closeModal }) {
   const { session } = useAuth();
+  const jobId = useParams().id;
   const [loading, setLoading] = useState(false);
   const [files, setFiles] = useState([]);
 
-  const deleteFile = async (indexToDelete) => {
-    try {
-      const fileToDelete = files[indexToDelete];
-      await supabase.storage.from("cvfiles").remove([fileToDelete.id]);
-      setFiles((prevFiles) => {
-        const updatedFiles = prevFiles.filter(
-          (file, index) => index !== indexToDelete
-        );
-        return updatedFiles;
-      });
-      console.log("File deleted successfully:", fileToDelete);
-    } catch (error) {
-      console.error("Error deleting file:", error.message);
-    }
-  };
+  // const deleteFile = async (indexToDelete) => {
+  //   try {
+  //     const fileToDelete = files[indexToDelete];
+  //     console.log("File to delete:", fileToDelete);
+
+  //     const { error } = await supabase.storage
+  //       .from("cvfiles")
+  //       .remove([fileToDelete.id]);
+  //     if (error) {
+  //       throw new Error(error.message);
+  //     }
+
+  //     setFiles((prevFiles) => {
+  //       const updatedFiles = prevFiles.filter(
+  //         (file, index) => index !== indexToDelete
+  //       );
+  //       return updatedFiles;
+  //     });
+
+  //     console.log("File deleted successfully:", fileToDelete);
+  //   } catch (error) {
+  //     console.error("Error deleting file:", error.message);
+  //   }
+  // };
 
   const uploadFile = async (e) => {
     try {
       const selectedFiles = Array.from(e.target.files);
 
       const upload = selectedFiles.map(async (file) => {
-        const currentDate = Date.now();     
+        const currentDate = Date.now();
         const fileName = `${file.name.trim()}-${currentDate}`;
 
         const { data, error } = await supabase.storage
@@ -50,9 +63,9 @@ export default function Ai({ closeModal }) {
       });
 
       const results = await Promise.all(upload);
+
       await sendData(results);
 
-      
       setLoading(false);
       setFiles(results);
     } catch (error) {
@@ -63,17 +76,43 @@ export default function Ai({ closeModal }) {
 
   const sendData = async (results) => {
     try {
-      const endPoint = "https://mwhhpzjnpnmparvwqpua.supabase.co/storage/v1/object/public/";
+      const endPoint =
+        "https://mwhhpzjnpnmparvwqpua.supabase.co/storage/v1/object/public/";
       const cvsData = results.map((res) => ({
         file: `${endPoint}${res.fullPath}`,
         filename: res.path,
+        userid: session.user.id,
       }));
-      const { data, error } = await supabase.from("cvs")
+      const { data, error } = await supabase
+        .from("cvs")
         .insert(cvsData)
         .select();
 
       if (error) {
         console.error("Error sending data to Supabase:", error.message);
+      } else {
+        const cvId = data[0].id; // Supponendo che la query restituisca un singolo record
+        // Chiamare la funzione sendThreads passando il cvid
+        await sendThreads(cvId);
+      }
+    } catch (error) {
+      console.error("Error sending data to Supabase:", error.message);
+    }
+  };
+
+  const sendThreads = async (cvId) => {
+    try {
+      const threadData = {
+        cvid: cvId, // Utilizza il cvid passato come parametro
+        jobid: jobId,
+      };
+
+      const { data, error } = await supabase.from("threads").insert(threadData);
+
+      if (error) {
+        console.error("Error sending data to Supabase:", error.message);
+      } else {
+        console.log("Data sent to Supabase successfully:", data);
       }
     } catch (error) {
       console.error("Error sending data to Supabase:", error.message);
@@ -92,9 +131,17 @@ export default function Ai({ closeModal }) {
         <div className="relative bg-white rounded-lg  dark:bg-gray-700 py-6 px-12 border border-indigo-50 shadow-lg shadow-indigo-500/50">
           <div className="flex items-center justify-between my-2 border-b rounded-t dark:border-gray-600 ">
             <h3 className="text-3xl my-2 font-semibold text-gray-900 dark:text-white">
-              Upload CVs to Analyze
+              {files.length > 0
+                ? "Operation Completed"
+                : "Upload CVs to Analyze"}
             </h3>
-            <BsStars className="w-6 h-6 ml-2" />
+
+            {files.length > 0 ? (
+              <FaMagic className="w-6 h-6 ml-2" />
+            ) : (
+              <BsStars className="w-6 h-6 ml-2" />
+            )}
+
             <button
               onClick={closeModal}
               type="button"
@@ -155,14 +202,11 @@ export default function Ai({ closeModal }) {
                             />
                           </svg>
                           <h3 className="text-sm font-semibold text-gray-900">
-                            No file uploaded
+                            Upload your files to start processing..
                           </h3>
-                          <p className="mt-1 text-sm text-gray-500">
-                            Upload your files to start processing
-                          </p>
 
                           <div className="mt-10">
-                            <div className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                            <div className="inline-flex items-center rounded-md bg-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                               <label
                                 htmlFor="file-upload"
                                 className="cursor-pointer flex items-center"
@@ -217,7 +261,7 @@ export default function Ai({ closeModal }) {
                                     {file.path}
                                   </p>
                                 </div>
-                                <div className="mt-5 flex lg:ml-4 lg:mt-0">
+                                {/* <div className="mt-5 flex lg:ml-4 lg:mt-0">
                                   <span className="hidden sm:block">
                                     <button
                                       onClick={() => deleteFile(index)}
@@ -241,10 +285,23 @@ export default function Ai({ closeModal }) {
                                       Delete
                                     </button>
                                   </span>
-                                </div>
+                                </div> */}
                               </div>
                             </div>
                           ))}
+                          <div className="mt-10">
+                            <div className="inline-flex items-center rounded-md bg-red-500 px-4 py-3 text-sm font-semibold text-white hover:cursor-pointer shadow-sm hover:bg-red-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                              <IoCloseCircle className="me-2 h-5 w-5" />
+                              <button
+                                onClick={closeModal}
+                                type="button"
+                                className="inline-flex items-center rounded-md"
+                                data-modal-toggle="crud-modal"
+                              >
+                                Close
+                              </button>
+                            </div>
+                          </div>
                         </div>
                       )}
                     </div>
