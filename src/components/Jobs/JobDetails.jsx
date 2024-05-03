@@ -39,7 +39,7 @@ export default function JobDetails() {
 
 
   return (
-    <section data-aos="fade-right" id="detailsjob">
+    <section>
       {modalOpen && <Ai closeModal={closeModal} />}
       <div
         className={`${
@@ -75,7 +75,7 @@ export default function JobDetails() {
                   type="button"
                   className="relative inline-flex items-center rounded-xl bg-indigo-600 px-4 2xl:px-6 py-2 2xl:py-4 text:xl 2xl:text-2xl font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
-                  <BsStars className="mx-3 w-5 h-5" />
+                  <BsStars className="me-2 w-6 h-6" />
                   Upload CVs
                 </button>
               </div>
