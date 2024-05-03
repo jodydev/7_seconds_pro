@@ -6,7 +6,6 @@ import Layout from "./pages/Layout";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Aos from "aos";
-import supabase from "./supabase/client";
 import useAuth from "./hook/useAuth";
 import Home from "./pages/Home";
 import PageNotFound from "./pages/PageNotFound";
@@ -43,7 +42,7 @@ function LayoutWithRoutes() {
       <Routes>
         <Route path="/home" element={<Home />} />
         <Route path="/job-details/:id" element={<JobDetails />} />
-        <Route path="/user-details/:id" element={<UserDetails />} />
+        <Route path="/user-details" element={<UserDetails />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </Layout>

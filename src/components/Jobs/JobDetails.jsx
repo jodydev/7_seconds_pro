@@ -75,17 +75,17 @@ export default function JobDetails() {
                   type="button"
                   className="relative inline-flex items-center rounded-xl bg-indigo-600 px-4 2xl:px-6 py-2 2xl:py-4 text:xl 2xl:text-2xl font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
-                  <BsStars className="me-3 w-8 h-8" />
+                  <BsStars className="mx-3 w-5 h-5" />
                   Upload CVs
                 </button>
               </div>
             </div>
             <div className="mt-6 border-t border-gray-100">
               <dl className="divide-y divide-gray-100">
-                <div className="px-5 py-10 w-full">
-                  <span className="text-lg font-medium leading-6 text-gray-900">
+                <div className="py-5 w-full">
+                  <span className="text-xl font-semibold leading-6 text-gray-900">
                     Job Description: <br /> <br />{" "}
-                    <p className="text-base font-medium leading-6 text-gray-900">
+                    <p className="text-base font-light  leading-6 text-gray-900">
                       {selectedJob.description}
                     </p>
                   </span>

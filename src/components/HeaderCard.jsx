@@ -15,6 +15,7 @@ export default function HeaderCard() {
   const { modalOpen } = useAppContext();
   const location = useLocation();
   const [jobs, setJobs] = useState([]);
+  const [fileCount, setFileCount] = useState(null);
 
   useEffect(() => {
     // Funzione per prendere i jobs da Supabase
@@ -32,10 +33,34 @@ export default function HeaderCard() {
     fetchJobs();
   }, []);
 
+  useEffect(() => {
+    async function fetchFileCount() {
+      try {
+        const { data, error } = await supabase.storage.from("cvfiles").list();
+
+        if (error) {
+          throw error;
+        }
+
+        const count = data ? data.length : 0;
+        setFileCount(count);
+      } catch (error) {
+        console.error("Error fetching file count:", error.message);
+      }
+    }
+
+    fetchFileCount();
+  }, []);
+
   const config = {
     home: [
-      { name: "Jobs", stat: jobs.length, icon: BriefcaseIcon, aos: "fade-down" },
-      { name: "CVs", stat: "1", icon: DocumentDuplicateIcon, aos: "fade-down" },
+      {
+        name: "Jobs",
+        stat: jobs.length,
+        icon: BriefcaseIcon,
+        aos: "fade-down",
+      },
+      { name: "CVs", stat: fileCount, icon: DocumentDuplicateIcon, aos: "fade-down" },
       { name: "Credits", stat: "259/500", icon: BsStars, aos: "fade-down" },
       {
         name: "Subscription",
@@ -119,9 +144,13 @@ export default function HeaderCard() {
     //   },
     // ],
     "job-details/:id": [
-      { name: "CVs for this position", stat: "71", icon: BriefcaseIcon, aos: "fade-down" },
+      {
+        name: "CVs for this position",
+        stat: "71",
+        icon: BriefcaseIcon,
+        aos: "fade-down",
+      },
       { name: "Average Rating", stat: "4", icon: BsStars, aos: "fade-down" },
-
     ],
   };
 
