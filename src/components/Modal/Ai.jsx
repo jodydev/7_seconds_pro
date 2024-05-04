@@ -1,13 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
 import { BsStars } from "react-icons/bs";
-import { PlusIcon } from "@heroicons/react/20/solid";
 import { FaMagic } from "react-icons/fa";
 import { IoCloseCircle } from "react-icons/io5";
 import { GrDocumentPdf } from "react-icons/gr";
 import { TbSquareRoundedPlusFilled } from "react-icons/tb";
 import supabase from "../../supabase/client";
 import useAuth from "../../hook/useAuth";
-import { useParams } from "react-router-dom";
 
 export default function Ai({ closeModal }) {
   const { session } = useAuth();
@@ -91,8 +90,7 @@ export default function Ai({ closeModal }) {
       if (error) {
         console.error("Error sending data to Supabase:", error.message);
       } else {
-        const cvId = data[0].id; // Supponendo che la query restituisca un singolo record
-        // Chiamare la funzione sendThreads passando il cvid
+        const cvId = data[0].id;
         await sendThreads(cvId);
       }
     } catch (error) {
@@ -103,7 +101,7 @@ export default function Ai({ closeModal }) {
   const sendThreads = async (cvId) => {
     try {
       const threadData = {
-        cvid: cvId, // Utilizza il cvid passato come parametro
+        cvid: cvId,
         jobid: jobId,
       };
 
@@ -111,8 +109,6 @@ export default function Ai({ closeModal }) {
 
       if (error) {
         console.error("Error sending data to Supabase:", error.message);
-      } else {
-        console.log("Data sent to Supabase successfully:", data);
       }
     } catch (error) {
       console.error("Error sending data to Supabase:", error.message);
@@ -137,9 +133,9 @@ export default function Ai({ closeModal }) {
             </h3>
 
             {files.length > 0 ? (
-              <FaMagic className="w-6 h-6 ml-2" />
+              <FaMagic className="w-8 h-8 ml-2 text-indigo-500" />
             ) : (
-              <BsStars className="w-6 h-6 ml-2" />
+              <BsStars className="w-8 h-8 ml-2 text-yellow-300" />
             )}
 
             <button
@@ -186,7 +182,7 @@ export default function Ai({ closeModal }) {
                     <div>
                       {files.length <= 0 ? (
                         <div>
-                          <svg
+                          {/* <svg
                             className="mx-auto h-26 w-26 text-gray-400"
                             fill="none"
                             viewBox="0 0 24 24"
@@ -200,13 +196,21 @@ export default function Ai({ closeModal }) {
                               strokeWidth={2}
                               d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"
                             />
-                          </svg>
-                          <h3 className="text-sm font-semibold text-gray-900">
-                            Upload your files to start processing..
+                          </svg> */}
+                          <img
+                            src="/upload.gif"
+                            alt="Upload File"
+                            className="mx-auto h-[300px] w-[300px] text-gray-400"
+                          />
+                          <h3 className="text-lg font-semibold text-gray-900">
+                            Upload one or more files to start processing...
                           </h3>
+                          <p className="text-sm italic my-1">
+                            *only accepts pdf files
+                          </p>
 
                           <div className="mt-10">
-                            <div className="inline-flex items-center rounded-md bg-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                            <div className="inline-flex items-center rounded-md bg-indigo-500 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                               <label
                                 htmlFor="file-upload"
                                 className="cursor-pointer flex items-center"
@@ -227,22 +231,15 @@ export default function Ai({ closeModal }) {
                           </div>
                         </div>
                       ) : (
-                        <div>
-                          <svg
-                            className="mx-auto h-26 w-26 max-h-[220px] text-gray-400"
-                            dataslot="icon"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg"
-                            aria-hidden="true"
-                          >
-                            <path
-                              clipRule="evenodd"
-                              fillRule="evenodd"
-                              d="M16.403 12.652a3 3 0 0 0 0-5.304 3 3 0 0 0-3.75-3.751 3 3 0 0 0-5.305 0 3 3 0 0 0-3.751 3.75 3 3 0 0 0 0 5.305 3 3 0 0 0 3.75 3.751 3 3 0 0 0 5.305 0 3 3 0 0 0 3.751-3.75Zm-2.546-4.46a.75.75 0 0 0-1.214-.883l-3.483 4.79-1.88-1.88a.75.75 0 1 0-1.06 1.061l2.5 2.5a.75.75 0 0 0 1.137-.089l4-5.5Z"
-                            />
-                          </svg>
-                          <h3 className="mb-5 text-sm font-semibold text-gray-900">
+                        <div className="my-10">
+                          <video
+                            autoPlay
+                            src="/success.mp4"
+                            alt="Success Upload"
+                            className="mx-auto h-[200px] w-[200px] text-gray-400"
+                          />
+
+                          <h3 className="my-5 text-sm font-semibold text-gray-900">
                             <span className="font-semibold text-indigo-500">
                               +{files.length}
                             </span>{" "}
@@ -290,14 +287,32 @@ export default function Ai({ closeModal }) {
                             </div>
                           ))}
                           <div className="mt-10">
-                            <div className="inline-flex items-center rounded-md bg-red-500 px-4 py-3 text-sm font-semibold text-white hover:cursor-pointer shadow-sm hover:bg-red-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                              <IoCloseCircle className="me-2 h-5 w-5" />
+                            <div className="inline-flex items-center rounded-md bg-indigo-500 px-4 py-3 mt-5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                              <label
+                                htmlFor="file-upload"
+                                className="cursor-pointer flex items-center"
+                              >
+                                <TbSquareRoundedPlusFilled className="me-2 h-5 w-5" />
+                                Upload More File
+                              </label>
+
+                              <input
+                                id="file-upload"
+                                type="file"
+                                className="hidden"
+                                accept=".pdf,.doc,.docx"
+                                multiple
+                                onChange={uploadFile}
+                              />
+                            </div>
+                            <div className="mx-5 inline-flex items-center rounded-md bg-red-500 px-4 py-3 text-sm font-semibold text-white hover:cursor-pointer shadow-sm hover:bg-red-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                               <button
                                 onClick={closeModal}
                                 type="button"
                                 className="inline-flex items-center rounded-md"
                                 data-modal-toggle="crud-modal"
                               >
+                                <IoCloseCircle className="me-2 h-5 w-5" />
                                 Close
                               </button>
                             </div>

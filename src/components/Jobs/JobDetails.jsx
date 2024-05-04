@@ -1,58 +1,64 @@
+import { useState, useEffect } from "react";
 import { useAppContext } from "../../context/AppContext";
 import { Link } from "react-router-dom";
-import {
-  BriefcaseIcon,
-  CalendarIcon,
-  ArrowUturnLeftIcon,
-} from "@heroicons/react/20/solid";
-import { BsBuildingsFill } from "react-icons/bs";
+import { CalendarIcon } from "@heroicons/react/20/solid";
 import { BsStars } from "react-icons/bs";
 import FilterUsersForJob from "../Users/FilterUsersForJob";
 import Ai from "../Modal/Ai";
 import useAuth from "../../hook/useAuth";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
 import supabase from "../../supabase/client";
+import Loader from "../Loader";
 
 export default function JobDetails() {
   const { modalOpen, openModal, closeModal } = useAppContext();
   const { session } = useAuth();
   const { id } = useParams();
   const [selectedJob, setSelectedJob] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchJobDetails() {
-      const { data: jobs, error } = await supabase.from("jobs").select("*");
-      if (error) {
+      try {
+        const { data: jobs, error } = await supabase
+          .from("jobs")
+          .select("*")
+          .eq("id", id)
+          .single();
+
+        if (error) {
+          console.error("Error fetching job details:", error.message);
+          return;
+        }
+
+        setSelectedJob(jobs);
+        setLoading(false);
+      } catch (error) {
         console.error("Error fetching job details:", error.message);
-        return;
+        setLoading(false);
       }
-      const job = jobs.find((job) => job.id === parseInt(id));
-      if (!job) {
-        console.error("Job not found for ID:", id);
-        return;
-      }
-      setSelectedJob(job);
     }
+
     fetchJobDetails();
   }, [id]);
-
 
   return (
     <section>
       {modalOpen && <Ai closeModal={closeModal} />}
+      {loading && <Loader />}
+
       <div
+        data-aos="fade-left"
         className={`${
-          modalOpen ? "opacity-10" : "opacity-100"
-        } bg-white px-6 py-8 shadow-lg rounded-2xl mt-10`}
+          modalOpen ? "opacity-10" : "opacity-100 shadow-md"
+        } bg-white px-6 py-8  rounded-2xl mt-10`}
       >
         {selectedJob && (
-          <>
+          <div className={`${modalOpen ? "opacity-10" : "opacity-100"}`}>
             <div className="lg:flex lg:items-center lg:justify-between">
               <div className="min-w-0 flex-1">
                 <h2 className="text-xl 2xl:text-3xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
                   {`${selectedJob.role} [${selectedJob.company_name}] - ${selectedJob.seniority}`}
-                  {/* Front End Developer [Apple.inc] - Junior */}
                 </h2>
                 <div className="mt-1 flex flex-col sm:flex-row sm:flex-wrap sm:space-x-6">
                   <div className="mt-2 flex items-center text-sm text-gray-500">
@@ -92,7 +98,7 @@ export default function JobDetails() {
                 </div>
               </dl>
             </div>
-          </>
+          </div>
         )}
       </div>
       <FilterUsersForJob />

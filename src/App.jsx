@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AppProvider } from "./context/AppContext";
+import { JobProvider } from "./context/JobContext";
 import "aos/dist/aos.css";
 import Layout from "./pages/Layout";
 import Login from "./pages/Login";
@@ -12,7 +13,6 @@ import PageNotFound from "./pages/PageNotFound";
 import JobDetails from "./components/Jobs/JobDetails";
 import UserDetails from "./components/Users/UserDetails";
 
-
 export function App() {
   useEffect(() => {
     Aos.init({ duration: 1000 });
@@ -20,18 +20,9 @@ export function App() {
 
   return (
     <Routes>
-      <Route
-        path="/login"
-        element={<Login />}
-      />
-      <Route
-        path="/register"
-        element={<Register />}
-      />
-      <Route
-        path="/*"
-        element={<LayoutWithRoutes />}
-      />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/*" element={<LayoutWithRoutes />} />
     </Routes>
   );
 }
@@ -49,18 +40,16 @@ function LayoutWithRoutes() {
   );
 }
 
-
 function Root() {
-
   const { session } = useAuth();
-
-  console.log(session);
 
   return (
     <AppProvider value={{ session }}>
-      <Router>
-        <App /> 
-      </Router>
+      <JobProvider>
+        <Router>
+          <App />
+        </Router>
+      </JobProvider>
     </AppProvider>
   );
 }

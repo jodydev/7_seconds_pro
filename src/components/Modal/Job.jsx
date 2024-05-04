@@ -16,9 +16,9 @@ const senioritys = [
   { id: 3, name: "Senior" },
 ];
 
-export default function Job({ closeModal, onJobUploadSuccess }) {
+export default function Job({ closeModal }) {
   const [selected, setSelected] = useState(senioritys[0]);
-
+  
   const resetForm = () => {
     document.getElementById("job-form").reset();
   };
@@ -45,7 +45,6 @@ export default function Job({ closeModal, onJobUploadSuccess }) {
       }
 
       closeModal();
-      onJobUploadSuccess();
     } catch (error) {
       console.error("Error sending job:", error.message);
     }

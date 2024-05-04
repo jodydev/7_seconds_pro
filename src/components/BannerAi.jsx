@@ -8,11 +8,11 @@ export default function BannerAi() {
     <div
       className={`${
         modalOpen ? "opacity-10" : "opacity-100"
-      } mx-auto py-24 sm:px-6 sm:py-8 lg:px-0`}
+      } mx-auto sm:px-6 lg:px-0`}
     >
       <div
         data-aos="fade-up"
-        className="relative isolate overflow-hidden bg-indigo-600 px-6 pt-16 shadow-2xl sm:rounded-2xl sm:px-16 md:pt-24 lg:flex lg:gap-x-20 lg:px-24 lg:pt-0"
+        className="relative isolate overflow-hidden bg-indigo-600 px-6 shadow-2xl sm:rounded-2xl sm:px-16 lg:flex lg:gap-x-20 lg:px-24 lg:pt-0"
       >
         <svg
           viewBox="0 0 1024 1024"

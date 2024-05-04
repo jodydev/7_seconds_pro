@@ -1,6 +1,6 @@
 import JobPostings from "../components/JobPostings"
 import HeaderCard from "../components/HeaderCard"
-import BannerAi from "../components/BannerAi"
+// import BannerAi from "../components/BannerAi"
 
 export default function Home() {
 
@@ -8,7 +8,7 @@ export default function Home() {
     <>
       <HeaderCard />
       <JobPostings />
-      <BannerAi />
+      {/* <BannerAi /> */}
     </>
   )
 }

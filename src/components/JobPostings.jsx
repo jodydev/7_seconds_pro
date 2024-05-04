@@ -1,31 +1,14 @@
 import { useAppContext } from "../context/AppContext";
-import { useEffect, useState } from "react";
-import supabase from "../supabase/client";
+import { useJobs } from "../context/JobContext";
+import { Link } from "react-router-dom";
+import { TbSquareRoundedPlusFilled } from "react-icons/tb";
 import Job from "./Modal/Job";
 import Paginations from "./Paginations";
-import { TbSquareRoundedPlusFilled } from "react-icons/tb";
-import { Link } from "react-router-dom";
+import Loader from "./Loader";
 
 export default function JobPostings() {
   const { modalOpen, openModal, closeModal } = useAppContext();
-
-  const [jobs, setJobs] = useState([]);
-
-  useEffect(() => {
-    // Funzione per prendere i jobs da Supabase
-    const fetchJobs = async () => {
-      try {
-        const { data, error } = await supabase.from("jobs").select("*");
-        if (error) {
-          throw error;
-        }
-        setJobs(data || []);
-      } catch (error) {
-        console.error("Error fetching jobs:", error.message);
-      }
-    };
-    fetchJobs();
-  }, []);
+  const { filterJobs, loading } = useJobs();
 
   return (
     <section>
@@ -43,9 +26,7 @@ export default function JobPostings() {
               </h3>
             </div>
             <div className="flex-shrink-0 ms-3 my-5">
-              {jobs.length === 0 ? (
-                ""
-              ) : (
+              {filterJobs.length > 0 && (
                 <button
                   onClick={openModal}
                   type="button"
@@ -59,9 +40,10 @@ export default function JobPostings() {
           </div>
 
           <div className="relative overflow-x-auto shadow-md sm:rounded-2xl mt-5">
-            {jobs.length >= 1 ? (
-              <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                <thead className="text-sm text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            {loading && <Loader />}
+            {filterJobs.length > 0 ? (
+              <table className="w-full text-sm text-left rtl:text-right text-gray-500">
+                <thead className="text-sm text-gray-700 bg-gray-50">
                   <tr className="2xl:text-2xl">
                     <th scope="col" className="px-6 py-3">
                       Company Name
@@ -69,36 +51,38 @@ export default function JobPostings() {
                     <th scope="col" className="px-6 py-3">
                       Role
                     </th>
-
                     <th scope="col" className="px-6 py-3">
                       Seniority
                     </th>
-
                     <th scope="col" className="px-6 py-3">
                       #CVs
                     </th>
                   </tr>
                 </thead>
-
                 <tbody className="hover:cursor-pointer">
-                  {jobs.map((job) => (
+                  {filterJobs.map((job) => (
                     <tr
                       key={job.id}
                       className="2xl:text-xl bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                     >
                       <td className="px-6 py-4">
-                        <Link className="w-full" to={`/job-details/${job.id}`}>
-                          {job.company_name}
+                        <Link to={`/job-details/${job.id}`}>
+                          <div className="w-full">{job.company_name}</div>
                         </Link>
                       </td>
                       <td className="px-6 py-4">
-                        <Link className="w-full" to={`/job-details/${job.id}`}>
-                          {job.role}
+                        <Link to={`/job-details/${job.id}`}>
+                          <div className="w-full">{job.role}</div>
                         </Link>
                       </td>
                       <td className="px-6 py-4">
-                        <Link className="w-full" to={`/job-details/${job.id}`}>
-                          {job.seniority}
+                        <Link to={`/job-details/${job.id}`}>
+                          <div className="w-full">{job.seniority}</div>
+                        </Link>
+                      </td>
+                      <td className="px-6 py-4">
+                        <Link to={`/job-details/${job.id}`}>
+                          <div className="w-full">{job.cvsCount}</div>
                         </Link>
                       </td>
                     </tr>
@@ -111,26 +95,43 @@ export default function JobPostings() {
                 </tbody>
               </table>
             ) : (
-              <div className="flex items-center justify-center py-20 2xl:py-72">
-                <div>
-                  <div className="flex-col justify-center items-center rounded-md text-center">
-                    <h3 className="text-4xl 2xl:text-4xl font-semibold text-gray-900">
-                      Add your first job
-                    </h3>
-                  </div>
-
-                  <div className="my-10 flex items-center justify-center">
-                    <button
-                      onClick={openModal}
-                      type="button"
-                      className="relative inline-flex items-center rounded-xl bg-indigo-600 px-4 2xl:px-6 py-2 2xl:py-4 text-xl 2xltext-3xl font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    >
-                      <TbSquareRoundedPlusFilled className="w-8 h-8 me-3" />
-                      New Job
-                    </button>
-                  </div>
-                </div>
-              </div>
+              // <div className="flex items-center justify-center py-20 2xl:py-72">
+              //   <div>
+              //     <div className="flex-col justify-center items-center rounded-md text-center">
+              //       <h3 className="text-4xl 2xl:text-4xl font-semibold text-gray-900">
+              //         Add your first job
+              //       </h3>
+              //     </div>
+              //     <div className="my-10 flex items-center justify-center">
+              //       <button
+              //         onClick={openModal}
+              //         type="button"
+              //         className="relative inline-flex items-center rounded-xl bg-indigo-600 px-4 2xl:px-6 py-2 2xl:py-4 text-xl 2xl:text-3xl font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              //       >
+              //         <TbSquareRoundedPlusFilled className="w-8 h-8 me-3" />
+              //         New Job
+              //       </button>
+              //     </div>
+              //   </div>
+              // </div>
+              <table className="w-full text-sm text-left rtl:text-right text-gray-500 h-[800px]">
+                <thead className="text-sm text-gray-700 bg-gray-50 ">
+                  <tr className="2xl:text-2xl">
+                    <th scope="col" className="px-6 py-3">
+                      Company Name
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Role
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      Seniority
+                    </th>
+                    <th scope="col" className="px-6 py-3">
+                      #CVs
+                    </th>
+                  </tr>
+                </thead>
+              </table>
             )}
           </div>
         </div>

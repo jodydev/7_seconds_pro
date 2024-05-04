@@ -1,66 +1,32 @@
-import { useEffect, useState } from "react";
 import { useAppContext } from "../context/AppContext";
 import { useLocation } from "react-router-dom";
 import { FaUsers } from "react-icons/fa";
 import { BsStars } from "react-icons/bs";
-import { FaWandMagicSparkles, FaFilePdf } from "react-icons/fa6";
-import { MdGroupAdd, MdDomainAdd } from "react-icons/md";
 import {
   BriefcaseIcon,
   DocumentDuplicateIcon,
 } from "@heroicons/react/24/outline";
-import supabase from "../supabase/client";
+import { useJobs } from "../context/JobContext";
 
 export default function HeaderCard() {
   const { modalOpen } = useAppContext();
+  const { totalJobs, fileCount } = useJobs();
   const location = useLocation();
-  const [jobs, setJobs] = useState([]);
-  const [fileCount, setFileCount] = useState(null);
-
-  useEffect(() => {
-    // Funzione per prendere i jobs da Supabase
-    const fetchJobs = async () => {
-      try {
-        const { data, error } = await supabase.from("jobs").select("*");
-        if (error) {
-          throw error;
-        }
-        setJobs(data || []);
-      } catch (error) {
-        console.error("Error fetching jobs:", error.message);
-      }
-    };
-    fetchJobs();
-  }, []);
-
-  useEffect(() => {
-    async function fetchFileCount() {
-      try {
-        const { data, error } = await supabase.storage.from("cvfiles").list();
-
-        if (error) {
-          throw error;
-        }
-
-        const count = data ? data.length : 0;
-        setFileCount(count);
-      } catch (error) {
-        console.error("Error fetching file count:", error.message);
-      }
-    }
-
-    fetchFileCount();
-  }, []);
 
   const config = {
     home: [
       {
         name: "Jobs",
-        stat: jobs.length,
+        stat: totalJobs,
         icon: BriefcaseIcon,
         aos: "fade-down",
       },
-      { name: "CVs", stat: fileCount, icon: DocumentDuplicateIcon, aos: "fade-down" },
+      {
+        name: "CVs",
+        stat: fileCount,
+        icon: DocumentDuplicateIcon,
+        aos: "fade-down",
+      },
       { name: "Credits", stat: "259/500", icon: BsStars, aos: "fade-down" },
       {
         name: "Subscription",

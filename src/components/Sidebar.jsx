@@ -199,13 +199,13 @@ export default function Sidebar() {
                   {user && <p>{session.user.email}</p>}
                 </div>
               </li> */}
-              <li>
+              <li className="mt-auto w-full">
                 <button
                   onClick={() => signOut()}
-                  className="flex  gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold text-gray-700 hover:text-indigo-600 hover:bg-gray-50"
+                  className="flex items-center w-full py-2 px-4 text-sm font-semibold bg-red-500 hover:bg-red-600 rounded-lg transition duration-300 ease-in-out"
                 >
-                  <TbLogout2 className="h-6 w-6 shrink-0 text-gray-400" />
-                  Sign out
+                  <TbLogout2 className="h-6 w-6 mr-2 text-white" />
+                  <span className="text-white">Sign out</span>
                 </button>
               </li>
             </ul>

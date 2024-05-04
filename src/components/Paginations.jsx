@@ -1,7 +1,10 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import { Link } from "react-router-dom";
+import { useJobs } from "../context/JobContext";
 
 export default function JobsPaginations() {
+  const { totalJobs, fileCount } = useJobs();
+  
   return (
     <div className="flex items-center justify-between  bg-white py-2 sm:px-2">
       <div className="flex flex-1 justify-between sm:hidden">
@@ -22,8 +25,8 @@ export default function JobsPaginations() {
         <div>
           <p className="2xl:text-base text-gray-700">
             Showing <span className="font-semibold text-indigo-500">1</span> to{" "}
-            <span className="font-semibold text-indigo-500">14</span> of{" "}
-            <span className="font-semibold text-indigo-500">97</span> results
+            <span className="font-semibold text-indigo-500">{totalJobs}</span> of{" "}
+            <span className="font-semibold text-indigo-500">{totalJobs}</span> results
           </p>
         </div>
         <div>
