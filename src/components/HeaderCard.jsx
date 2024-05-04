@@ -127,6 +127,8 @@ export default function HeaderCard() {
     return currentConfig.map((item, index) => (
       <div
         data-aos={item.aos}
+        data-aos-easing="linear"
+        data-aos-duration="1000"
         key={index}
         className={`overflow-hidden rounded-2xl ${
           item.bgCard ? `bg-${item.bgCard}` : ""

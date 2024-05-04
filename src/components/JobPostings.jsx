@@ -13,7 +13,11 @@ export default function JobPostings() {
   return (
     <section>
       {modalOpen && <Job closeModal={closeModal} />}
-      <div data-aos="fade-left">
+      <div
+        data-aos="fade-left"
+        data-aos-easing="linear"
+        data-aos-duration="1000"
+      >
         <div
           className={`${
             modalOpen ? "opacity-10" : "opacity-100"

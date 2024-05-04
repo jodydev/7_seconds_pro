@@ -48,7 +48,9 @@ export default function JobDetails() {
       {loading && <Loader />}
 
       <div
-        data-aos="fade-left"
+        data-aos="fade-down"
+        data-aos-easing="linear"
+        data-aos-duration="1000"
         className={`${
           modalOpen ? "opacity-10" : "opacity-100 shadow-md"
         } bg-white px-6 py-8  rounded-2xl mt-10`}

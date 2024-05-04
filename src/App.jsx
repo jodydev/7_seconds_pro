@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { AppProvider } from "./context/AppContext";
 import { JobProvider } from "./context/JobContext";
 import "aos/dist/aos.css";
@@ -18,16 +18,24 @@ export function App() {
     Aos.init({ duration: 1000 });
   }, []);
 
+  const { session } = useAuth();
+
+  console.log("session", session);
+
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/*" element={<LayoutWithRoutes />} />
+      <Route path="/*" element={<LayoutWithRoutes session={session} />} />
     </Routes>
   );
 }
 
-function LayoutWithRoutes() {
+function LayoutWithRoutes({ session }) {
+  if (!session) {
+    return <Navigate to="/login" replace />;
+  }
+
   return (
     <Layout>
       <Routes>
@@ -41,10 +49,8 @@ function LayoutWithRoutes() {
 }
 
 function Root() {
-  const { session } = useAuth();
-
   return (
-    <AppProvider value={{ session }}>
+    <AppProvider>
       <JobProvider>
         <Router>
           <App />

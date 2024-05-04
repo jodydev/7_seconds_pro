@@ -1,12 +1,10 @@
 import Paginations from "../Paginations";
 import { PiStarFill } from "react-icons/pi";
 import { useAppContext } from "../../context/AppContext";
+import { Link } from "react-router-dom";
 
 export default function FilterUsersForJob() {
-  const { modalOpen, openModal, closeModal } = useAppContext();
-  const goToDetails = () => {
-    window.location.href = "/user-details";
-  };
+  const { modalOpen } = useAppContext();
 
   const users = [
     {
@@ -104,7 +102,11 @@ export default function FilterUsersForJob() {
   ];
 
   return (
-    <section data-aos="fade-up">
+    <section
+      data-aos="fade-up"
+      data-aos-easing="linear"
+      data-aos-duration="1000"
+    >
       <div
         className={`${
           modalOpen ? "opacity-10" : "opacity-100"
@@ -147,22 +149,29 @@ export default function FilterUsersForJob() {
               {users.map((user) => (
                 <tr
                   key={user.id}
-                  onClick={goToDetails}
                   className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                 >
                   <td className="px-6 py-4">
-                    <p className="text-gray-900">{user.fullname}</p>
+                    <Link to={`/user-details`}>
+                      <div className="w-full">{user.fullname}</div>
+                    </Link>
                   </td>
                   <td className="px-6 py-4">
-                    <p className="text-gray-900">{user.age}</p>
+                    <Link to={`/user-details`}>
+                      <div className="w-full">{user.age}</div>
+                    </Link>
                   </td>
 
                   <td className="px-6 py-4">
-                    <p className="text-gray-900">{user.email}</p>
+                    <Link to={`/user-details`}>
+                      <div className="w-full">{user.email}</div>
+                    </Link>
                   </td>
 
                   <td className="px-6 py-4">
-                    <p className="text-gray-900">{user.selectedJob}</p>
+                    <Link to={`/user-details`}>
+                      <div className="w-full">{user.selectedJob}</div>
+                    </Link>
                   </td>
 
                   <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
