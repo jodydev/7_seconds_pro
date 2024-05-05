@@ -32,8 +32,6 @@ function useAuth() {
       setSession(session);
     });
 
-    // Annulla l'iscrizione all'ascoltatore quando il componente viene smontato
-    // return () => subscription.unsubscribe();
   }, []);
 
   return {
