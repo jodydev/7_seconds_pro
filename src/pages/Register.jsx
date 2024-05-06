@@ -11,9 +11,19 @@ export default function Register() {
   const [registerStep, setRegisterStep] = useState(true);
   const [confirmEmail, setConfirmEmail] = useState(false);
   const [error, setError] = useState(false);
+  const [passwordError, setPasswordError] = useState("");
 
   const handleRegister = async (event) => {
     event.preventDefault();
+
+    // Password validation
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()])[A-Za-z\d!@#$%^&*()]{8,}$/;
+    if (!passwordRegex.test(password)) {
+      setPasswordError(
+        "Password must contain at least one lowercase letter, one uppercase letter, one number, one special character, and be at least 8 characters long."
+      );
+      return;
+    }
 
     try {
       // Chiamata API a Supabase per la registrazione dell'utente
@@ -120,12 +130,18 @@ export default function Register() {
                     id="password"
                     name="password"
                     type="password"
-                    autoComplete="current-password"
+                    autoComplete="new-password"
                     required
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                      setPasswordError(""); // Reset password error when input changes
+                    }}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
+                  {passwordError && (
+                    <p className="mt-1 text-red-500 text-xs">{passwordError}</p>
+                  )}
                 </div>
               </div>
 

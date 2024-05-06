@@ -9,6 +9,9 @@ import useAuth from "../../hook/useAuth";
 import { useParams } from "react-router-dom";
 import supabase from "../../supabase/client";
 import Loader from "../Loader";
+import { Alert } from "flowbite-react";
+import { FaCheckCircle } from "react-icons/fa";
+
 
 export default function JobDetails() {
   const { modalOpen, openModal, closeModal } = useAppContext();
@@ -16,6 +19,21 @@ export default function JobDetails() {
   const { id } = useParams();
   const [selectedJob, setSelectedJob] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [message, setMessage] = useState(null);
+
+  const handleResult = (data) => {
+    setMessage(data);
+  };
+
+  useEffect(() => {
+    if (message) {
+      const timeoutId = setTimeout(() => {
+        setMessage(null);
+      }, 5000);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [message]);
 
   useEffect(() => {
     async function fetchJobDetails() {
@@ -44,7 +62,7 @@ export default function JobDetails() {
 
   return (
     <section>
-      {modalOpen && <Ai closeModal={closeModal} />}
+      {modalOpen && <Ai onResult={handleResult} closeModal={closeModal} />}
       {loading && <Loader />}
 
       <div
@@ -53,7 +71,7 @@ export default function JobDetails() {
         data-aos-duration="1000"
         className={`${
           modalOpen ? "opacity-10" : "opacity-100 shadow-md"
-        } bg-white px-6 py-8  rounded-2xl mt-10`}
+        } bg-white px-6 py-8  rounded-2xl my-10`}
       >
         {selectedJob && (
           <div className={`${modalOpen ? "opacity-10" : "opacity-100"}`}>
@@ -103,6 +121,19 @@ export default function JobDetails() {
           </div>
         )}
       </div>
+      {message && (
+        <div
+          data-aos="fade-left"
+          className="flex items-center p-5 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
+          role="alert"
+        >
+          <FaCheckCircle className="w-5 h-5 me-2" />
+          <span className="sr-only">Info</span>
+          <div>
+            <span className="font-medium text-base">Upload Successful!</span>
+          </div>
+        </div>
+      )}
       <FilterUsersForJob />
     </section>
   );

@@ -20,7 +20,7 @@ export function App() {
 
   const { session } = useAuth();
 
-  console.log("session", session);
+  // console.log("session", session);
 
   return (
     <Routes>

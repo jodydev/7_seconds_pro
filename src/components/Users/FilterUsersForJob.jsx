@@ -1,4 +1,4 @@
-import Paginations from "../Paginations";
+import JobsPagination from "../JobsPagination";
 import { PiStarFill } from "react-icons/pi";
 import { useAppContext } from "../../context/AppContext";
 import { Link } from "react-router-dom";
@@ -188,7 +188,7 @@ export default function FilterUsersForJob() {
 
               <tr>
                 <td colSpan="7" className="px-4 py-2">
-                  <Paginations />
+                  <JobsPagination />
                 </td>
               </tr>
             </tbody>
