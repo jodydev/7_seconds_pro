@@ -1,28 +1,30 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAppContext } from "../context/AppContext";
 import { useJobs } from "../context/JobContext";
 import { Link } from "react-router-dom";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import { TbSquareRoundedPlusFilled } from "react-icons/tb";
+import { FaCheckCircle } from "react-icons/fa";
 import Job from "./Modal/Job";
 import Loader from "./Loader";
 
 export default function JobPostings() {
   const { modalOpen, openModal, closeModal } = useAppContext();
-  const { filterJobs, loading, totalJobs } = useJobs();
+  const { cvsForJob, loading, totalJobs } = useJobs();
   const [currentPage, setCurrentPage] = useState(1);
   const [showAllJobs, setShowAllJobs] = useState(false);
+  const [message, setMessage] = useState(null);
   const jobsPerPage = 11;
 
   // Calcola l'indice del primo e dell'ultimo lavoro nella pagina corrente
   const indexOfLastJob = currentPage * jobsPerPage;
   const indexOfFirstJob = indexOfLastJob - jobsPerPage;
   const currentJobs = showAllJobs
-    ? filterJobs
-    : filterJobs.slice(indexOfFirstJob, indexOfLastJob);
+    ? cvsForJob
+    : cvsForJob.slice(indexOfFirstJob, indexOfLastJob);
 
   // Calcola il numero totale di pagine
-  const totalPages = Math.ceil(filterJobs.length / jobsPerPage);
+  const totalPages = Math.ceil(cvsForJob.length / jobsPerPage);
 
   // Mostra tutti i lavori
   const handleShowAllJobs = () => setShowAllJobs(!showAllJobs);
@@ -32,18 +34,48 @@ export default function JobPostings() {
   let startPage = Math.max(currentPage - Math.floor(maxPageButtons / 2), 1);
   let endPage = Math.min(startPage + maxPageButtons - 1, totalPages);
 
+  const handleResult = (data) => {
+    setMessage(data);
+  };
+
+  useEffect(() => {
+    if (message) {
+      const timeoutId = setTimeout(() => {
+        setMessage(null);
+      }, 5000);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [message]);
+
   return (
     <section>
-      {modalOpen && <Job closeModal={closeModal} />}
+      {modalOpen && <Job onResult={handleResult} closeModal={closeModal} />}
       <div
         data-aos="fade-left"
         data-aos-easing="linear"
         data-aos-duration="1000"
       >
+        {message && (
+          <div
+            data-aos="fade-left"
+            className="flex items-center p-5 my-5 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
+            role="alert"
+          >
+            <FaCheckCircle className="w-5 h-5 me-2" />
+            <span className="sr-only">Info</span>
+            <div>
+              <span className="font-medium text-base">
+                Job Insert Successful!
+              </span>
+            </div>
+          </div>
+        )}
         <div
-          className={`${
-            modalOpen ? "opacity-10" : "opacity-100"
-          } bg-white px-6 py-8 shadow-lg rounded-2xl my-10 2xl:my-20`}
+          className={`${modalOpen ? "opacity-10" : "opacity-100"} 
+           ${message ? "my-0" : "my-16"}
+           ${totalJobs === 0 ? "min-h-[1000px]" : ""}
+           bg-white px-6 py-8 shadow-lg rounded-2xl`}
         >
           <div className="flex flex-wrap items-center justify-between sm:flex-nowrap border-b border-gray-200">
             <div className="ml-4 mb-2">
@@ -51,23 +83,24 @@ export default function JobPostings() {
                 Job Postings
               </h3>
             </div>
-            <div className="flex-shrink-0 ms-3 my-5">
-              {filterJobs.length > 0 && (
+            {totalJobs >= 1 && (
+              <div className="flex-shrink-0 ms-3 my-5">
                 <button
                   onClick={openModal}
                   type="button"
-                  className="relative inline-flex items-center rounded-xl bg-indigo-600 px-4 2xl:px-6 py-2 2xl:py-4 text:xl 2xl:text-2xl font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  className="relative inline-flex items-center rounded-xl bg-indigo-600 px-4 2xl:px-6 py-2 2xl:py-4 text:xl 2xl:text-2xl hover:cursor-pointer font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
                   <TbSquareRoundedPlusFilled className="w-6 h-6 me-2" />
                   New Job
                 </button>
-              )}
-            </div>
+              </div>
+            )}
           </div>
 
           <div className="relative overflow-x-auto shadow-md sm:rounded-2xl mt-5">
             {loading && <Loader />}
-            {currentJobs.length > 0 ? (
+
+            {totalJobs >= 1 ? (
               <table className="w-full text-sm text-left rtl:text-right text-gray-500">
                 <thead className="text-sm text-gray-700 bg-gray-50">
                   <tr className="2xl:text-2xl">
@@ -133,11 +166,34 @@ export default function JobPostings() {
                     </th>
                   </tr>
                 </thead>
+                <tbody>
+                  <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    <td className="text-center py-6" colSpan="4">
+                      <p className="text-5xl font-semibold">No Jobs Found...</p>
+                      <p className="text-4xl font-semibold my-3">
+                        Insert your first{" "}
+                        <span className="text-indigo-500">Job!</span>
+                      </p>
+                      <button
+                        onClick={openModal}
+                        type="button"
+                        className="my-3 inline-flex items-center rounded-xl bg-indigo-600 px-4 2xl:px-6 py-2 2xl:py-4 text:xl 2xl:text-2xl font-semibold text-white shadow-sm hover:cursor-pointer hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                      >
+                        <TbSquareRoundedPlusFilled className="w-6 h-6 me-2" />
+                        New Job
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
               </table>
             )}
 
             {/* PAGINAZIONE */}
-            <div className="flex items-center justify-between  bg-white p-6">
+            <div
+              className={`${
+                currentJobs.length <= 0 ? "hidden" : "block"
+              } flex items-center justify-between  bg-white p-6`}
+            >
               <div className="flex flex-1 justify-between sm:hidden">
                 <Link
                   onClick={() => handlePageChange(currentPage - 1)}
@@ -161,7 +217,10 @@ export default function JobPostings() {
                   <p className="2xl:text-base text-gray-700">
                     Showing{" "}
                     <span className="font-semibold text-indigo-500">1</span> to{" "}
-                    <span className="font-semibold text-indigo-500">11</span> of{" "}
+                    <span className="font-semibold text-indigo-500">
+                      {totalJobs}
+                    </span>{" "}
+                    of{" "}
                     <span className="font-semibold text-indigo-500">
                       {totalJobs}
                     </span>{" "}

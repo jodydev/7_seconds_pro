@@ -56,9 +56,7 @@ export default function Ai({ closeModal, onResult }) {
   const sendFiles = async (files) => {
     try {
       const upload = files.map(async (file) => {
-        const currentDate = Date.now();
-        const fileName = `${file.name}-${currentDate}`;
-
+        const fileName = `${file.name}`;
         const { data, error } = await supabase.storage
           .from("cvfiles")
           .upload(fileName, file, {
@@ -79,7 +77,7 @@ export default function Ai({ closeModal, onResult }) {
       const successfulUploads = results.filter((result) => !result.error);
 
       if (successfulUploads.length > 0) {
-        await sendData(successfulUploads.map((result) => result.data));
+        await sendCvs(successfulUploads.map((result) => result.data));
         setFiles(successfulUploads.map((result) => result.data));
         setLoading(false);
         closeModal();
@@ -98,29 +96,9 @@ export default function Ai({ closeModal, onResult }) {
     }
   };
 
-  const sendThreads = async (cvIds, jobId) => {
+  const sendCvs = async (results) => {
     try {
-      const threadData = cvIds.map((cvId) => ({
-        cvid: cvId,
-        jobid: jobId,
-      }));
-
-      const { data, error } = await supabase.from("threads").insert(threadData);
-
-      if (error) {
-        console.error("Error sending data to Supabase:", error.message);
-      } else {
-        console.log("Data sent to Supabase:", data);
-      }
-    } catch (error) {
-      console.error("Error sending data to Supabase:", error.message);
-    }
-  };
-
-  const sendData = async (results) => {
-    try {
-      const endPoint =
-        "https://mwhhpzjnpnmparvwqpua.supabase.co/storage/v1/object/public/";
+      const endPoint = "https://mwhhpzjnpnmparvwqpua.supabase.co/storage/v1/object/public/";
       const cvsData = results.map((res) => ({
         file: `${endPoint}${res.fullPath}`,
         filename: res.path,
@@ -137,6 +115,23 @@ export default function Ai({ closeModal, onResult }) {
         const cvIds = data.map((cv) => cv.id);
         await sendThreads(cvIds, jobId);
       }
+    } catch (error) {
+      console.error("Error sending data to Supabase:", error.message);
+    }
+  };
+
+  const sendThreads = async (cvIds, jobId) => {
+    try {
+      const threadData = cvIds.map((cvId) => ({
+        cvid: cvId,
+        jobid: jobId,
+      }));
+
+      const { data, error } = await supabase.from("threads").insert(threadData);
+
+      if (error) {
+        console.error("Error sending data to Supabase:", error.message);
+      } 
     } catch (error) {
       console.error("Error sending data to Supabase:", error.message);
     }
@@ -264,14 +259,14 @@ export default function Ai({ closeModal, onResult }) {
                                 {files.map((file, index) => (
                                   <>
                                     <div
-                                      key={file.id}
+                                      key={`${file.name}-${Date.now()}`}
                                       className="bg-gray-50 px-4 py-2 my-5 rounded-xl hover:cursor-pointer"
                                     >
                                       <div className="lg:flex lg:items-center lg:justify-between my-2 ">
                                         <div className="min-w-0 flex ">
                                           <GrDocumentPdf className="mx-3 h-6 w-6" />
                                           <p className="text-base font-semibold leading-7 text-gray-900 sm:truncate sm:text-lg sm:tracking-tight">
-                                            {file.path || file.name}
+                                            {file.name}
                                           </p>
                                         </div>
                                         {/* <div className="mt-5 flex lg:ml-4 lg:mt-0">

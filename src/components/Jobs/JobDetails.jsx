@@ -15,7 +15,6 @@ import { FaCheckCircle } from "react-icons/fa";
 
 export default function JobDetails() {
   const { modalOpen, openModal, closeModal } = useAppContext();
-  const { session } = useAuth();
   const { id } = useParams();
   const [selectedJob, setSelectedJob] = useState(null);
   const [loading, setLoading] = useState(true);

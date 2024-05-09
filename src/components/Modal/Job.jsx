@@ -3,7 +3,7 @@ import { Textarea } from "flowbite-react";
 import { Fragment } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
-import { BriefcaseIcon } from "@heroicons/react/24/outline";
+import { FaPencil } from "react-icons/fa6";
 import supabase from "../../supabase/client";
 
 function classNames(...classes) {
@@ -16,7 +16,7 @@ const senioritys = [
   { id: 3, name: "Senior" },
 ];
 
-export default function Job({ closeModal }) {
+export default function Job({ closeModal, onResult }) {
   const [selected, setSelected] = useState(senioritys[0]);
   
   const resetForm = () => {
@@ -42,9 +42,10 @@ export default function Job({ closeModal }) {
       const { data, error } = await supabase.from("jobs").insert([jobData]);
       if (error) {
         throw error;
+      } else {
+        onResult(true);
+        closeModal();
       }
-
-      closeModal();
     } catch (error) {
       console.error("Error sending job:", error.message);
     }
@@ -60,10 +61,10 @@ export default function Job({ closeModal }) {
     >
       <div className="relative p-10 w-full md:max-w-[50%]">
         <div className="relative bg-white rounded-lg  dark:bg-gray-700 py-6 px-12 border border-indigo-50 shadow-lg shadow-indigo-500/50">
-          <div className="flex items-center justify-between my-2 border-b rounded-t dark:border-gray-600 ">
-            <h3 className="text-3xl my-2 font-semibold text-gray-900 dark:text-white">
+          <div className="flex items-center justify-center my-2 border-b rounded-t dark:border-gray-600 ">
+            <h3 className="flex text-3xl my-2 font-semibold text-gray-900 dark:text-white">
               Add New Job
-              {/* <BriefcaseIcon className="w-6 h-6 ml-2" /> */}
+              <FaPencil className="w-7 h-7 ml-3" />
             </h3>
             <button
               onClick={closeModal}
@@ -268,3 +269,4 @@ export default function Job({ closeModal }) {
     </div>
   );
 }
+

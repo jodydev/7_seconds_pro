@@ -7,11 +7,55 @@ import {
   DocumentDuplicateIcon,
 } from "@heroicons/react/24/outline";
 import { useJobs } from "../context/JobContext";
+import { useEffect, useState } from "react";
+import supabase from "../supabase/client";
 
 export default function HeaderCard() {
   const { modalOpen } = useAppContext();
   const { totalJobs, fileCount } = useJobs();
   const location = useLocation();
+  const [accountCredits, setAccountCredits] = useState(0);
+  const [userId, setUserId] = useState("");
+
+  const fetchUserId = async () => {
+    try {
+      const { data } = await supabase.auth.getUser();
+      const user = data.user;
+
+      setUserId(user.id);
+      getAccountCredits(user.id);
+    } catch (error) {
+      console.error(
+        "Errore durante il recupero dell'ID dell'utente:",
+        error.message
+      );
+    }
+  };
+
+  useEffect(() => {
+    fetchUserId();
+  }, []);
+
+  //! Funzione per i crediti da tabella accounts
+  const getAccountCredits = async (userId) => {
+    try {
+      const { data, error } = await supabase
+        .from("accounts")
+        .select("*")
+        .eq("userid", userId);
+
+      if (error) {
+        throw error;
+      } else {
+        setAccountCredits(data[0].credits_total || []);
+      }
+    } catch (error) {
+      console.error(
+        "Errore durante il caricamento dei crediti dell'account:",
+        error.message
+      );
+    }
+  };
 
   const config = {
     home: [
@@ -27,7 +71,7 @@ export default function HeaderCard() {
         icon: DocumentDuplicateIcon,
         aos: "fade-down",
       },
-      { name: "Credits", stat: "259/500", icon: BsStars, aos: "fade-down" },
+      { name: "Credits", stat: accountCredits, icon: BsStars, aos: "fade-down" },
       {
         name: "Subscription",
         stat: "Premium",

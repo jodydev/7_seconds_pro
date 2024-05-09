@@ -5,7 +5,7 @@ import { useJobs } from "../context/JobContext";
 
 export default function JobsPagination() {
 
-  const { filterJobs, loading, totalJobs } = useJobs();
+  const { cvsForJob , totalJobs } = useJobs();
   const [currentPage, setCurrentPage] = useState(1);
   const [showAllJobs, setShowAllJobs] = useState(false);
   const jobsPerPage = 11;
@@ -14,11 +14,11 @@ export default function JobsPagination() {
   const indexOfLastJob = currentPage * jobsPerPage;
   const indexOfFirstJob = indexOfLastJob - jobsPerPage;
   const currentJobs = showAllJobs
-    ? filterJobs
-    : filterJobs.slice(indexOfFirstJob, indexOfLastJob);
+    ? cvsForJob
+    : cvsForJob.slice(indexOfFirstJob, indexOfLastJob);
 
   // Calcola il numero totale di pagine
-  const totalPages = Math.ceil(filterJobs.length / jobsPerPage);
+  const totalPages = Math.ceil(cvsForJob.length / jobsPerPage);
 
  // Cambia pagina
  const handlePageChange = (pageNumber) => {

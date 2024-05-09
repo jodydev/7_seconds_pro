@@ -137,7 +137,7 @@ export default function FilterUsersForJob() {
                 </th>
 
                 <th scope="col" className="px-6 py-3">
-                  Application for
+                  Created at
                 </th>
 
                 <th scope="col" className="px-3 py-3">
