@@ -7,6 +7,7 @@ import Ai from "../Modal/Ai";
 import { useParams } from "react-router-dom";
 import supabase from "../../supabase/client";
 import { FaCheckCircle } from "react-icons/fa";
+import Loader from "../Loader";
 
 export default function JobDetails() {
   const { modalOpen, openModal, closeModal } = useAppContext();
@@ -14,7 +15,7 @@ export default function JobDetails() {
   const [selectedJob, setSelectedJob] = useState(null);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState(null);
-  const [skeletron, setSkeletron] = useState(false);
+  const [skeletron, setSkeletron] = useState(null);
 
   const handleResult = (data) => {
     setMessage(data);
@@ -63,11 +64,11 @@ export default function JobDetails() {
   return (
     <section>
       {modalOpen && <Ai onResult={handleResult} onUploadCv={handleUploadCv} closeModal={closeModal} />}
-
+      {loading && ( <Loader /> )}
       <div
         data-aos="fade-down"
         data-aos-easing="linear"
-        data-aos-duration="1000"
+        data-aos-duration="1500"
         className={`${
           modalOpen ? "opacity-10" : "opacity-100 shadow-md"
         } bg-white px-6 py-8  rounded-2xl my-10`}

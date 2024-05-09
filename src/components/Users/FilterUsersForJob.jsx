@@ -3,19 +3,21 @@ import { PiStarFill } from "react-icons/pi";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import { useAppContext } from "../../context/AppContext";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import supabase from "../../supabase/client";
 
 export default function FilterUsersForJob({ skeletron }) {
-  const { modalOpen } = useAppContext();
-  const [applicants, setApplicants] = useState([]);
   const jobId = useParams().id;
   const { cvsForJob, totalJobs } = useJobs();
+  const { modalOpen } = useAppContext();
+  const [applicants, setApplicants] = useState([]);
+  const [currentApplicants, setCurrentApplicants] = useState(0);
+  const applicantsCountRef = useRef(0);
+
   const [currentPage, setCurrentPage] = useState(1);
   const [jobsPerPage, setJobsPerPage] = useState(10);
   const [showAllJobs, setShowAllJobs] = useState(false);
-  const [currentApplicants, setCurrentApplicants] = useState(0);
   const totalPages = Math.ceil(totalJobs / jobsPerPage);
   const pageSize = 5;
   const startPage = Math.max(1, currentPage - Math.floor(pageSize / 2));
@@ -45,12 +47,12 @@ export default function FilterUsersForJob({ skeletron }) {
         .select("*")
         .eq("jobid", jobId);
 
-      setApplicants(data);
-      setCurrentApplicants(data.length);
-
       if (error) {
         throw error;
       }
+
+      setApplicants(data);
+      setCurrentApplicants(data.length);
     } catch (error) {
       console.error("Errore durante il caricamento dei jobs:", error.message);
     }
@@ -58,14 +60,44 @@ export default function FilterUsersForJob({ skeletron }) {
 
   useEffect(() => {
     getUserForJob(jobId);
-    console.log(applicants);
   }, [jobId]);
+
+  useEffect(() => {
+    const handleChanges = (payload) => {
+      if (payload.eventType === "INSERT") {
+        setApplicants((prevApplicants) => [...prevApplicants, payload.new]);
+      }
+    };
+
+    const changeSubscription = supabase
+      .channel("schema-db-changes")
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          view: "cvs_data",
+        },
+        handleChanges
+      )
+      .subscribe();
+
+    return () => {
+      changeSubscription.unsubscribe();
+    };
+  }, []);
+
+  useEffect(() => {
+    // Calcoliamo il conteggio degli applicanti solo quando applicants viene aggiornato
+    applicantsCountRef.current = applicants.length;
+    setCurrentApplicants(applicantsCountRef.current);
+  }, [applicants]);
 
   return (
     <section
       data-aos="fade-up"
       data-aos-easing="linear"
-      data-aos-duration="1000"
+      data-aos-duration="1500"
     >
       <div
         className={`${
@@ -83,7 +115,7 @@ export default function FilterUsersForJob({ skeletron }) {
         <div className="relative overflow-x-auto shadow-md sm:rounded-2xl mt-5">
           {applicants.length >= 1 ? (
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-              <thead className="text-sm text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <thead className="text-base text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                   <th scope="col" className="px-6 py-3">
                     Full Name
@@ -103,78 +135,77 @@ export default function FilterUsersForJob({ skeletron }) {
                 </tr>
               </thead>
               <tbody className="hover:cursor-pointer">
-                {skeletron
-                  ? (console.log(skeletron),
-                    (
-                      <tr className="bg-white border-b">
-                        <td className="px-6 py-4">
-                          <div className="animate-pulse">
-                            <div className="h-6 bg-gray-200 rounded-lg"></div>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4">
-                          <div className="animate-pulse">
-                            <div className="h-6 bg-gray-200 rounded-lg"></div>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4">
-                          <div className="animate-pulse">
-                            <div className="h-6 bg-gray-200 rounded-lg"></div>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4">
-                          <div className="animate-pulse">
-                            <div className="h-6 bg-gray-200 rounded-lg"></div>
-                          </div>
-                        </td>
-                        <td className="px-6 py-4">
-                          <div className="animate-pulse">
-                            <div className="h-6 bg-gray-200 rounded-lg"></div>
-                          </div>
-                        </td>
-                      </tr>
-                    ))
-                  : ""}
-                {applicants.map((applicants) => (
-                  <tr key={applicants.thread_id} className="bg-white border-b">
+                {skeletron ? (
+                  <tr key={index} className="bg-white border-b">
+                    <td className="px-6 py-4">
+                      <div className="animate-pulse">
+                        <div className="h-6 bg-gray-200 rounded-lg"></div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="animate-pulse">
+                        <div className="h-6 bg-gray-200 rounded-lg"></div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="animate-pulse">
+                        <div className="h-6 bg-gray-200 rounded-lg"></div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="animate-pulse">
+                        <div className="h-6 bg-gray-200 rounded-lg"></div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="animate-pulse">
+                        <div className="h-6 bg-gray-200 rounded-lg"></div>
+                      </div>
+                    </td>
+                  </tr>
+                ) : (
+                  ""
+                )}
+
+                {applicants.map((applicant) => (
+                  <tr
+                    key={`${applicant.theads_id}`}
+                    className="text-base bg-white border-b"
+                  >
                     <td className="px-6 py-4">
                       <Link to={`/user-details`}>
                         <div className="w-full">
-                          {applicants.fullname || "Jody Ossino"}
+                          {applicant.fullname || "Jody Ossino"}
                         </div>
                       </Link>
                     </td>
                     <td className="px-6 py-4">
                       <Link to={`/user-details`}>
-                        <div className="w-full">{applicants.age || "23"}</div>
+                        <div className="w-full">{applicant.age || "23"}</div>
                       </Link>
                     </td>
                     <td className="px-6 py-4">
                       <Link to={`/user-details`}>
                         <div className="w-full">
-                          {applicants.city || "Bologna"}
+                          {applicant.city || "Bologna"}
                         </div>
                       </Link>
                     </td>
                     <td className="px-6 py-4">
                       <Link to={`/user-details`}>
                         <div className="w-full">
-                          {new Date(applicants.created_at).toLocaleDateString()}
+                          {new Date(applicant.created_at).toLocaleDateString()}
                         </div>
                       </Link>
                     </td>
                     <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                      {applicants.rating === null ? (
-                        ""
-                      ) : (
-                        <div className="flex items-center">
-                          {[...Array(applicants.rating)].map((_, index) => (
-                            <p key={index}>
-                              <PiStarFill className="text-yellow-300" />
-                            </p>
-                          ))}
-                        </div>
-                      )}
+                      <div className="flex items-center">
+                        {[...Array(applicant.rating)].map((_, index) => (
+                          <p key={index}>
+                            <PiStarFill className="text-yellow-300" />
+                          </p>
+                        ))}
+                      </div>
                     </td>
                   </tr>
                 ))}
