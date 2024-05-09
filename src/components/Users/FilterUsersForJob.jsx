@@ -88,7 +88,6 @@ export default function FilterUsersForJob({ skeletron }) {
   }, []);
 
   useEffect(() => {
-    // Calcoliamo il conteggio degli applicanti solo quando applicants viene aggiornato
     applicantsCountRef.current = applicants.length;
     setCurrentApplicants(applicantsCountRef.current);
   }, [applicants]);
