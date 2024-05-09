@@ -8,11 +8,11 @@ import { GiConfirmed } from "react-icons/gi";
 import { FaCheckCircle } from "react-icons/fa";
 import supabase from "../../supabase/client";
 import useAuth from "../../hook/useAuth";
+import Loader from "../Loader";
 
 export default function Ai({ closeModal, onResult }) {
   const { session } = useAuth();
   const jobId = useParams().id;
-
   const [loading, setLoading] = useState(false);
   const [files, setFiles] = useState([]);
   const [ready, setReady] = useState(false);
@@ -50,13 +50,15 @@ export default function Ai({ closeModal, onResult }) {
   };
 
   const handleUpload = () => {
+    setLoading(true);
     sendFiles(files);
   };
 
   const sendFiles = async (files) => {
     try {
       const upload = files.map(async (file) => {
-        const fileName = `${file.name}`;
+        const currendDate = new Date().toISOString();
+        const fileName = `${file.name}${currendDate}`;
         const { data, error } = await supabase.storage
           .from("cvfiles")
           .upload(fileName, file, {
@@ -138,7 +140,7 @@ export default function Ai({ closeModal, onResult }) {
   };
 
   return (
-    <>
+    <> 
       <div
         data-aos="zoom-in"
         id="crud-modal"
@@ -192,7 +194,7 @@ export default function Ai({ closeModal, onResult }) {
                   <div className="text-center">
                     {loading ? (
                       <div className="loader my-40">
-                        <p>Attendere, ottimizzazione in corso...</p>
+                        <p>Attendere, caricamento in corso...</p>
                         <span className="words text-indigo-500">
                           <p className="word">curriculum</p>
                           <p className="word">competenze</p>
@@ -201,6 +203,7 @@ export default function Ai({ closeModal, onResult }) {
                           <p className="word">valutazioni</p>
                         </span>
                       </div>
+                      // <Loader />
                     ) : (
                       <div>
                         {files.length <= 0 ? (

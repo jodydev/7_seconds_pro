@@ -91,10 +91,6 @@ export const JobProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    getFilterJobs();
-  }, []);
-
   //! Funzione per ottenere il numero di file dallo storage
   const fetchFileCount = async () => {
     try {
@@ -110,8 +106,6 @@ export const JobProvider = ({ children }) => {
       console.error("Error fetching file count:", error.message);
     }
   };
-
-
 
   useEffect(() => {
     getJobs();

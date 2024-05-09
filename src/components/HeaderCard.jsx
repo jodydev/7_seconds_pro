@@ -47,7 +47,7 @@ export default function HeaderCard() {
       if (error) {
         throw error;
       } else {
-        setAccountCredits(data[0].credits_total || []);
+        setAccountCredits(data[0].credits_total || 0);
       }
     } catch (error) {
       console.error(

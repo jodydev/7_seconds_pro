@@ -37,6 +37,7 @@ export default function JobDetails() {
   useEffect(() => {
     async function fetchJobDetails() {
       try {
+        setLoading(true);
         const { data: jobs, error } = await supabase
           .from("jobs")
           .select("*")
