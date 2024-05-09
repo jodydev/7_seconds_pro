@@ -1,17 +1,12 @@
 import { useState, useEffect } from "react";
 import { useAppContext } from "../../context/AppContext";
-import { Link } from "react-router-dom";
 import { CalendarIcon } from "@heroicons/react/20/solid";
 import { BsStars } from "react-icons/bs";
 import FilterUsersForJob from "../Users/FilterUsersForJob";
 import Ai from "../Modal/Ai";
-import useAuth from "../../hook/useAuth";
 import { useParams } from "react-router-dom";
 import supabase from "../../supabase/client";
-import Loader from "../Loader";
-import { Alert } from "flowbite-react";
 import { FaCheckCircle } from "react-icons/fa";
-
 
 export default function JobDetails() {
   const { modalOpen, openModal, closeModal } = useAppContext();
@@ -19,9 +14,14 @@ export default function JobDetails() {
   const [selectedJob, setSelectedJob] = useState(null);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState(null);
+  const [skeletron, setSkeletron] = useState(false);
 
   const handleResult = (data) => {
     setMessage(data);
+  };
+
+  const handleUploadCv = (bol) => {
+    setSkeletron(bol);
   };
 
   useEffect(() => {
@@ -62,8 +62,7 @@ export default function JobDetails() {
 
   return (
     <section>
-      {modalOpen && <Ai onResult={handleResult} closeModal={closeModal} />}
-      {loading && <Loader />}
+      {modalOpen && <Ai onResult={handleResult} onUploadCv={handleUploadCv} closeModal={closeModal} />}
 
       <div
         data-aos="fade-down"
@@ -134,7 +133,7 @@ export default function JobDetails() {
           </div>
         </div>
       )}
-      <FilterUsersForJob />
+      <FilterUsersForJob skeletron={skeletron} />
     </section>
   );
 }

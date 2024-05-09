@@ -10,7 +10,7 @@ import supabase from "../../supabase/client";
 import useAuth from "../../hook/useAuth";
 import Loader from "../Loader";
 
-export default function Ai({ closeModal, onResult }) {
+export default function Ai({ closeModal, onResult, onUploadCv }) {
   const { session } = useAuth();
   const jobId = useParams().id;
   const [loading, setLoading] = useState(false);
@@ -84,23 +84,23 @@ export default function Ai({ closeModal, onResult }) {
         setLoading(false);
         closeModal();
         onResult(true);
+        onUploadCv(true);
         await sendThreads(
           successfulUploads.map((upload) => upload.data.id),
           jobId
         );
       } else {
-        console.error("No files uploaded successfully.");
         setLoading(false);
       }
     } catch (error) {
-      console.error("Error uploading files:", error.message);
       setLoading(false);
     }
   };
 
   const sendCvs = async (results) => {
     try {
-      const endPoint = "https://mwhhpzjnpnmparvwqpua.supabase.co/storage/v1/object/public/";
+      const endPoint =
+        "https://mwhhpzjnpnmparvwqpua.supabase.co/storage/v1/object/public/";
       const cvsData = results.map((res) => ({
         file: `${endPoint}${res.fullPath}`,
         filename: res.path,
@@ -133,14 +133,14 @@ export default function Ai({ closeModal, onResult }) {
 
       if (error) {
         console.error("Error sending data to Supabase:", error.message);
-      } 
+      }
     } catch (error) {
       console.error("Error sending data to Supabase:", error.message);
     }
   };
 
   return (
-    <> 
+    <>
       <div
         data-aos="zoom-in"
         id="crud-modal"
@@ -203,7 +203,6 @@ export default function Ai({ closeModal, onResult }) {
                           <p className="word">valutazioni</p>
                         </span>
                       </div>
-                      // <Loader />
                     ) : (
                       <div>
                         {files.length <= 0 ? (
@@ -260,11 +259,8 @@ export default function Ai({ closeModal, onResult }) {
                                 </h3>
 
                                 {files.map((file, index) => (
-                                  <>
-                                    <div
-                                      key={`${file.name}-${Date.now()}`}
-                                      className="bg-gray-50 px-4 py-2 my-5 rounded-xl hover:cursor-pointer"
-                                    >
+                                  <div key={`${file.name}-${Date.now()}`}>
+                                    <div className="bg-gray-50 px-4 py-2 my-5 rounded-xl hover:cursor-pointer">
                                       <div className="lg:flex lg:items-center lg:justify-between my-2 ">
                                         <div className="min-w-0 flex ">
                                           <GrDocumentPdf className="mx-3 h-6 w-6" />
@@ -299,7 +295,7 @@ export default function Ai({ closeModal, onResult }) {
                                 </div> */}
                                       </div>
                                     </div>
-                                  </>
+                                  </div>
                                 ))}
                                 <div>
                                   <div className="inline-flex items-center rounded-md bg-indigo-500 px-4 py-3 mt-10 text-sm sm:text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">

@@ -14,25 +14,26 @@ export default function JobPostings() {
   const [showAllJobs, setShowAllJobs] = useState(false);
   const [message, setMessage] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const jobsPerPage = 11;
+  const [jobsPerPage, setJobsPerPage] = useState(10);
   const totalPages = Math.ceil(totalJobs / jobsPerPage);
-  const pageSize = 5; // Imposta il numero di pagine da visualizzare contemporaneamente
+  const pageSize = 5;
   const startPage = Math.max(1, currentPage - Math.floor(pageSize / 2));
   const endPage = Math.min(totalPages, startPage + pageSize - 1);
-
-  // Calcola l'indice del primo e dell'ultimo lavoro nella pagina corrente
   const indexOfLastJob = currentPage * jobsPerPage;
   const indexOfFirstJob = indexOfLastJob - jobsPerPage;
   const currentJobs = showAllJobs
     ? cvsForJob
     : cvsForJob.slice(indexOfFirstJob, indexOfLastJob);
 
-  const handleShowAllJobs = () => setShowAllJobs(!showAllJobs);
-
   const handlePageChange = (pageNumber) => {
     if (pageNumber >= 1 && pageNumber <= totalPages) {
       setCurrentPage(pageNumber);
     }
+  };
+
+  const handleJobsPerPageChange = (event) => {
+    setJobsPerPage(parseInt(event.target.value));
+    setCurrentPage(1); // Resetta la pagina corrente quando si cambia il numero di job per pagina
   };
 
   const handleResult = (data) => {
@@ -192,7 +193,7 @@ export default function JobPostings() {
             {/* PAGINAZIONE */}
             <div
               className={`${
-                totalJobs > 1 ? "block" : "hidden"
+                totalJobs >= 1 ? "block" : "hidden"
               } flex items-center justify-between  bg-white p-6`}
             >
               <div className="flex flex-1 justify-between sm:hidden">
@@ -219,7 +220,7 @@ export default function JobPostings() {
                     Showing{" "}
                     <span className="font-semibold text-indigo-500">1</span> to{" "}
                     <span className="font-semibold text-indigo-500">
-                      {totalJobs}
+                      {currentJobs.length}
                     </span>{" "}
                     of{" "}
                     <span className="font-semibold text-indigo-500">
@@ -228,23 +229,25 @@ export default function JobPostings() {
                     results
                   </p>
                 </div>
-                <div>
-                  <label className="inline-flex items-center cursor-pointer me-10">
-                    <input
-                      type="checkbox"
-                      value=""
-                      className="sr-only peer"
-                      checked={showAllJobs}
-                      onChange={handleShowAllJobs}
-                    />
-                    <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 dark:peer-focus:ring-indigo-500 rounded-full peer dark:bg-indigo-500 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-500"></div>
-                    <span className="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">
-                      Show All
-                    </span>
-                  </label>
+                <div className="flex items-center gap-5">
+                  <div className="">
+                   
+                    <select
+                      id="jobsPerPage"
+                      name="jobsPerPage"
+                      value={jobsPerPage}
+                      onChange={handleJobsPerPageChange}
+                      className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    >
+                      <option value={10}>10</option>
+                      <option value={25}>25</option>
+                      <option value={50}>50</option>
+                      <option value={100}>100</option>
+                    </select>
+                  </div>
 
                   <nav
-                    className="isolate inline-flex -space-x-px rounded-md shadow-sm"
+                    className="isolate inline-flex -space-x-px rounded-md shadow-sm mt-1"
                     aria-label="Pagination"
                   >
                     <Link
