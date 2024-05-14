@@ -15,7 +15,7 @@ export default function JobDetails() {
   const [selectedJob, setSelectedJob] = useState(null);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState(null);
-  const [skeletron, setSkeletron] = useState(null);
+  const [skeletron, setSkeletron] = useState(false);
 
   const handleResult = (data) => {
     setMessage(data);

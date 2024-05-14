@@ -52,7 +52,6 @@ export default function FilterUsersForJob({ skeletron }) {
       }
 
       setApplicants(data);
-      setCurrentApplicants(data.length);
     } catch (error) {
       console.error("Errore durante il caricamento dei jobs:", error.message);
     }
@@ -64,11 +63,13 @@ export default function FilterUsersForJob({ skeletron }) {
 
   useEffect(() => {
     const handleChanges = (payload) => {
-      if (payload.eventType === "INSERT") {
-        setApplicants((prevApplicants) => [...prevApplicants, payload.new]);
+      if (payload.table === "table") { 
+        setApplicants((prevApplicants) => [
+          ...(prevApplicants),
+          payload.new,
+        ]);
       }
     };
-
 
     const changeSubscription = supabase
       .channel("schema-db-changes")
@@ -92,7 +93,7 @@ export default function FilterUsersForJob({ skeletron }) {
     applicantsCountRef.current = applicants.length;
     setCurrentApplicants(applicantsCountRef.current);
   }, [applicants]);
-
+  
   return (
     <section
       data-aos="fade-up"
@@ -136,7 +137,7 @@ export default function FilterUsersForJob({ skeletron }) {
               </thead>
               <tbody className="hover:cursor-pointer">
                 {skeletron ? (
-                  <tr key={index} className="bg-white border-b">
+                  <tr className="bg-white border-b">
                     <td className="px-6 py-4">
                       <div className="animate-pulse">
                         <div className="h-6 bg-gray-200 rounded-lg"></div>
@@ -168,8 +169,10 @@ export default function FilterUsersForJob({ skeletron }) {
                 )}
 
                 {applicants.map((applicant) => (
+                  console.log(applicant),
+               
                   <tr
-                    key={`${applicant.theads_id}`}
+                    key={applicant.cvid}
                     className="text-base bg-white border-b"
                   >
                     <td className="px-6 py-4">

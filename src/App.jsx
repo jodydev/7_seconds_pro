@@ -20,8 +20,6 @@ export function App() {
 
   const { session } = useAuth();
 
-  // console.log("session", session);
-
   return (
     <Routes>
       <Route path="/login" element={<Login />} />

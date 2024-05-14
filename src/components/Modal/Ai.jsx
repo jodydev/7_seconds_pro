@@ -4,11 +4,10 @@ import { BsStars } from "react-icons/bs";
 import { FaMagic } from "react-icons/fa";
 import { GrDocumentPdf } from "react-icons/gr";
 import { TbSquareRoundedPlusFilled } from "react-icons/tb";
-import { GiConfirmed } from "react-icons/gi";
 import { FaCheckCircle } from "react-icons/fa";
 import supabase from "../../supabase/client";
 import useAuth from "../../hook/useAuth";
-import Loader from "../Loader";
+
 
 export default function Ai({ closeModal, onResult, onUploadCv }) {
   const { session } = useAuth();
@@ -17,30 +16,30 @@ export default function Ai({ closeModal, onResult, onUploadCv }) {
   const [files, setFiles] = useState([]);
   const [ready, setReady] = useState(false);
 
-  const deleteFile = async (indexToDelete) => {
-    try {
-      const fileToDelete = files[indexToDelete];
-      console.log("File to delete:", fileToDelete);
+  // const deleteFile = async (indexToDelete) => {
+  //   try {
+  //     const fileToDelete = files[indexToDelete];
+  //     console.log("File to delete:", fileToDelete);
 
-      const { error } = await supabase.storage
-        .from("cvfiles")
-        .remove([fileToDelete.id]);
-      if (error) {
-        throw new Error(error.message);
-      }
+  //     const { error } = await supabase.storage
+  //       .from("cvfiles")
+  //       .remove([fileToDelete.id]);
+  //     if (error) {
+  //       throw new Error(error.message);
+  //     }
 
-      setFiles((prevFiles) => {
-        const updatedFiles = prevFiles.filter(
-          (file, index) => index !== indexToDelete
-        );
-        return updatedFiles;
-      });
+  //     setFiles((prevFiles) => {
+  //       const updatedFiles = prevFiles.filter(
+  //         (file, index) => index !== indexToDelete
+  //       );
+  //       return updatedFiles;
+  //     });
 
-      console.log("File deleted successfully:", fileToDelete);
-    } catch (error) {
-      console.error("Error deleting file:", error.message);
-    }
-  };
+  //     console.log("File deleted successfully:", fileToDelete);
+  //   } catch (error) {
+  //     console.error("Error deleting file:", error.message);
+  //   }
+  // };
 
   const getFiles = (event) => {
     const selectedFiles = event.target.files;
@@ -78,20 +77,18 @@ export default function Ai({ closeModal, onResult, onUploadCv }) {
 
       const successfulUploads = results.filter((result) => !result.error);
 
-      if (successfulUploads.length > 0) {
+  
         await sendCvs(successfulUploads.map((result) => result.data));
+        await sendThreads(
+          successfulUploads.map((upload) => upload.data.id),
+          jobId
+        );
         setFiles(successfulUploads.map((result) => result.data));
         setLoading(false);
         closeModal();
         onResult(true);
         onUploadCv(true);
-        await sendThreads(
-          successfulUploads.map((upload) => upload.data.id),
-          jobId
-        );
-      } else {
-        setLoading(false);
-      }
+    
     } catch (error) {
       setLoading(false);
     }
