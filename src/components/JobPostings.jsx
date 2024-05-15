@@ -13,12 +13,11 @@ export default function JobPostings() {
   const { cvsForJob, loading, totalJobs } = useJobs();
   const [showAllJobs, setShowAllJobs] = useState(false);
   const [message, setMessage] = useState(null);
+  const is1080p = window.matchMedia("(min-width: 1920px)").matches;
+  const is1440p = window.matchMedia("(min-width: 2500px)").matches;
   const [currentPage, setCurrentPage] = useState(1);
-  const [jobsPerPage, setJobsPerPage] = useState(10);
+  const [jobsPerPage, setJobsPerPage] = useState(is1440p ? 13 : is1080p ? 10 : 5);
   const totalPages = Math.ceil(totalJobs / jobsPerPage);
-  const pageSize = 5;
-  const startPage = Math.max(1, currentPage - Math.floor(pageSize / 2));
-  const endPage = Math.min(totalPages, startPage + pageSize - 1);
   const indexOfLastJob = currentPage * jobsPerPage;
   const indexOfFirstJob = indexOfLastJob - jobsPerPage;
   const currentJobs = showAllJobs
@@ -33,7 +32,7 @@ export default function JobPostings() {
 
   const handleJobsPerPageChange = (event) => {
     setJobsPerPage(parseInt(event.target.value));
-    setCurrentPage(1); // Resetta la pagina corrente quando si cambia il numero di job per pagina
+    setCurrentPage(1); 
   };
 
   const handleResult = (data) => {
@@ -75,22 +74,22 @@ export default function JobPostings() {
         )}
         <div
           className={`${modalOpen ? "opacity-10" : "opacity-100"} 
-           ${message ? "my-0" : "my-16"}
+           ${message ? "my-0" : "my-10"}
            ${totalJobs === 0 ? "min-h-[1000px]" : ""}
-           bg-white px-6 py-8 shadow-lg rounded-2xl`}
+           bg-white px-6 py-4 shadow-lg rounded-2xl`}
         >
           <div className="flex flex-wrap items-center justify-between sm:flex-nowrap border-b border-gray-200">
-            <div className="ml-4 mb-2">
-              <h3 className="text-3xl 2xl:text-5xl font-bold leading-6 text-gray-900">
+            <div className="ml-4">
+              <h3 className="text-3xl 2xl:text-4xl font-bold leading-6 text-gray-900">
                 Job Postings
               </h3>
             </div>
             {totalJobs >= 1 && (
-              <div className="flex-shrink-0 ms-3 my-5">
+              <div className="flex-shrink-0 ms-3 mb-3">
                 <button
                   onClick={openModal}
                   type="button"
-                  className="relative inline-flex items-center rounded-xl bg-indigo-600 px-4 2xl:px-6 py-2 2xl:py-4 text:xl 2xl:text-2xl hover:cursor-pointer font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  className="relative inline-flex items-center rounded-xl bg-indigo-600 px-5 py-3 text-lg 2xl:text-xl hover:cursor-pointer font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
                   <TbSquareRoundedPlusFilled className="w-6 h-6 me-2" />
                   New Job
@@ -103,9 +102,9 @@ export default function JobPostings() {
             {loading && <Loader />}
 
             {totalJobs >= 1 ? (
-              <table className="w-full text-sm text-left rtl:text-right text-gray-500">
-                <thead className="text-sm text-gray-700 bg-gray-50">
-                  <tr className="2xl:text-2xl">
+              <table className="w-full  text-left rtl:text-right text-gray-500">
+                <thead className=" text-gray-700 bg-gray-50">
+                  <tr className="2xl:text-xl">
                     <th scope="col" className="px-6 py-3">
                       Company Name
                     </th>
@@ -124,7 +123,7 @@ export default function JobPostings() {
                   {currentJobs.map((job) => (
                     <tr
                       key={job.id}
-                      className="2xl:text-xl bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                      className="2xl:text-lg bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                     >
                       <td className="px-6 py-4">
                         <Link to={`/job-details/${job.id}`}>

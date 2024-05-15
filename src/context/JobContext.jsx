@@ -29,15 +29,15 @@ export const JobProvider = ({ children }) => {
   const getFilterJobs = async () => {
     setLoading(true);
     try {
-      const { data: initialJobsData, error: jobsError } = await supabase
+      const { data, error } = await supabase
         .from("jobs")
         .select("*");
-      if (jobsError) {
-        throw jobsError;
+      if (error) {
+        throw error;
       }
 
       const jobsWithCvsCount = await Promise.all(
-        initialJobsData.map(async (job) => {
+        data.map(async (job) => {
           const { count, error } = await supabase
             .from("threads")
             .select("*", { count: "exact" })

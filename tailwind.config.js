@@ -15,5 +15,5 @@ export default {
       'xl': '1200px',
       '2xl': '1400px'
     },
-  plugins: [require("flowbite/plugin")],
+  plugins: [require("flowbite/plugin"),],
 };

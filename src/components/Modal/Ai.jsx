@@ -217,12 +217,12 @@ export default function Ai({ closeModal, onResult, onUploadCv }) {
                             </p>
 
                             <div className="mt-10">
-                              <div className="inline-flex items-center rounded-md bg-indigo-500 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                              <div className="inline-flex items-center rounded-xl bg-indigo-500 px-5 py-3 text-base font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                                 <label
                                   htmlFor="file-upload"
                                   className="cursor-pointer flex items-center"
                                 >
-                                  <TbSquareRoundedPlusFilled className="me-2 h-5 w-5" />
+                                  <TbSquareRoundedPlusFilled className="me-2 h-6 w-6" />
                                   Upload File
                                 </label>
 
@@ -252,7 +252,7 @@ export default function Ai({ closeModal, onResult, onUploadCv }) {
                                   <span className="text-base font-semibold text-indigo-500">
                                     +{files.length}
                                   </span>{" "}
-                                  File Uploaded Successfully
+                                  {files.length === 1 ? "File" : "Files"} Inserted Successfully
                                 </h3>
 
                                 {files.map((file, index) => (
@@ -295,11 +295,11 @@ export default function Ai({ closeModal, onResult, onUploadCv }) {
                                   </div>
                                 ))}
                                 <div>
-                                  <div className="inline-flex items-center rounded-md bg-indigo-500 px-4 py-3 mt-10 text-sm sm:text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                                  <div className="inline-flex items-center rounded-xl bg-indigo-500 px-4 py-3 mt-10 text-sm sm:text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                                     <button
                                       id="confirm-upload"
                                       type="button"
-                                      className="inline-flex items-center rounded-md "
+                                      className="inline-flex items-center "
                                       onClick={handleUpload}
                                     >
                                       {" "}

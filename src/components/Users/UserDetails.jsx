@@ -1,234 +1,159 @@
-import AiResults from "./AiResults";
-import PDFViewer from "../PDFViewer";
-import SuccessMessage from "../SuccessMessage";
 import { useState, useEffect } from "react";
-import { Fragment } from "react";
-import { Link } from "react-router-dom";
-import { BsFillTelephoneFill } from "react-icons/bs";
-import { MdEmail } from "react-icons/md";
-import { Menu, Transition } from "@headlessui/react";
-import { FaFilePdf } from "react-icons/fa6";
 import { PiStarFill } from "react-icons/pi";
-import { MdDownload } from "react-icons/md";
-import {
-  BriefcaseIcon,
-  CalendarIcon,
-  ChevronDownIcon,
-  CurrencyDollarIcon,
-  MapPinIcon,
-  PencilIcon,
-  PaperClipIcon,
-  ArrowUturnLeftIcon,
-} from "@heroicons/react/20/solid";
-
-import CvJodyTest from "../../asset/files/Curriculum-JodyOssino-eng.pdf";
+import { useParams } from "react-router-dom";
+import supabase from "../../supabase/client";
+import { BsStars } from "react-icons/bs";
 
 export default function UserDetails() {
-  // url del pdf da passare al componente PDFViewer, il dato arriva dal backend e sara' salvato nella variabile pdfUrl
-  const pdfUrl = CvJodyTest;
-  const [open, setOpen] = useState(false);
+  const thread_id = useParams().id;
+  const [applicants, setApplicants] = useState([]);
 
-  // Dato dell'utente da estrare da backend
-  const aiRating = 4;
-
-  function downloadFile() {
-    // Simulazione download del file
-    setTimeout(() => {
-      setOpen(true);
-    }, 500);
-  }
-
+  //! funzione per ottenere il dettaglio del candidato per il lavoro selezionato
   useEffect(() => {
-    if (open) {
-      const timer = setTimeout(() => {
-        setOpen(false);
-      }, 5000); // Chiudo il messaggio dopo 5 secondi
-      return () => clearTimeout(timer);
-    }
-  }, [open]);
+    const getApplicantsDetails = async (thread_id) => {
+      try {
+        const { data, error } = await supabase
+          .from("cvs_data")
+          .select("*")
+          .eq("thread_id", thread_id);
+        if (error) {
+          console.error("Error fetching job details:", error.message);
+        } else {
+          setApplicants(data);
+        }
+      } catch (error) {
+        console.error("Errore durante il caricamento dei jobs:", error.message);
+      }
+    };
 
-  function classNames(...classes) {
-    return classes.filter(Boolean).join(" ");
-  }
+    getApplicantsDetails(thread_id);
+  }, [thread_id]);
 
   return (
     <>
-      {open && (
-        <SuccessMessage message={"The file has been downloaded successfully"} />
-      )}
-      <section id="detailsjob" className="grid lg:grid-cols-2 gap-10">
-        <div data-aos="fade-right" className="flex justify-between py-10">
-          <div className="min-w-0 flex-1 ">
-            <div className="px-4 py-6 w-full mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6 bg-white shadow-lg rounded-2xl">
-              <div className="flex justify-between items-center gap-0 2xl:gap-60">
-                <div className="flex">
-                  <h2 className="text-3xl ms-6 font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
-                    Jody Ossino
-                  </h2>
-                  <div className="flex items-center ml-3">
-                    {[...Array(5)].map((_, index) => (
-                      <PiStarFill
-                        key={index}
-                        className={`text-${
-                          index < aiRating ? "yellow" : "gray"
-                        }-300 w-6 h-6`}
-                      />
-                    ))}
+      {applicants.map((applicant) => (
+        <section
+          key={applicant.thread_id}
+          id="detailsjob"
+          className="grid lg:grid-cols-2 gap-10"
+        >
+          <div data-aos="fade-right" className="flex justify-between py-10">
+            <div className="min-w-0 flex-1 ">
+              <div className="px-4 py-6 w-full mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6 bg-white shadow-lg rounded-2xl">
+                <div className="flex justify-between items-center gap-0 2xl:gap-60">
+                  <div className="flex">
+                    <h2 className="text-3xl ms-6 font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
+                      {applicant.name || "Jody Ossino"}
+                    </h2>
+                    <div className="flex items-center ml-3">
+                      {[...Array(5)].map((_, index) => (
+                        <PiStarFill
+                          key={index}
+                          className={`text-${
+                            index < applicant.rating ? "yellow" : "gray"
+                          }-300 w-6 h-6`}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-1 w-full">
+                  <h3 className="text-base font-semibold leading-7 text-gray-900">
+                    Applied for:{" "}
+                    <span className="font-bold text-indigo-500">
+                      {applicant.job_title || "Apple.inc"}
+                    </span>
+                  </h3>
+
+                  <div className="mt-3 border-t border-gray-100">
+                    <dl className="divide-y divide-gray-100">
+                      <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                        <p className="text-sm font-medium leading-6 text-gray-900">
+                          Age:
+                        </p>
+                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                          {applicant.age || "23"}
+                        </dd>
+                      </div>
+                      <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                        <p className="text-sm font-medium leading-6 text-gray-900">
+                          Location:
+                        </p>
+                        <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                          {applicant.city ||
+                            "Via del Successo 1, Bologna, Italy"}
+                        </dd>
+                      </div>
+                      {/* <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-5 sm:px-0">
+                        <p className="text-sm font-medium leading-6 text-gray-900">
+                          Contacts:
+                        </p>
+                        <ul className="">
+                          <li className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 flex text-nowrap items-center gap-3">
+                            <BsFillTelephoneFill className="w-4 h-4 text-gray-400" />{" "}
+                            +39 3336170035
+                          </li>
+                          <li className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 flex items-center gap-3">
+                            <MdEmail className="w-4 h-4 text-gray-400" />{" "}
+                            jodyossino.dev@gmail.com
+                          </li>
+                        </ul>
+                      </div> */}
+                    </dl>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-1 w-full">
-                <h3 className="text-base font-semibold leading-7 text-gray-900">
-                  Applied for:{" "}
-                  <span className="font-bold text-indigo-500">
-                    Front End Developer at Apple.inc
-                  </span>
-                </h3>
+              <div className="flex justify-between mt-10">
+                <div className="min-w-0 flex-1 bg-white px-10 py-8 shadow-lg rounded-2xl">
+                  <h2 className="text-3xl font-bold leading-7 text-gray-900 flex gap-1">
+                    Canditate Summary <BsStars className="h-6 w-6" />
+                  </h2>
 
-                <div className="mt-3 border-t border-gray-100">
-                  <dl className="divide-y divide-gray-100">
-                    {/* <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                      <p className="text-sm font-medium leading-6 text-gray-900">
-                        Full Name:
-                      </p>
-                      <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                        Jody Ossino
-                      </dd>
-                    </div> */}
-                    <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                      <p className="text-sm font-medium leading-6 text-gray-900">
-                        Age:
-                      </p>
-                      <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                        23
-                      </dd>
-                    </div>
-                    <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                      <p className="text-sm font-medium leading-6 text-gray-900">
-                        Location:
-                      </p>
-                      <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                        Via del Successo 1, Bologna, Italy
-                      </dd>
-                    </div>
-                    {/* <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                      <p className="text-sm font-medium leading-6 text-gray-900">
-                        Role:
-                      </p>
-                      <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                        Front End Developer
-                      </dd>
-                    </div> */}
-                    {/* <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                      <p className="text-sm font-medium leading-6 text-gray-900">
-                        Education:
-                      </p>
-                      <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                        High school graduation
-                      </dd>
-                    </div> */}
-                    {/* <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                      <p className="text-sm font-medium leading-6 text-gray-900">
-                        Experience:
-                      </p>
-                      <ul className="text-nowrap">
-                        <li className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                          - Software Developer Senior at Apple.inc
-                        </li>
-                        <li className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                          - Software Developer Junior at Google.inc
-                        </li>
-                        <li className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                          - Intership Business at Microsoft.inc
-                        </li>
-                      </ul>
-                    </div> */}
-                    {/* <div className="px-4 py-6 sm:grid sm:grid-cols-3 lg:grid-cols-4 sm:gap-4 sm:px-0 xl:grid-cols-3">
-                      <p className="text-sm font-medium leading-6 text-gray-900">
-                        Skills:
-                      </p>
-                      <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 gap-2 flex flex-wrap">
-                        <span className="inline-flex items-center rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10">
-                          HTML
-                        </span>
-                        <span className="inline-flex items-center rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10">
-                          CSS
-                        </span>
-                        <span className="inline-flex items-center rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10">
-                          JAVASCRIPT
-                        </span>
-                        <span className="inline-flex items-center rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10">
-                          REACT
-                        </span>
-                        <span className="inline-flex items-center rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10">
-                          NODE JS
-                        </span>
-                        <span className="inline-flex items-center rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-700/10">
-                          SUPABASE
-                        </span>
-                      </dd>
-                    </div> */}
+                  <div className="mt-1 flex flex-col">
+                    <h3 className="text-base font-semibold leading-7 text-gray-900">
+                      Ai Tips of {applicant.name || "Jody Ossino"} CVs for job
+                      at
+                      {applicant.job_title || " Apple.inc"}
+                    </h3>
 
-                    <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-5 sm:px-0">
-                      <p className="text-sm font-medium leading-6 text-gray-900">
-                        Contacts:
+                    <div className="mt-3 border-t border-gray-100 ">
+                      <p className="mt-3 text-sm max-w-2xl leading-7 text-gray-500 w-full">
+                        {/* //!todo [aggiungere i consigli dell'AI] */}
+                        After carefully reviewing your work experiences, skills,
+                        and education, I'd like to provide you with some
+                        feedback. Firstly, I'd like to commend you on your
+                        extensive experience in the IT sector and the technical
+                        skills you've acquired over the years. It's evident that
+                        you've worked on a variety of complex projects and
+                        achieved significant results in various domains.
+                        However, I've noticed that there are some gaps in your
+                        soft skills, such as time management and effective
+                        communication. These are important areas to develop,
+                        especially considering your interest in working in
+                        collaborative and team-oriented environments. I would
+                        recommend focusing on these areas for improvement and
+                        seeking opportunities to hone your skills.
                       </p>
-                      <ul className="">
-                        <li className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 flex text-nowrap items-center gap-3">
-                          <BsFillTelephoneFill className="w-4 h-4 text-gray-400" />{" "}
-                          +39 3336170035
-                        </li>
-                        <li className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 flex items-center gap-3">
-                          <MdEmail className="w-4 h-4 text-gray-400" />{" "}
-                          jodyossino.dev@gmail.com
-                        </li>
-                      </ul>
                     </div>
-
-                    {/* <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-5 sm:px-0">
-                      <p className="text-sm font-medium leading-6 text-gray-900">
-                        CVs:
-                      </p>
-                      <ul
-                        role="list"
-                        className="flex items-center gap-10 sm:gap-16"
-                      >
-                        <li className="flex items-center gap-2">
-                          <FaFilePdf
-                            className="h-4 w-4 text-gray-400"
-                            aria-hidden="true"
-                          />
-                          <p className="text-sm">
-                            resume_back_end_developer.pdf
-                          </p>
-                        </li>
-                        <li>
-                          <button
-                            onClick={downloadFile}
-                            className="flex items-center gap-1 font-semibold py-2 px-4 text-sm rounded-full bg-indigo-500 text-white hover:bg-indigo-600 hover:text-white"
-                          >
-                            Download
-                            <MdDownload
-                              className="h-4 w-5"
-                              aria-hidden="true"
-                            />
-                          </button>
-                        </li>
-                      </ul>
-                    </div> */}
-                  </dl>
+                  </div>
                 </div>
               </div>
             </div>
-
-            <AiResults />
           </div>
-        </div>
 
-        {/* Seconda colonna */}
-        <PDFViewer pdfUrl={pdfUrl} onError={console.error} />
-      </section>
+          <div className="my-10 px-10" data-aos="fade-left">
+            <embed
+              src={applicant.file}
+              type="application/pdf"
+              width="100%"
+              height="1200px"
+              className="shadow-2xl rounded-2xl"
+            />
+          </div>
+        </section>
+      ))}
     </>
   );
 }

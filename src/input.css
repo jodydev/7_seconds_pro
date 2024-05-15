@@ -131,6 +131,20 @@
   font-weight: 600;
 }
 
+.gradient-card {
+  background: rgb(107, 120, 245);
+  background: linear-gradient(
+    90deg,
+    rgba(107, 120, 245, 1) 30%,
+    rgba(156, 165, 248, 1) 100%
+  );
+}
+
+.bg-indigo-700 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(64 58 200 / var(--tw-bg-opacity));
+}
+
 /* GLOBAL STYLES */
 
 html {

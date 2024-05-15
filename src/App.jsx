@@ -39,7 +39,7 @@ function LayoutWithRoutes({ session }) {
       <Routes>
         <Route path="/home" element={<Home />} />
         <Route path="/job-details/:id" element={<JobDetails />} />
-        <Route path="/user-details" element={<UserDetails />} />
+        <Route path="/user-details/:id" element={<UserDetails />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </Layout>

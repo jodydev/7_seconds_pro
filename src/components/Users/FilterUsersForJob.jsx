@@ -1,6 +1,10 @@
-import { useJobs } from "../../context/JobContext";
 import { PiStarFill } from "react-icons/pi";
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  ChevronUpIcon,
+  ChevronDownIcon,
+} from "@heroicons/react/20/solid";
 import { useAppContext } from "../../context/AppContext";
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
@@ -9,38 +13,67 @@ import supabase from "../../supabase/client";
 
 export default function FilterUsersForJob({ skeletron }) {
   const jobId = useParams().id;
-  const { cvsForJob, totalJobs } = useJobs();
+  const applicantsCountRef = useRef(0);
   const { modalOpen } = useAppContext();
   const [applicants, setApplicants] = useState([]);
-  const [currentApplicants, setCurrentApplicants] = useState(0);
-  const applicantsCountRef = useRef(0);
-
+  const [totalApplicants, setTotalApplicants] = useState(0);
+  const [sortDirectionR, setSortDirectionR] = useState("desc");
+  const [sortDirectionC, setSortDirectionC] = useState("desc");
   const [currentPage, setCurrentPage] = useState(1);
-  const [jobsPerPage, setJobsPerPage] = useState(10);
-  const [showAllJobs, setShowAllJobs] = useState(false);
-  const totalPages = Math.ceil(totalJobs / jobsPerPage);
-  const pageSize = 5;
-  const startPage = Math.max(1, currentPage - Math.floor(pageSize / 2));
-  const endPage = Math.min(totalPages, startPage + pageSize - 1);
-  const indexOfLastJob = currentPage * jobsPerPage;
-  const indexOfFirstJob = indexOfLastJob - jobsPerPage;
-  const currentJobs = showAllJobs
-    ? cvsForJob
-    : cvsForJob.slice(indexOfFirstJob, indexOfLastJob);
+  const [applicantsPerPage, setApplicantsPerPage] = useState(10);
+  const [showAllApplicants, setShowAllApplicants] = useState(false);
+  const totalPages = Math.ceil(totalApplicants / applicantsPerPage);
+  const indexOfLastApplicant = currentPage * applicantsPerPage;
+  const indexOfFirstApplicant = indexOfLastApplicant - applicantsPerPage;
+  const currentApplicants = showAllApplicants
+    ? applicants
+    : applicants.slice(indexOfFirstApplicant, indexOfLastApplicant);
 
+  //! Funzione per cambiare la pagina
   const handlePageChange = (pageNumber) => {
     if (pageNumber >= 1 && pageNumber <= totalPages) {
       setCurrentPage(pageNumber);
     }
   };
 
-  const handleJobsPerPageChange = (event) => {
-    setJobsPerPage(parseInt(event.target.value));
+  //! Funzione per cambiare il numero di candidati per pagina
+  const handleApplicantsPerPageChange = (event) => {
+    setApplicantsPerPage(parseInt(event.target.value));
     setCurrentPage(1);
   };
 
-  //! Funzione per prendere i candidati per un lavoro specifico
-  const getUserForJob = async (jobId) => {
+  //! Funzione per ordinare i candidati per data di creazione
+  const handleSortByCreatedAt = () => {
+    setSortDirectionC((prevDirection) =>
+      prevDirection === "asc" ? "desc" : "asc"
+    );
+
+    setApplicants((prevApplicants) =>
+      prevApplicants.slice().sort((a, b) => {
+        const dateA = new Date(a.created_at);
+        const dateB = new Date(b.created_at);
+        return sortDirectionC === "asc" ? dateA - dateB : dateB - dateA;
+      })
+    );
+  };
+
+  //! Funzione per ordinare i candidati per rating
+  const handleSortByRating = () => {
+    setSortDirectionR((prevDirection) =>
+      prevDirection === "asc" ? "desc" : "asc"
+    );
+
+    setApplicants((prevApplicants) =>
+      prevApplicants.slice().sort((a, b) => {
+        const ratingA = a.rating;
+        const ratingB = b.rating;
+        return sortDirectionR === "asc" ? ratingA - ratingB : ratingB - ratingA;
+      })
+    );
+  };
+
+  //! Funzione per prendere i candidati per un job specifico
+  const getApplicantsForJob = async (jobId) => {
     try {
       const { data, error } = await supabase
         .from("cvs_data")
@@ -58,16 +91,15 @@ export default function FilterUsersForJob({ skeletron }) {
   };
 
   useEffect(() => {
-    getUserForJob(jobId);
+    getApplicantsForJob(jobId);
   }, [jobId]);
 
+  //! Funzione per gestire i cambiamenti nel database e aggiungere i nuovi candidati in tempo reale
   useEffect(() => {
     const handleChanges = (payload) => {
-      if (payload.table === "table") { 
-        setApplicants((prevApplicants) => [
-          ...(prevApplicants),
-          payload.new,
-        ]);
+      if (payload.table === "table") {
+        setApplicants((prevApplicants) => [...prevApplicants, payload.new]);
+        setTotalApplicants(applicantsCountRef.current + 1);
       }
     };
 
@@ -89,134 +121,46 @@ export default function FilterUsersForJob({ skeletron }) {
     };
   }, []);
 
+  //! Funzione per aggiornare il numero totale di candidati ogni volta che ne viene aggiunto uno in tempo reale
   useEffect(() => {
     applicantsCountRef.current = applicants.length;
-    setCurrentApplicants(applicantsCountRef.current);
+    setTotalApplicants(applicantsCountRef.current);
   }, [applicants]);
+
+  //! Funzione per ordinare i candidati per data di creazione al caricamento iniziale della pagina
+  useEffect(() => {
+    setApplicants((prevApplicants) =>
+      prevApplicants.sort(
+        (a, b) => new Date(b.created_at) - new Date(a.created_at)
+      )
+    );
+  }, [applicants]);
+
   
+
   return (
     <section
-      data-aos="fade-up"
+      data-aos="fade-left"
       data-aos-easing="linear"
-      data-aos-duration="1500"
+      data-aos-duration="1000"
     >
       <div
         className={`${
           modalOpen ? "opacity-10" : "opacity-100"
-        } bg-white px-6 py-8 shadow-lg rounded-2xl mt-10`}
+        } bg-white px-6 py-6 shadow-lg rounded-2xl mt-10`}
       >
         <div className="flex flex-wrap items-center justify-between sm:flex-nowrap border-b border-gray-200">
           <div className="ml-4 mb-4">
-            <h3 className="text-3xl font-bold leading-6 text-gray-900">
+            <h3 className="text-3xl 2xl:text-4xl font-bold leading-6 text-gray-900">
               Applicants
             </h3>
           </div>
         </div>
 
         <div className="relative overflow-x-auto shadow-md sm:rounded-2xl mt-5">
-          {applicants.length >= 1 ? (
-            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-              <thead className="text-base text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                  <th scope="col" className="px-6 py-3">
-                    Full Name
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Age
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    City
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Created at
-                  </th>
-                  <th scope="col" className="px-3 py-3">
-                    Ai Rating
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="hover:cursor-pointer">
-                {skeletron ? (
-                  <tr className="bg-white border-b">
-                    <td className="px-6 py-4">
-                      <div className="animate-pulse">
-                        <div className="h-6 bg-gray-200 rounded-lg"></div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="animate-pulse">
-                        <div className="h-6 bg-gray-200 rounded-lg"></div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="animate-pulse">
-                        <div className="h-6 bg-gray-200 rounded-lg"></div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="animate-pulse">
-                        <div className="h-6 bg-gray-200 rounded-lg"></div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="animate-pulse">
-                        <div className="h-6 bg-gray-200 rounded-lg"></div>
-                      </div>
-                    </td>
-                  </tr>
-                ) : (
-                  ""
-                )}
-
-                {applicants.map((applicant) => (
-                  console.log(applicant),
-               
-                  <tr
-                    key={applicant.cvid}
-                    className="text-base bg-white border-b"
-                  >
-                    <td className="px-6 py-4">
-                      <Link to={`/user-details`}>
-                        <div className="w-full">
-                          {applicant.fullname || "Jody Ossino"}
-                        </div>
-                      </Link>
-                    </td>
-                    <td className="px-6 py-4">
-                      <Link to={`/user-details`}>
-                        <div className="w-full">{applicant.age || "23"}</div>
-                      </Link>
-                    </td>
-                    <td className="px-6 py-4">
-                      <Link to={`/user-details`}>
-                        <div className="w-full">
-                          {applicant.city || "Bologna"}
-                        </div>
-                      </Link>
-                    </td>
-                    <td className="px-6 py-4">
-                      <Link to={`/user-details`}>
-                        <div className="w-full">
-                          {new Date(applicant.created_at).toLocaleDateString()}
-                        </div>
-                      </Link>
-                    </td>
-                    <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                      <div className="flex items-center">
-                        {[...Array(applicant.rating)].map((_, index) => (
-                          <p key={index}>
-                            <PiStarFill className="text-yellow-300" />
-                          </p>
-                        ))}
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          ) : (
-            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-              <thead className="text-sm text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          {currentApplicants.length === 0 ? (
+            <table className="w-full text-left rtl:text-right text-gray-500 dark:text-gray-400">
+              <thead className="text-lg 2xl:text-lg text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                   <th scope="col" className="px-6 py-3">
                     Full Name
@@ -249,12 +193,133 @@ export default function FilterUsersForJob({ skeletron }) {
                 </tr>
               </tbody>
             </table>
+          ) : (
+            <table className="w-full text-left rtl:text-right text-gray-500 dark:text-gray-400">
+              <thead className=" text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr className="2xl:text-xl">
+                  <th scope="col" className="px-6 py-3 ">
+                    Full Name
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Age
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    City
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    <button
+                      onClick={handleSortByCreatedAt}
+                      className="flex items-center focus:outline-none hover:cursor-pointer"
+                    >
+                      Created at
+                      {sortDirectionC === "asc" ? (
+                        <ChevronUpIcon className="h-4 w-4 ml-1 text-gray-500" />
+                      ) : (
+                        <ChevronDownIcon className="h-4 w-4 ml-1 text-gray-500" />
+                      )}
+                    </button>
+                  </th>
+                  <th scope="col" className="px-3 py-3">
+                    Ai Rating
+                    <button
+                      onClick={handleSortByRating}
+                      className="flex-row items-center focus:outline-none hover:cursor-pointer"
+                    >
+                      {sortDirectionR === "asc" ? (
+                        <ChevronUpIcon className="h-4 w-4 ml-1 text-gray-500" />
+                      ) : (
+                        <ChevronDownIcon className="h-4 w-4 ml-1 text-gray-500" />
+                      )}
+                    </button>
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="hover:cursor-pointer ">
+                {skeletron ? (
+                  <tr className="bg-white border-b">
+                    <td className="px-6 py-4">
+                      <div className="animate-pulse">
+                        <div className="h-6 bg-gray-200 rounded-lg"></div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="animate-pulse">
+                        <div className="h-6 bg-gray-200 rounded-lg"></div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="animate-pulse">
+                        <div className="h-6 bg-gray-200 rounded-lg"></div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="animate-pulse">
+                        <div className="h-6 bg-gray-200 rounded-lg"></div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="animate-pulse">
+                        <div className="h-6 bg-gray-200 rounded-lg"></div>
+                      </div>
+                    </td>
+                  </tr>
+                ) : (
+                  ""
+                )}
+
+                {currentApplicants.map((applicant) => (
+                  <tr
+                    key={applicant.thread_id}
+                    className="text-lg 2xl:text-lg bg-white border-b"
+                  >
+                    <td className="px-6 py-4">
+                      <Link to={`/user-details/${applicant.thread_id}`}>
+                        <div className="w-full">
+                          {applicant.fullname || "Jody Ossino"}
+                        </div>
+                      </Link>
+                    </td>
+                    <td className="px-6 py-4">
+                      <Link to={`/user-details/${applicant.thread_id}`}>
+                        <div className="w-full">{applicant.age || "23"}</div>
+                      </Link>
+                    </td>
+                    <td className="px-6 py-4">
+                      <Link to={`/user-details/${applicant.thread_id}`}>
+                        <div className="w-full">
+                          {applicant.city || "Bologna"}
+                        </div>
+                      </Link>
+                    </td>
+                    <td className="px-6 py-4">
+                      <Link to={`/user-details/${applicant.thread_id}`}>
+                        <div className="w-full">
+                          {new Date(applicant.created_at).toLocaleString()}
+                        </div>
+                      </Link>
+                    </td>
+                    <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                      <div className="flex items-center">
+                        {[...Array(5)].map((_, index) => (
+                          <PiStarFill
+                            key={index}
+                            className={`text-${
+                              index < applicant.rating ? "yellow" : "gray"
+                            }-300 w-6 h-6`}
+                          />
+                        ))}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           )}
 
           {/* PAGINAZIONE */}
           <div
             className={`${
-              applicants.length >= 1 ? "block" : "hidden"
+              totalApplicants >= 1 ? "block" : "hidden"
             } flex items-center justify-between  bg-white p-6`}
           >
             <div className="flex flex-1 justify-between sm:hidden">
@@ -281,11 +346,11 @@ export default function FilterUsersForJob({ skeletron }) {
                   Showing{" "}
                   <span className="font-semibold text-indigo-500">1</span> to{" "}
                   <span className="font-semibold text-indigo-500">
-                    {currentApplicants}
+                    {currentApplicants.length}
                   </span>{" "}
                   of{" "}
                   <span className="font-semibold text-indigo-500">
-                    {totalJobs}
+                    {totalApplicants}
                   </span>{" "}
                   results
                 </p>
@@ -293,10 +358,10 @@ export default function FilterUsersForJob({ skeletron }) {
               <div className="flex items-center gap-5">
                 <div className="">
                   <select
-                    id="jobsPerPage"
-                    name="jobsPerPage"
-                    value={jobsPerPage}
-                    onChange={handleJobsPerPageChange}
+                    id="applicantsPerPage"
+                    name="applicantsPerPage"
+                    value={applicantsPerPage}
+                    onChange={handleApplicantsPerPageChange}
                     className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   >
                     <option value={10}>10</option>

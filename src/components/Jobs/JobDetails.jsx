@@ -17,14 +17,17 @@ export default function JobDetails() {
   const [message, setMessage] = useState(null);
   const [skeletron, setSkeletron] = useState(false);
 
-  const handleResult = (data) => {
-    setMessage(data);
-  };
-
+  //! gestione dello stato per lo skeletron dopo l'upload del cv
   const handleUploadCv = (bol) => {
     setSkeletron(bol);
   };
 
+  //! gestione dello stato del messaggio di successo dopo l'upload del cv
+  const handleResult = (data) => {
+    setMessage(data);
+  };
+
+  //! gestione del messaggio di successo dopo l'upload del cv
   useEffect(() => {
     if (message) {
       const timeoutId = setTimeout(() => {
@@ -35,8 +38,9 @@ export default function JobDetails() {
     }
   }, [message]);
 
+  //! funzione per ottenere i dettagli del lavoro
   useEffect(() => {
-    async function fetchJobDetails() {
+    const fetchJobDetails = async () => {
       try {
         setLoading(true);
         const { data: jobs, error } = await supabase
@@ -47,28 +51,35 @@ export default function JobDetails() {
 
         if (error) {
           console.error("Error fetching job details:", error.message);
-          return;
+        } else {
+          setSelectedJob(jobs);
+          setLoading(false);
         }
-
-        setSelectedJob(jobs);
-        setLoading(false);
       } catch (error) {
         console.error("Error fetching job details:", error.message);
         setLoading(false);
       }
-    }
+    };
 
     fetchJobDetails();
   }, [id]);
 
+  console.log(selectedJob);
+
   return (
     <section>
-      {modalOpen && <Ai onResult={handleResult} onUploadCv={handleUploadCv} closeModal={closeModal} />}
-      {loading && ( <Loader /> )}
+      {modalOpen && (
+        <Ai
+          onResult={handleResult}
+          onUploadCv={handleUploadCv}
+          closeModal={closeModal}
+        />
+      )}
+      {loading && <Loader />}
       <div
         data-aos="fade-down"
         data-aos-easing="linear"
-        data-aos-duration="1500"
+        data-aos-duration="1000"
         className={`${
           modalOpen ? "opacity-10" : "opacity-100 shadow-md"
         } bg-white px-6 py-8  rounded-2xl my-10`}
@@ -78,7 +89,7 @@ export default function JobDetails() {
             <div className="lg:flex lg:items-center lg:justify-between">
               <div className="min-w-0 flex-1">
                 <h2 className="text-xl 2xl:text-3xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
-                  {`${selectedJob.role} [${selectedJob.company_name}] - ${selectedJob.seniority}`}
+                  {`${selectedJob.role} at ${selectedJob.company_name} [${selectedJob.seniority}]`}
                 </h2>
                 <div className="mt-1 flex flex-col sm:flex-row sm:flex-wrap sm:space-x-6">
                   <div className="mt-2 flex items-center text-sm text-gray-500">
@@ -99,7 +110,7 @@ export default function JobDetails() {
                 <button
                   onClick={openModal}
                   type="button"
-                  className="relative inline-flex items-center rounded-xl bg-indigo-600 px-4 2xl:px-6 py-2 2xl:py-4 text:xl 2xl:text-2xl font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  className="relative inline-flex items-center rounded-xl bg-indigo-600 px-5 py-3 text-lg 2xl:text-xl font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
                   <BsStars className="me-2 w-6 h-6" />
                   Upload CVs

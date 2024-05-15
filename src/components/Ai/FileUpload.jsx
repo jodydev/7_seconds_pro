@@ -71,7 +71,7 @@ export default function FileUpload() {
                     Upload your files to start processing
                   </p>
                   <div className="mt-10">
-                    <div className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                    <div className="inline-flex items-center rounded-2xl bg-indigo-600 px-5 py-3 text-base font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                       <label
                         htmlFor="file-upload"
                         className="cursor-pointer flex items-center"
@@ -124,7 +124,7 @@ export default function FileUpload() {
                           </p>
                         </div>
                         <div className="mt-5 flex lg:ml-4 lg:mt-0">
-                          <span className="hidden sm:block">
+                          <span className="">
                             <button
                               onClick={() => deleteFile(index)}
                               type="button"
