@@ -49,6 +49,7 @@ export default function HeaderCard() {
   const location = useLocation();
   const [accountCredits, setAccountCredits] = useState(0);
   const [userId, setUserId] = useState("");
+  const [subscription, setSubscription] = useState();
 
   //! Funzione per recuperare l'ID dell'utente attualmente loggato
   useEffect(() => {
@@ -85,6 +86,7 @@ export default function HeaderCard() {
         );
       } else {
         setAccountCredits(data[0].credits_total || 0);
+        setSubscription(data[0].subscription_plan );
       }
     } catch (error) {
       console.error(
@@ -119,7 +121,7 @@ export default function HeaderCard() {
       },
       {
         name: "Subscription",
-        stat: "Premium",
+        stat: subscription,
         icon: FaUsers,
         aos: "fade-down",
         bgCard: "white",
@@ -218,8 +220,6 @@ export default function HeaderCard() {
     return currentConfig.map((item, index) => (
       <div
         data-aos={item.aos}
-        data-aos-easing="linear"
-        data-aos-duration="1000"
         key={index}
         className={`overflow-hidden rounded-2xl ${
           item.bgCard ? `bg-${item.bgCard}` : ""

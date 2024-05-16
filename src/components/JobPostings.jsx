@@ -53,9 +53,7 @@ export default function JobPostings() {
     <section>
       {modalOpen && <Job onResult={handleResult} closeModal={closeModal} />}
       <div
-        data-aos="fade-left"
-        data-aos-easing="linear"
-        data-aos-duration="1000"
+        data-aos="fade-up"
       >
         {message && (
           <div

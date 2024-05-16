@@ -8,7 +8,6 @@ import { FaCheckCircle } from "react-icons/fa";
 import supabase from "../../supabase/client";
 import useAuth from "../../hook/useAuth";
 
-
 export default function Ai({ closeModal, onResult, onUploadCv }) {
   const { session } = useAuth();
   const jobId = useParams().id;
@@ -77,18 +76,13 @@ export default function Ai({ closeModal, onResult, onUploadCv }) {
 
       const successfulUploads = results.filter((result) => !result.error);
 
-  
-        await sendCvs(successfulUploads.map((result) => result.data));
-        await sendThreads(
-          successfulUploads.map((upload) => upload.data.id),
-          jobId
-        );
-        setFiles(successfulUploads.map((result) => result.data));
-        setLoading(false);
-        closeModal();
-        onResult(true);
-        onUploadCv(true);
-    
+      await sendCvs(successfulUploads.map((result) => result.data));
+
+      setFiles(successfulUploads.map((result) => result.data));
+      setLoading(false);
+      closeModal();
+      onResult(true);
+      onUploadCv(true);
     } catch (error) {
       setLoading(false);
     }
@@ -125,6 +119,8 @@ export default function Ai({ closeModal, onResult, onUploadCv }) {
         cvid: cvId,
         jobid: jobId,
       }));
+
+      console.log(cvIds, jobId);
 
       const { data, error } = await supabase.from("threads").insert(threadData);
 
@@ -252,7 +248,8 @@ export default function Ai({ closeModal, onResult, onUploadCv }) {
                                   <span className="text-base font-semibold text-indigo-500">
                                     +{files.length}
                                   </span>{" "}
-                                  {files.length === 1 ? "File" : "Files"} Inserted Successfully
+                                  {files.length === 1 ? "File" : "Files"}{" "}
+                                  Inserted Successfully
                                 </h3>
 
                                 {files.map((file, index) => (

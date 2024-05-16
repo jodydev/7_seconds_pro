@@ -18,8 +18,8 @@ import { TbLogout2 } from "react-icons/tb";
 
 const navigation = [
   { name: "Dashboard", to: "/home", icon: HomeIcon, current: true },
-  { name: "Settings", to: "/settings", icon: MdSettings, current: false },
-  // { name: "AI", to: "/ai", icon: BsStars, current: false },
+  { name: "Upgrade Plan", to: "/upgrade-plan", icon: BsStars, current: false },
+  // { name: "Settings", to: "/settings", icon: MdSettings, current: false },
   // { name: "Jobs", to: "/jobs", icon: BriefcaseIcon, current: false },
   // { name: "Users", to: "/users", icon: FaUsers, current: false },
   // {

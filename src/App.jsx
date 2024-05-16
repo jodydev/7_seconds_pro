@@ -12,6 +12,7 @@ import Home from "./pages/Home";
 import PageNotFound from "./pages/PageNotFound";
 import JobDetails from "./components/Jobs/JobDetails";
 import UserDetails from "./components/Users/UserDetails";
+import UpgradePlan from "./pages/UpgradePlan";
 
 export function App() {
   useEffect(() => {
@@ -40,6 +41,7 @@ function LayoutWithRoutes({ session }) {
         <Route path="/home" element={<Home />} />
         <Route path="/job-details/:id" element={<JobDetails />} />
         <Route path="/user-details/:id" element={<UserDetails />} />
+        <Route path="/upgrade-plan" element={<UpgradePlan />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </Layout>

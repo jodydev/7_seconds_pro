@@ -10,11 +10,13 @@ import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import supabase from "../../supabase/client";
+import Loader from "../Loader"
 
 export default function FilterUsersForJob({ skeletron }) {
   const jobId = useParams().id;
   const applicantsCountRef = useRef(0);
   const { modalOpen } = useAppContext();
+  const [loading, setLoading] = useState(false);
   const [applicants, setApplicants] = useState([]);
   const [totalApplicants, setTotalApplicants] = useState(0);
   const [sortDirectionR, setSortDirectionR] = useState("desc");
@@ -75,6 +77,7 @@ export default function FilterUsersForJob({ skeletron }) {
   //! Funzione per prendere i candidati per un job specifico
   const getApplicantsForJob = async (jobId) => {
     try {
+      setLoading(true);
       const { data, error } = await supabase
         .from("cvs_data")
         .select("*")
@@ -87,6 +90,8 @@ export default function FilterUsersForJob({ skeletron }) {
       setApplicants(data);
     } catch (error) {
       console.error("Errore durante il caricamento dei jobs:", error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -99,7 +104,7 @@ export default function FilterUsersForJob({ skeletron }) {
     const handleChanges = (payload) => {
       if (payload.table === "table") {
         setApplicants((prevApplicants) => [...prevApplicants, payload.new]);
-        setTotalApplicants(applicantsCountRef.current + 1);
+        setTotalApplicants(applicants.lenght + 1);
       }
     };
 
@@ -136,14 +141,9 @@ export default function FilterUsersForJob({ skeletron }) {
     );
   }, [applicants]);
 
-  
-
   return (
-    <section
-      data-aos="fade-left"
-      data-aos-easing="linear"
-      data-aos-duration="1000"
-    >
+    <section data-aos="fade-up">
+      {loading && <Loader />}
       <div
         className={`${
           modalOpen ? "opacity-10" : "opacity-100"
@@ -158,7 +158,7 @@ export default function FilterUsersForJob({ skeletron }) {
         </div>
 
         <div className="relative overflow-x-auto shadow-md sm:rounded-2xl mt-5">
-          {currentApplicants.length === 0 ? (
+          {totalApplicants === 0 ? (
             <table className="w-full text-left rtl:text-right text-gray-500 dark:text-gray-400">
               <thead className="text-lg 2xl:text-lg text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
@@ -236,16 +236,14 @@ export default function FilterUsersForJob({ skeletron }) {
               </thead>
               <tbody className="hover:cursor-pointer ">
                 {skeletron ? (
-                  <tr className="bg-white border-b">
+                  <tr className="border-b">
                     <td className="px-6 py-4">
-                      <div className="animate-pulse">
-                        <div className="h-6 bg-gray-200 rounded-lg"></div>
+                      <div className="h-6 bg-gray-200 rounded-lg">
+                        <p>NoME FILE</p>
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <div className="animate-pulse">
-                        <div className="h-6 bg-gray-200 rounded-lg"></div>
-                      </div>
+                      <div className="animate-pulse"></div>
                     </td>
                     <td className="px-6 py-4">
                       <div className="animate-pulse">

@@ -13,7 +13,7 @@ export default function JobDetails() {
   const { modalOpen, openModal, closeModal } = useAppContext();
   const { id } = useParams();
   const [selectedJob, setSelectedJob] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
   const [skeletron, setSkeletron] = useState(false);
 
@@ -38,11 +38,11 @@ export default function JobDetails() {
     }
   }, [message]);
 
-  //! funzione per ottenere i dettagli del lavoro
+  //! funzione per ottenere i dettagli del lavoro selezionato tramite id
   useEffect(() => {
     const fetchJobDetails = async () => {
+      setLoading(true);
       try {
-        setLoading(true);
         const { data: jobs, error } = await supabase
           .from("jobs")
           .select("*")
@@ -53,18 +53,16 @@ export default function JobDetails() {
           console.error("Error fetching job details:", error.message);
         } else {
           setSelectedJob(jobs);
-          setLoading(false);
         }
       } catch (error) {
         console.error("Error fetching job details:", error.message);
+      } finally {
         setLoading(false);
       }
     };
 
     fetchJobDetails();
   }, [id]);
-
-  console.log(selectedJob);
 
   return (
     <section>
@@ -76,10 +74,9 @@ export default function JobDetails() {
         />
       )}
       {loading && <Loader />}
+
       <div
         data-aos="fade-down"
-        data-aos-easing="linear"
-        data-aos-duration="1000"
         className={`${
           modalOpen ? "opacity-10" : "opacity-100 shadow-md"
         } bg-white px-6 py-8  rounded-2xl my-10`}
@@ -145,7 +142,8 @@ export default function JobDetails() {
           </div>
         </div>
       )}
-      <FilterUsersForJob skeletron={skeletron} />
+
+      <FilterUsersForJob  skeletron={skeletron} />
     </section>
   );
 }

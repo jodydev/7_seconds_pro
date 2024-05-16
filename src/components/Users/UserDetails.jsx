@@ -3,6 +3,8 @@ import { PiStarFill } from "react-icons/pi";
 import { useParams } from "react-router-dom";
 import supabase from "../../supabase/client";
 import { BsStars } from "react-icons/bs";
+import { MdEmail } from "react-icons/md";
+import { BsFillTelephoneFill } from "react-icons/bs";
 
 export default function UserDetails() {
   const thread_id = useParams().id;
@@ -43,7 +45,7 @@ export default function UserDetails() {
                 <div className="flex justify-between items-center gap-0 2xl:gap-60">
                   <div className="flex">
                     <h2 className="text-3xl ms-6 font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
-                      {applicant.name || "Jody Ossino"}
+                      {applicant.name || "Nessun nome specificato"}
                     </h2>
                     <div className="flex items-center ml-3">
                       {[...Array(5)].map((_, index) => (
@@ -62,7 +64,7 @@ export default function UserDetails() {
                   <h3 className="text-base font-semibold leading-7 text-gray-900">
                     Applied for:{" "}
                     <span className="font-bold text-indigo-500">
-                      {applicant.job_title || "Apple.inc"}
+                      {applicant.job_title || "Nessun titolo di lavoro specificato"}
                     </span>
                   </h3>
 
@@ -73,7 +75,7 @@ export default function UserDetails() {
                           Age:
                         </p>
                         <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                          {applicant.age || "23"}
+                          {applicant.age || "Nessuna età specificata"}
                         </dd>
                       </div>
                       <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -82,24 +84,26 @@ export default function UserDetails() {
                         </p>
                         <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                           {applicant.city ||
-                            "Via del Successo 1, Bologna, Italy"}
+                            "Nessuna città di residenza specificata"}
                         </dd>
                       </div>
-                      {/* <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-5 sm:px-0">
+                      <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-5 sm:px-0">
                         <p className="text-sm font-medium leading-6 text-gray-900">
                           Contacts:
                         </p>
                         <ul className="">
                           <li className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 flex text-nowrap items-center gap-3">
                             <BsFillTelephoneFill className="w-4 h-4 text-gray-400" />{" "}
-                            +39 3336170035
+                            {applicant.phone ||
+                            "Nessun numero di telefono specificato"}
                           </li>
                           <li className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 flex items-center gap-3">
                             <MdEmail className="w-4 h-4 text-gray-400" />{" "}
-                            jodyossino.dev@gmail.com
+                            {applicant.phone ||
+                            "Nessun indirizzo email specificato"}
                           </li>
                         </ul>
-                      </div> */}
+                      </div>
                     </dl>
                   </div>
                 </div>
@@ -113,9 +117,9 @@ export default function UserDetails() {
 
                   <div className="mt-1 flex flex-col">
                     <h3 className="text-base font-semibold leading-7 text-gray-900">
-                      Ai Tips of {applicant.name || "Jody Ossino"} CVs for job
-                      at
-                      {applicant.job_title || " Apple.inc"}
+                      Ai Tips of {applicant.name || "Nessun nome specificato"} CVs for job
+                      at{" "}
+                      {applicant.job_title || "Nessun titolo di lavoro specificato"}
                     </h3>
 
                     <div className="mt-3 border-t border-gray-100 ">
