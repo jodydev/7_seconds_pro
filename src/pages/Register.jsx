@@ -1,34 +1,32 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { MdEmail } from "react-icons/md";
+import { HiEye, HiEyeOff } from "react-icons/hi";
 import supabase from "../supabase/client";
 
 export default function Register() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [registerStep, setRegisterStep] = useState(true);
   const [confirmEmail, setConfirmEmail] = useState(false);
   const [error, setError] = useState(false);
   const [passwordError, setPasswordError] = useState("");
 
+  //! Chiamata API a Supabase per la registrazione dell'utente
   const handleRegister = async (event) => {
     event.preventDefault();
-
-    // Password validation
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()])[A-Za-z\d!@#$%^&*()]{8,}$/;
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()])[A-Za-z\d!@#$%^&*()]{8,}$/;
     if (!passwordRegex.test(password)) {
       setPasswordError(
         "Password must contain at least one lowercase letter, one uppercase letter, one number, one special character, and be at least 8 characters long."
       );
-      return;
     }
-
     try {
-      // Chiamata API a Supabase per la registrazione dell'utente
       const { error } = await supabase.auth.signUp({ email, password });
-
       if (error) {
         throw error;
       } else {
@@ -67,7 +65,12 @@ export default function Register() {
       )}
 
       {confirmEmail && (
-        <div className="flex items-center justify-center h-screen text-center">
+        <div className="py-40 2xl:py-96 flex-col items-center justify-center h-screen text-center">
+          <img
+            src="/email.gif"
+            alt="Email"
+            className="mx-auto h-[300px] w-[300px] text-gray-400"
+          />
           <div className="flex flex-col items-center justify-center">
             <p className="text-2xl text-gray-500 mb-6">
               Please, confirm your email to proceed to the dashboard.
@@ -88,7 +91,7 @@ export default function Register() {
       )}
 
       {registerStep && (
-        <div className="flex min-h-full flex-1 flex-col items-center justify-center px-6 py-96 lg:px-8">
+        <div className="flex min-h-full flex-1 flex-col items-center justify-center py-32 2xl:py-96">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
               Register your account
@@ -125,24 +128,37 @@ export default function Register() {
                 >
                   Password
                 </label>
-                <div className="mt-2">
+                <div className="mt-2 relative">
                   <input
                     id="password"
                     name="password"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     autoComplete="new-password"
                     required
                     value={password}
                     onChange={(e) => {
                       setPassword(e.target.value);
-                      setPasswordError(""); // Reset password error when input changes
+                      setPasswordError("");
                     }}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
-                  {passwordError && (
-                    <p className="mt-1 text-red-500 text-xs">{passwordError}</p>
-                  )}
+                  <div className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer">
+                    {showPassword ? (
+                      <HiEyeOff
+                        onClick={() => setShowPassword(false)}
+                        className="h-5 w-5 text-gray-400"
+                      />
+                    ) : (
+                      <HiEye
+                        onClick={() => setShowPassword(true)}
+                        className="h-5 w-5 text-gray-400"
+                      />
+                    )}
+                  </div>
                 </div>
+                {passwordError && (
+                  <p className="mt-1 text-red-500 text-xs">{passwordError}</p>
+                )}
               </div>
 
               <div>

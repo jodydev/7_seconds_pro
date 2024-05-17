@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { IoCloseCircleOutline } from "react-icons/io5";
+import { MdEmail } from "react-icons/md";
+import { HiEye, HiEyeOff } from "react-icons/hi";
 import useAuth from "../hook/useAuth";
 
 export default function Login() {
@@ -8,6 +10,7 @@ export default function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(false);
 
   useEffect(() => {
@@ -47,7 +50,7 @@ export default function Login() {
           </div>
         </div>
       )}
-      <div className="flex min-h-full flex-1 flex-col items-center justify-center px-6 py-96 lg:px-8">
+      <div className="flex min-h-full flex-1 flex-col items-center justify-center py-32 2xl:py-96">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Login to your account
@@ -84,17 +87,32 @@ export default function Login() {
               >
                 Password
               </label>
-              <div className="mt-2">
+              <div className="mt-2 relative">
                 <input
                   id="password"
                   name="password"
-                  type="password"
-                  autoComplete="current-password"
+                  type={showPassword ? "text" : "password"}
+                  autoComplete="new-password"
                   required
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
+                <div className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer">
+                  {showPassword ? (
+                    <HiEyeOff
+                      onClick={() => setShowPassword(false)}
+                      className="h-5 w-5 text-gray-400"
+                    />
+                  ) : (
+                    <HiEye
+                      onClick={() => setShowPassword(true)}
+                      className="h-5 w-5 text-gray-400"
+                    />
+                  )}
+                </div>
               </div>
             </div>
 

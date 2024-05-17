@@ -145,6 +145,12 @@
   background-color: rgb(64 58 200 / var(--tw-bg-opacity));
 }
 
+.bg-antracite {
+  --tw-bg-opacity: 1;
+  background-color: rgb(34 34 34 / var(--tw-bg-opacity));
+
+}
+
 /* GLOBAL STYLES */
 
 html {

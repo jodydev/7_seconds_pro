@@ -17,10 +17,15 @@ export default function JobPostings() {
   const [message, setMessage] = useState(null);
   const is1080p = window.matchMedia("(min-width: 1920px)").matches;
   const is1440p = window.matchMedia("(min-width: 2500px)").matches;
+  const checkDeviceSize = is1440p ? 13 : is1080p ? 9 : 5;
   const [currentPage, setCurrentPage] = useState(1);
+<<<<<<< Updated upstream
   const [jobsPerPage, setJobsPerPage] = useState(
     is1440p ? 13 : is1080p ? 10 : 5
   );
+=======
+  const [jobsPerPage, setJobsPerPage] = useState(checkDeviceSize);
+>>>>>>> Stashed changes
   const totalPages = Math.ceil(totalJobs / jobsPerPage);
   const indexOfLastJob = currentPage * jobsPerPage;
   const indexOfFirstJob = indexOfLastJob - jobsPerPage;
@@ -158,7 +163,7 @@ export default function JobPostings() {
         )}
         <div
           className={`${modalOpen ? "opacity-10" : "opacity-100"} 
-           ${message ? "my-0" : "my-10"}
+           ${message ? "my-0" : "my-5 2xl:my-14"}
            ${totalJobs === 0 ? "min-h-[1000px]" : ""}
            bg-white px-6 py-4 shadow-lg rounded-2xl`}
         >
@@ -173,7 +178,7 @@ export default function JobPostings() {
                 <button
                   onClick={openModal}
                   type="button"
-                  className="relative inline-flex items-center rounded-xl bg-indigo-600 px-5 py-3 text-lg 2xl:text-xl hover:cursor-pointer font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  className="relative inline-flex items-center rounded-xl bg-indigo-600 px-3 py-2 text-lg 2xl:text-xl hover:cursor-pointer font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
                   <TbSquareRoundedPlusFilled className="w-6 h-6 me-2" />
                   New Job
@@ -262,7 +267,7 @@ export default function JobPostings() {
                       <button
                         onClick={openModal}
                         type="button"
-                        className="my-3 inline-flex items-center rounded-xl bg-indigo-600 px-4 2xl:px-6 py-2 2xl:py-4 text:xl 2xl:text-2xl font-semibold text-white shadow-sm hover:cursor-pointer hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        className="my-3 inline-flex items-center rounded-xl bg-indigo-600 px-3 py-2 2xl:px-6 2xl:py-4 text-lg 2xl:text-2xl font-semibold text-white shadow-sm hover:cursor-pointer hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                       >
                         <TbSquareRoundedPlusFilled className="w-6 h-6 me-2" />
                         New Job
@@ -321,10 +326,10 @@ export default function JobPostings() {
                       onChange={handleJobsPerPageChange}
                       className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     >
-                      <option value={10}>10</option>
-                      <option value={25}>25</option>
-                      <option value={50}>50</option>
-                      <option value={100}>100</option>
+                      <option value={checkDeviceSize}>{checkDeviceSize}</option>
+                      <option value={checkDeviceSize}>{checkDeviceSize}</option>
+                      <option value={checkDeviceSize}>{checkDeviceSize}</option>
+                      <option value={checkDeviceSize}>{checkDeviceSize}</option>
                     </select>
                   </div>
 

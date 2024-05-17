@@ -13,7 +13,7 @@ const WorkIcon = () => (
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
     fill="currentColor"
-    className="w-8 h-8 text-white"
+    className="w-5 h-5 2xl:w-8 2xl:h-8 text-white"
   >
     <path
       fillRule="evenodd"
@@ -29,7 +29,7 @@ const FileIcon = () => (
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
     fill="currentColor"
-    className="w-8 h-8 text-white"
+    className="w-5 h-5 2xl:w-8 2xl:h-8 text-white"
   >
     <path
       fillRule="evenodd"
@@ -146,14 +146,14 @@ export default function HeaderCard() {
         stat: fileCount,
         icon: FileIcon,
         aos: "fade-down",
-        bgCard: "indigo-600",
+        bgCard: "indigo-700",
       },
       {
         name: "Credits",
         stat: accountCredits,
         icon: BsStars,
         aos: "fade-down",
-        bgCard: "indigo-500",
+        bgCard: "indigo-700",
       },
       {
         name: "Subscription",
@@ -261,13 +261,13 @@ export default function HeaderCard() {
           item.bgCard ? `bg-${item.bgCard}` : ""
         } ${
           item.colorText ? `text-${item.colorText}` : "text-white"
-        } px-4 py-8 shadow-lg flex-col items-center justify-center hover:cursor-pointer `}
+        } px-4 py-3 2xl:py-8 shadow-lg flex-col items-center justify-center hover:cursor-pointer `}
       >
         <div className="flex items-center justify-center gap-3">
           <p className="ml-2 truncate text-xl 2xl:text-4xl font-medium ">
             {item.name}
           </p>
-          <item.icon className="h-6 w-6 2xl:h-8 2xl:w-8 " />
+          <item.icon className="h-5 w-5 2xl:h-8 2xl:w-8 " />
         </div>
         <div
           className={`${
@@ -284,7 +284,7 @@ export default function HeaderCard() {
 
   return (
     <div className={`${modalOpen ? "opacity-10" : "opacity-100"}`}>
-      <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="2xl:mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {renderCards(location.pathname)}
       </div>
     </div>
