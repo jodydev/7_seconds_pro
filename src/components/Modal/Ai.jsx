@@ -144,7 +144,7 @@ export default function Ai({ closeModal, onResult, onUploadCv }) {
         <div className="relative p-10 w-full md:max-w-[50%]">
           <div className="relative bg-white rounded-lg  dark:bg-gray-700 py-6 px-12 border border-indigo-50 shadow-lg shadow-indigo-500/50">
             <div className="flex items-center justify-between my-2 border-b rounded-t dark:border-gray-600 ">
-              <h3 className="text-3xl my-2 font-semibold text-gray-900 dark:text-white">
+              <h3 className="text-2xl 2xl:text-3xl my-2 font-semibold text-gray-900 dark:text-white">
                 {files.length > 0
                   ? "Operation Completed"
                   : "Upload CVs to Analyze"}
@@ -182,13 +182,13 @@ export default function Ai({ closeModal, onResult, onUploadCv }) {
             </div>
 
             <form>
-              <div className="w-full h-full my-10">
+              <div className="w-full h-full my-0 2xl:my-10">
                 <div className="flex justify-center w-full px-6">
                   <div className="text-center">
                     {loading ? (
                       <div className="loader my-40">
-                        <p>Attendere, caricamento in corso...</p>
-                        <span className="words text-indigo-500">
+                        <p className="text-lg 2xl:text-2xl">Attendere, caricamento in corso...</p>
+                        <span className="words text-lg 2xl:text-2xl text-indigo-500">
                           <p className="word">curriculum</p>
                           <p className="word">competenze</p>
                           <p className="word">esperienze</p>
@@ -203,12 +203,12 @@ export default function Ai({ closeModal, onResult, onUploadCv }) {
                             <img
                               src="/upload.gif"
                               alt="Upload File"
-                              className="mx-auto h-[300px] w-[300px] text-gray-400"
+                              className="mx-auto h-[200px] w-[200px] 2xl:h-[300px] 2xl:w-[300px] text-gray-400"
                             />
-                            <h3 className="text-lg font-semibold text-gray-900">
+                            <h3 className="text-sm 2xl:text-lg font-semibold text-gray-900">
                               Upload one or more files to start processing...
                             </h3>
-                            <p className="text-sm italic my-1">
+                            <p className="text-xs 2xl:text-sm italic my-1">
                               *only accepts pdf files
                             </p>
 
@@ -241,10 +241,10 @@ export default function Ai({ closeModal, onResult, onUploadCv }) {
                                   autoPlay
                                   src="/success.mp4"
                                   alt="Success Upload"
-                                  className="mx-auto h-[200px] w-[200px] text-gray-400"
+                                  className="mx-auto h-[150px] w-[150px] 2xl:h-[200px] 2xl:w-[200px] text-gray-400"
                                 />
 
-                                <h3 className="my-5 text-base font-semibold text-gray-900">
+                                <h3 className="my-5 text-sm 2xl:text-base font-semibold text-gray-900">
                                   <span className="text-base font-semibold text-indigo-500">
                                     +{files.length}
                                   </span>{" "}
@@ -252,13 +252,13 @@ export default function Ai({ closeModal, onResult, onUploadCv }) {
                                   Inserted Successfully
                                 </h3>
 
-                                {files.map((file, index) => (
+                                {files.map((file) => (
                                   <div key={`${file.name}-${Date.now()}`}>
                                     <div className="bg-gray-50 px-4 py-2 my-5 rounded-xl hover:cursor-pointer">
                                       <div className="lg:flex lg:items-center lg:justify-between my-2 ">
                                         <div className="min-w-0 flex ">
-                                          <GrDocumentPdf className="mx-3 h-6 w-6" />
-                                          <p className="text-base font-semibold leading-7 text-gray-900 sm:truncate sm:text-lg sm:tracking-tight">
+                                          <GrDocumentPdf className="mx-3 h-5 w-5 2xl:h-6 2xl:w-6" />
+                                          <p className="text-sm 2xl:text-base font-semibold leading-7 text-gray-900 sm:truncate sm:tracking-tight">
                                             {file.name}
                                           </p>
                                         </div>
@@ -292,7 +292,7 @@ export default function Ai({ closeModal, onResult, onUploadCv }) {
                                   </div>
                                 ))}
                                 <div>
-                                  <div className="inline-flex items-center rounded-xl bg-indigo-500 px-4 py-3 mt-10 text-sm sm:text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                                  <div className="inline-flex items-center rounded-xl bg-indigo-500 px-4 py-3 mt-10 text-sm 2xl:text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                                     <button
                                       id="confirm-upload"
                                       type="button"
@@ -300,7 +300,7 @@ export default function Ai({ closeModal, onResult, onUploadCv }) {
                                       onClick={handleUpload}
                                     >
                                       {" "}
-                                      <FaCheckCircle className="me-2 h-6 w-6" />
+                                      <FaCheckCircle className="me-2 h-5 w-5 2xl:h-6 2xl:w-6" />
                                       Confirm Upload
                                     </button>
                                   </div>

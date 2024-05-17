@@ -40,7 +40,7 @@ function classNames(...classes) {
 export default function UpgradePlan() {
   return (
     <div data-aos="fade-up">
-      <div className="bg-white py-24 2xl:py-60">
+      <div className="bg-white py-10 2xl:py-60">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-4xl text-center">
             <h2 className="text-3xl font-semibold leading-7 text-indigo-600">

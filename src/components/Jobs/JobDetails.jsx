@@ -79,17 +79,17 @@ export default function JobDetails() {
         data-aos="fade-down"
         className={`${
           modalOpen ? "opacity-10" : "opacity-100 shadow-md"
-        } bg-white px-6 py-8  rounded-2xl my-10`}
+        } bg-white px-6 py-4 2xl:py-8  rounded-2xl mt-0 2xl:my-10`}
       >
         {selectedJob && (
           <div className={`${modalOpen ? "opacity-10" : "opacity-100"}`}>
             <div className="lg:flex lg:items-center lg:justify-between">
               <div className="min-w-0 flex-1">
-                <h2 className="text-xl 2xl:text-3xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
+                <h2 className="text-xl 2xl:text-3xl font-bold leading-7 text-gray-900 sm:truncate sm:tracking-tight">
                   {`${selectedJob.role} at ${selectedJob.company_name} [${selectedJob.seniority}]`}
                 </h2>
                 <div className="mt-1 flex flex-col sm:flex-row sm:flex-wrap sm:space-x-6">
-                  <div className="mt-2 flex items-center text-sm text-gray-500">
+                  <div className="mt-2 flex items-center text-xs 2xl:text-sm text-gray-500">
                     <CalendarIcon
                       className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400"
                       aria-hidden="true"
@@ -107,7 +107,7 @@ export default function JobDetails() {
                 <button
                   onClick={openModal}
                   type="button"
-                  className="relative inline-flex items-center rounded-xl bg-indigo-600 px-5 py-3 text-lg 2xl:text-xl font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  className="relative inline-flex items-center rounded-xl bg-indigo-600 px-3 py-2 2xl:px-5 2xl:py-3 text-lg 2xl:text-xl font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
                   <BsStars className="me-2 w-6 h-6" />
                   Upload CVs
@@ -116,10 +116,10 @@ export default function JobDetails() {
             </div>
             <div className="mt-6 border-t border-gray-100">
               <dl className="divide-y divide-gray-100">
-                <div className="py-5 w-full">
-                  <span className="text-xl font-semibold leading-6 text-gray-900">
-                    Job Description: <br /> <br />{" "}
-                    <p className="text-base font-light  leading-6 text-gray-900">
+                <div className="py-3 2xl:py-5 w-full">
+                  <span className="text-base 2xl:text-xl font-semibold leading-6 text-gray-900">
+                    Job Description:{" "}
+                    <p className="text-sm 2xl:text-base font-light  leading-6 text-gray-900">
                       {selectedJob.description}
                     </p>
                   </span>
@@ -132,18 +132,18 @@ export default function JobDetails() {
       {message && (
         <div
           data-aos="fade-left"
-          className="flex items-center p-5 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
+          className="flex items-center p-5 my-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
           role="alert"
         >
           <FaCheckCircle className="w-5 h-5 me-2" />
           <span className="sr-only">Info</span>
           <div>
-            <span className="font-medium text-base">Upload Successful!</span>
+            <span className="font-medium text-sm 2xl:text-base">Upload Successful!</span>
           </div>
         </div>
       )}
 
-      <FilterUsersForJob  skeletron={skeletron} />
+      <FilterUsersForJob skeletron={skeletron} />
     </section>
   );
 }

@@ -10,19 +10,21 @@ import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import supabase from "../../supabase/client";
-import Loader from "../Loader"
+import Loader from "../Loader";
 
 export default function FilterUsersForJob({ skeletron }) {
   const jobId = useParams().id;
   const applicantsCountRef = useRef(0);
-  const { modalOpen } = useAppContext();
+  const { modalOpen, checkDeviceSizeApplicantsTable } = useAppContext();
   const [loading, setLoading] = useState(false);
   const [applicants, setApplicants] = useState([]);
   const [totalApplicants, setTotalApplicants] = useState(0);
   const [sortDirectionR, setSortDirectionR] = useState("desc");
   const [sortDirectionC, setSortDirectionC] = useState("desc");
   const [currentPage, setCurrentPage] = useState(1);
-  const [applicantsPerPage, setApplicantsPerPage] = useState(10);
+  const [applicantsPerPage, setApplicantsPerPage] = useState(
+    checkDeviceSizeApplicantsTable
+  );
   const [showAllApplicants, setShowAllApplicants] = useState(false);
   const totalPages = Math.ceil(totalApplicants / applicantsPerPage);
   const indexOfLastApplicant = currentPage * applicantsPerPage;
@@ -75,27 +77,27 @@ export default function FilterUsersForJob({ skeletron }) {
   };
 
   //! Funzione per prendere i candidati per un job specifico
-  const getApplicantsForJob = async (jobId) => {
-    try {
-      setLoading(true);
-      const { data, error } = await supabase
-        .from("cvs_data")
-        .select("*")
-        .eq("jobid", jobId);
-
-      if (error) {
-        throw error;
-      }
-
-      setApplicants(data);
-    } catch (error) {
-      console.error("Errore durante il caricamento dei jobs:", error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const getApplicantsForJob = async (jobId) => {
+      try {
+        setLoading(true);
+        const { data, error } = await supabase
+          .from("cvs_data")
+          .select("*")
+          .eq("jobid", jobId);
+
+        if (error) {
+          throw error;
+        }
+
+        setApplicants(data);
+      } catch (error) {
+        console.error("Errore durante il caricamento dei jobs:", error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     getApplicantsForJob(jobId);
   }, [jobId]);
 
@@ -147,11 +149,11 @@ export default function FilterUsersForJob({ skeletron }) {
       <div
         className={`${
           modalOpen ? "opacity-10" : "opacity-100"
-        } bg-white px-6 py-6 shadow-lg rounded-2xl mt-10`}
+        } bg-white px-6 py-6 shadow-lg rounded-2xl mt-5 2xl:mt-10`}
       >
         <div className="flex flex-wrap items-center justify-between sm:flex-nowrap border-b border-gray-200">
-          <div className="ml-4 mb-4">
-            <h3 className="text-3xl 2xl:text-4xl font-bold leading-6 text-gray-900">
+          <div className="ml-0 2xl:ml-4 mb-4">
+            <h3 className="text-2xl 2xl:text-4xl font-bold leading-6 text-gray-900">
               Applicants
             </h3>
           </div>
@@ -160,7 +162,7 @@ export default function FilterUsersForJob({ skeletron }) {
         <div className="relative overflow-x-auto shadow-md sm:rounded-2xl mt-5">
           {totalApplicants === 0 ? (
             <table className="w-full text-left rtl:text-right text-gray-500 dark:text-gray-400">
-              <thead className="text-lg 2xl:text-lg text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <thead className="2xl:text-lg text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                   <th scope="col" className="px-6 py-3">
                     Full Name
@@ -180,12 +182,12 @@ export default function FilterUsersForJob({ skeletron }) {
                 </tr>
               </thead>
               <tbody>
-                <tr className="bg-white h-[700px] border-b dark:bg-gray-800 dark:border-gray-700">
+                <tr className="bg-white h-[380px] 2xl:h-[700px] border-b dark:bg-gray-800 dark:border-gray-700">
                   <td className="text-center py-6" colSpan="5">
-                    <p className="text-5xl font-semibold">
+                    <p className="text-2xl 2xl:text-5xl  font-semibold">
                       No applications for this job yet...
                     </p>
-                    <p className="text-4xl font-semibold my-3">
+                    <p className="text-xl 2xl:text-4xl  font-semibold my-3">
                       upload your first
                       <span className="text-indigo-500 ms-2">CVs!</span>
                     </p>
@@ -236,29 +238,21 @@ export default function FilterUsersForJob({ skeletron }) {
               </thead>
               <tbody className="hover:cursor-pointer ">
                 {skeletron ? (
-                  <tr className="border-b">
+                  <tr className="text-sm 2xl:text-lg border-b">
                     <td className="px-6 py-4">
-                      <div className="h-6 bg-gray-200 rounded-lg">
-                        <p>NoME FILE</p>
-                      </div>
+                      <div className="h-6 bg-gray-200 rounded-lg"></div>
                     </td>
                     <td className="px-6 py-4">
-                      <div className="animate-pulse"></div>
+                      <div className="h-6 bg-gray-200 rounded-lg"></div>
                     </td>
                     <td className="px-6 py-4">
-                      <div className="animate-pulse">
-                        <div className="h-6 bg-gray-200 rounded-lg"></div>
-                      </div>
+                      <div className="h-6 bg-gray-200 rounded-lg"></div>
                     </td>
                     <td className="px-6 py-4">
-                      <div className="animate-pulse">
-                        <div className="h-6 bg-gray-200 rounded-lg"></div>
-                      </div>
-                    </td>
+                      <div className="h-6 bg-gray-200 rounded-lg"></div>
+                    </td>{" "}
                     <td className="px-6 py-4">
-                      <div className="animate-pulse">
-                        <div className="h-6 bg-gray-200 rounded-lg"></div>
-                      </div>
+                      <div className="h-6 bg-gray-200 rounded-lg"></div>
                     </td>
                   </tr>
                 ) : (
@@ -268,7 +262,7 @@ export default function FilterUsersForJob({ skeletron }) {
                 {currentApplicants.map((applicant) => (
                   <tr
                     key={applicant.thread_id}
-                    className="text-lg 2xl:text-lg bg-white border-b"
+                    className="2xl:text-lg bg-white border-b"
                   >
                     <td className="px-6 py-4">
                       <Link to={`/user-details/${applicant.thread_id}`}>
@@ -303,7 +297,7 @@ export default function FilterUsersForJob({ skeletron }) {
                             key={index}
                             className={`text-${
                               index < applicant.rating ? "yellow" : "gray"
-                            }-300 w-6 h-6`}
+                            }-300 w-4 h-4 2xl:w-6 2xl:h-6`}
                           />
                         ))}
                       </div>
@@ -340,7 +334,7 @@ export default function FilterUsersForJob({ skeletron }) {
             </div>
             <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
               <div>
-                <p className="2xl:text-base text-gray-700">
+                <p className="text-sm 2xl:text-base text-gray-700">
                   Showing{" "}
                   <span className="font-semibold text-indigo-500">1</span> to{" "}
                   <span className="font-semibold text-indigo-500">
@@ -362,10 +356,12 @@ export default function FilterUsersForJob({ skeletron }) {
                     onChange={handleApplicantsPerPageChange}
                     className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   >
-                    <option value={10}>10</option>
-                    <option value={25}>25</option>
-                    <option value={50}>50</option>
-                    <option value={100}>100</option>
+                    <option value={checkDeviceSizeApplicantsTable}>
+                      {checkDeviceSizeApplicantsTable}
+                    </option>
+                    <option value={25}>{25}</option>
+                    <option value={50}>{50}</option>
+                    <option value={100}>{100}</option>
                   </select>
                 </div>
 

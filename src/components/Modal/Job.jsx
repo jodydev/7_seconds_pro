@@ -62,9 +62,9 @@ export default function Job({ closeModal, onResult }) {
       <div className="relative p-10 w-full md:max-w-[50%]">
         <div className="relative bg-white rounded-lg  dark:bg-gray-700 py-6 px-12 border border-indigo-50 shadow-lg shadow-indigo-500/50">
           <div className="flex items-center justify-center my-2 border-b rounded-t dark:border-gray-600 ">
-            <h3 className="flex text-3xl my-2 font-semibold text-gray-900 dark:text-white">
+            <h3 className="flex text-2xl 2xl:text-3xl my-2 font-semibold text-gray-900 dark:text-white">
               Add New Job
-              <FaPencil className="w-7 h-7 ml-3" />
+              <FaPencil className="w-6 h-6 2xl:w-7 2xl:h-7 ml-3" />
             </h3>
             <button
               onClick={closeModal}

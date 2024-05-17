@@ -9,23 +9,14 @@ import Loader from "./Loader";
 import supabase from "../supabase/client";
 
 export default function JobPostings() {
-  const { modalOpen, openModal, closeModal } = useAppContext();
+  const { modalOpen, openModal, closeModal, checkDeviceSizeJobTable } = useAppContext();
   const [totalJobs, setTotalJobs] = useState(0);
   const [cvsForJob, setCvsForJob] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showAllJobs, setShowAllJobs] = useState(false);
   const [message, setMessage] = useState(null);
-  const is1080p = window.matchMedia("(min-width: 1920px)").matches;
-  const is1440p = window.matchMedia("(min-width: 2500px)").matches;
-  const checkDeviceSize = is1440p ? 13 : is1080p ? 9 : 5;
   const [currentPage, setCurrentPage] = useState(1);
-<<<<<<< Updated upstream
-  const [jobsPerPage, setJobsPerPage] = useState(
-    is1440p ? 13 : is1080p ? 10 : 5
-  );
-=======
-  const [jobsPerPage, setJobsPerPage] = useState(checkDeviceSize);
->>>>>>> Stashed changes
+  const [jobsPerPage, setJobsPerPage] = useState(checkDeviceSizeJobTable);
   const totalPages = Math.ceil(totalJobs / jobsPerPage);
   const indexOfLastJob = currentPage * jobsPerPage;
   const indexOfFirstJob = indexOfLastJob - jobsPerPage;
@@ -163,13 +154,13 @@ export default function JobPostings() {
         )}
         <div
           className={`${modalOpen ? "opacity-10" : "opacity-100"} 
-           ${message ? "my-0" : "my-5 2xl:my-14"}
-           ${totalJobs === 0 ? "min-h-[1000px]" : ""}
+           ${message ? "my-0" : "my-8 2xl:my-14"}
+           ${totalJobs === 0 ? "h-[600px] 2xl:min-h-[1000px]" : ""}
            bg-white px-6 py-4 shadow-lg rounded-2xl`}
         >
           <div className="flex flex-wrap items-center justify-between sm:flex-nowrap border-b border-gray-200">
             <div className="ml-4">
-              <h3 className="text-3xl 2xl:text-4xl font-bold leading-6 text-gray-900">
+              <h3 className="text-2xl 2xl:text-4xl font-bold leading-6 mb-2 text-gray-900">
                 Job Postings
               </h3>
             </div>
@@ -239,7 +230,7 @@ export default function JobPostings() {
                 </tbody>
               </table>
             ) : (
-              <table className="w-full text-sm text-left rtl:text-right text-gray-500 h-[800px]">
+              <table className="w-full text-sm text-left rtl:text-right text-gray-500 h-[500px] 2xl:h-[800px]">
                 <thead className="text-sm text-gray-700 bg-gray-50 ">
                   <tr className="2xl:text-2xl">
                     <th scope="col" className="px-6 py-3">
@@ -259,8 +250,8 @@ export default function JobPostings() {
                 <tbody>
                   <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                     <td className="text-center py-6" colSpan="4">
-                      <p className="text-5xl font-semibold">No Jobs Found...</p>
-                      <p className="text-4xl font-semibold my-3">
+                      <p className="text-3xl 2xl:text-5xl font-semibold">No Jobs Found...</p>
+                      <p className="text-xl 2xl:text-4xl font-semibold my-3">
                         Insert your first{" "}
                         <span className="text-indigo-500">Job!</span>
                       </p>
@@ -304,7 +295,7 @@ export default function JobPostings() {
               </div>
               <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
                 <div>
-                  <p className="2xl:text-base text-gray-700">
+                  <p className="text-sm 2xl:text-base text-gray-700">
                     Showing{" "}
                     <span className="font-semibold text-indigo-500">1</span> to{" "}
                     <span className="font-semibold text-indigo-500">
@@ -326,10 +317,10 @@ export default function JobPostings() {
                       onChange={handleJobsPerPageChange}
                       className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     >
-                      <option value={checkDeviceSize}>{checkDeviceSize}</option>
-                      <option value={checkDeviceSize}>{checkDeviceSize}</option>
-                      <option value={checkDeviceSize}>{checkDeviceSize}</option>
-                      <option value={checkDeviceSize}>{checkDeviceSize}</option>
+                      <option value={checkDeviceSizeJobTable}>{checkDeviceSizeJobTable}</option>
+                      <option value={25}>25</option>
+                      <option value={50}>50</option>
+                      <option value={100}>100</option>
                     </select>
                   </div>
 
