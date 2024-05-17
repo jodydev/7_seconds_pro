@@ -4,9 +4,7 @@ import { FaUsers } from "react-icons/fa";
 import { BsStars } from "react-icons/bs";
 import {
   BriefcaseIcon,
-  DocumentDuplicateIcon,
 } from "@heroicons/react/24/outline";
-import { useJobs } from "../context/JobContext";
 import { useEffect, useState } from "react";
 import supabase from "../supabase/client";
 
@@ -44,32 +42,14 @@ const FileIcon = () => (
 );
 
 export default function HeaderCard() {
-  const { modalOpen } = useAppContext();
-  const { totalJobs, fileCount } = useJobs();
   const location = useLocation();
+  const { modalOpen } = useAppContext();
+  const [totalJobs, setTotalJobs] = useState(0);
+  const [fileCount, setFileCount] = useState(null);
+  const [userEmail, setUserEmail] = useState("");
   const [accountCredits, setAccountCredits] = useState(0);
-  const [userId, setUserId] = useState("");
   const [subscription, setSubscription] = useState();
 
-  //! Funzione per recuperare l'ID dell'utente attualmente loggato
-  useEffect(() => {
-    const fetchUserId = async () => {
-      try {
-        const { data } = await supabase.auth.getUser();
-        const user = data.user;
-
-        setUserId(user.id);
-        getAccountCredits(user.id);
-      } catch (error) {
-        console.error(
-          "Errore durante il recupero dell'ID dell'utente:",
-          error.message
-        );
-      }
-    };
-
-    fetchUserId();
-  }, []);
 
   //! Funzione per ottenere i crediti da tabella accounts
   const getAccountCredits = async (userId) => {
@@ -86,7 +66,7 @@ export default function HeaderCard() {
         );
       } else {
         setAccountCredits(data[0].credits_total || 0);
-        setSubscription(data[0].subscription_plan );
+        setSubscription(data[0].subscription_plan);
       }
     } catch (error) {
       console.error(
@@ -95,6 +75,62 @@ export default function HeaderCard() {
       );
     }
   };
+
+  useEffect(() => {
+    //! Funzione per prendere i jobs
+    const getJobs = async () => {
+      try {
+        const { data, error } = await supabase.from("jobs").select("*");
+        if (error) {
+          throw error;
+        } else {
+          setTotalJobs(data.length);
+        }
+      } catch (error) {
+        console.error("Errore durante il caricamento dei jobs:", error.message);
+      }
+    };
+    getJobs();
+  }, []);
+
+  //! Funzione per ottenere il numero di file dallo storage
+  useEffect(() => {
+    const fetchFileCount = async () => {
+      try {
+        const { data, error } = await supabase.storage.from("cvfiles").list();
+
+        if (error) {
+          throw error;
+        }
+
+        const count = data ? data.length : 0;
+        setFileCount(count);
+      } catch (error) {
+        console.error("Error fetching file count:", error.message);
+      }
+    };
+    fetchFileCount();
+  }, []);
+
+  //! Funzione per recuperare l'ID dell'utente attualmente loggato
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const { data } = await supabase.auth.getUser();
+        const user = data.user;
+
+        setUserEmail(user.email);
+        getAccountCredits(user.id);
+      } catch (error) {
+        console.error(
+          "Errore durante il recupero dell'ID dell'utente:",
+          error.message
+        );
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   const config = {
     home: [

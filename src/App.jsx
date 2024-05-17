@@ -1,7 +1,7 @@
 import { useState, useEffect, createContext, useContext, useCallback } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { AppProvider } from "./context/AppContext";
-import { JobProvider } from "./context/JobContext";
+// import { JobProvider } from "./context/JobContext";
 import "aos/dist/aos.css";
 import Layout from "./pages/Layout";
 import Login from "./pages/Login";
@@ -65,18 +65,22 @@ export function AuthProvider({ children }) {
   const signUp = async (email, password) => {
     const { error } = await supabase.auth.signUp({ email, password });
     if (error) throw error;
+    refreshUserData(); // Forza il refresh dei dati utente dopo la registrazione
   };
 
   // Funzione per il login di un utente esistente
   const signIn = async (email, password) => {
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) throw error;
+    refreshUserData(); // Forza il refresh dei dati utente dopo il login
   };
 
   // Funzione per il logout dell'utente attuale
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) throw error;
+    setSession(null); // Reset della sessione
+    setUser(null); // Reset dei dati utente
   };
 
   const value = {
@@ -129,11 +133,11 @@ function Root() {
   return (
     <AppProvider>
       <AuthProvider>
-        <JobProvider>
+        {/* <JobProvider> */}
           <Router>
             <App />
           </Router>
-        </JobProvider>
+        {/* </JobProvider> */}
       </AuthProvider>
     </AppProvider>
   );
