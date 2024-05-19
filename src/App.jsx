@@ -123,6 +123,8 @@ function LayoutWithRoutes({ session, user }) {
         <Route path="/job-details/:id" element={<JobDetails />} />
         <Route path="/user-details/:id" element={<UserDetails />} />
         <Route path="/upgrade-plan" element={<UpgradePlan />} />
+        <Route path="/success" element={<Home />} />
+        <Route path="/cancel" element={<PageNotFound />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </Layout>
@@ -133,11 +135,10 @@ function Root() {
   return (
     <AppProvider>
       <AuthProvider>
-        {/* <JobProvider> */}
+    
           <Router>
             <App />
           </Router>
-        {/* </JobProvider> */}
       </AuthProvider>
     </AppProvider>
   );

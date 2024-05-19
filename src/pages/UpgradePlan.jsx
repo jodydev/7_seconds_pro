@@ -1,36 +1,42 @@
 import { CheckIcon } from "@heroicons/react/20/solid";
+import { loadStripe } from '@stripe/stripe-js';
+import PaymentData from "./PaymentData";
+
+const stripePromise = loadStripe('pk_test_51Ll6i0FezQmx9aELbJa7DHN8iiuqyVdNq45WcsJIOIyFlHh3oxC0T1UR2Ez26pEFyQByy1DU0392KcqHVPcgf7I100thbAmuEC');
 
 const tiers = [
+  // {
+  //   name: "Free",
+  //   id: "tier-freelancer",
+  //   href: "#",
+  //   priceMonthly: "€0",
+  //   description: "The essentials to provide your best work for clients.",
+  //   features: ["Up to 10 CVs per month"],
+  //   mostPopular: false,
+  //   buyPlan: "Your current plan",
+  // },
   {
-    name: "Free",
-    id: "tier-freelancer",
-    href: "#",
-    priceMonthly: "€0",
-    description: "The essentials to provide your best work for clients.",
-    features: ["Up to 10 CVs per month"],
-    mostPopular: false,
-    buyPlan: "Your current plan",
-  },
-  {
+    id: 2,
     name: "Standard",
-    id: "tier-startup",
-    href: "https://buy.stripe.com/7sI3cWaaack58Ok28c",
+    priceId: "price_1PIBttFezQmx9aELpJr12Feq",
+    // href: "https://buy.stripe.com/7sI3cWaaack58Ok28c",
+    href: "https://buy.stripe.com/test_9AQdUI2yBbbYgFO5kl",
     priceMonthly: "€47,58",
     description: "A plan that scales with your rapidly growing business.",
     features: ["Up to 100 CVs per month"],
     mostPopular: true,
     buyPlan: "Buy plan",
   },
-  {
-    name: "Premium",
-    id: "tier-enterprise",
-    href: "https://buy.stripe.com/eVabJsdmm83P2pW28d",
-    priceMonthly: "€120,78",
-    description: "Dedicated support and infrastructure for your company.",
-    features: ["Up to 300 CVs per month"],
-    mostPopular: false,
-    buyPlan: "Buy plan",
-  },
+  // {
+  //   name: "Premium",
+  //   id: "tier-enterprise",
+  //   href: "https://buy.stripe.com/eVabJsdmm83P2pW28d",
+  //   priceMonthly: "€120,78",
+  //   description: "Dedicated support and infrastructure for your company.",
+  //   features: ["Up to 300 CVs per month"],
+  //   mostPopular: false,
+  //   buyPlan: "Buy plan",
+  // },
 ];
 
 function classNames(...classes) {
@@ -38,6 +44,23 @@ function classNames(...classes) {
 }
 
 export default function UpgradePlan() {
+
+  const handleClick = async (event, priceId) => {
+    event.preventDefault();
+    const stripe = await stripePromise;
+    console.log('priceId:', priceId);
+    console.log('stripe:', stripe);
+    const { error } = await stripe.redirectToCheckout({
+      mode: 'subscription',
+      lineItems: [{ price: priceId, quantity: 1  }],
+      successUrl: 'http://localhost:5173/success',
+      cancelUrl: 'http://localhost:5173/cancel',
+    });
+
+    if (error) {
+      console.error('Error redirecting to checkout:', error);
+    }
+  };
   return (
     <div data-aos="fade-up">
       <div className="bg-white py-10 2xl:py-60">
@@ -110,6 +133,7 @@ export default function UpgradePlan() {
                 </div>
                 <a
                   href={tier.href}
+                  onClick={(e) => handleClick(e, tier.priceId)}
                   aria-describedby={tier.id}
                   className={classNames(
                     tier.mostPopular
@@ -125,6 +149,7 @@ export default function UpgradePlan() {
           </div>
         </div>
       </div>
+      <PaymentData />
     </div>
   );
 }
