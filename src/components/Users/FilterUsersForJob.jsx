@@ -149,7 +149,7 @@ export default function FilterUsersForJob({ skeletron }) {
       <div
         className={`${
           modalOpen ? "opacity-10" : "opacity-100"
-        } bg-white px-6 py-6 shadow-lg rounded-2xl mt-5 2xl:mt-10`}
+        } bg-white px-6 py-6 shadow-lg rounded-2xl mt-5`}
       >
         <div className="flex flex-wrap items-center justify-between sm:flex-nowrap border-b border-gray-200">
           <div className="ml-0 2xl:ml-4 mb-4">
@@ -312,7 +312,7 @@ export default function FilterUsersForJob({ skeletron }) {
           <div
             className={`${
               totalApplicants >= 1 ? "block" : "hidden"
-            } flex items-center justify-between  bg-white p-6`}
+            } flex items-center justify-between  bg-white px-6 py-2 2xl:p-6`}
           >
             <div className="flex flex-1 justify-between sm:hidden">
               <Link

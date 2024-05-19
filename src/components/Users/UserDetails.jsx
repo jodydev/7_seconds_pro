@@ -39,7 +39,7 @@ export default function UserDetails() {
           id="detailsjob"
           className="grid lg:grid-cols-2 gap-10"
         >
-          <div data-aos="fade-right" className="flex justify-between py-0 2xl:py-10">
+          <div data-aos="fade-right" className="flex justify-between">
             <div className="min-w-0 flex-1 ">
               <div className="px-0 2xl:px-4 py-6 w-full mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6 bg-white shadow-lg rounded-2xl">
                 <div className="flex justify-between items-center gap-0 2xl:gap-60">
@@ -141,7 +141,7 @@ export default function UserDetails() {
             </div>
           </div>
 
-          <div className="2xl:my-10 2xl:px-10" data-aos="fade-left">
+          <div className="2xl:h-screen" data-aos="fade-left">
             <embed
               src={applicant.file}
               type="application/pdf"

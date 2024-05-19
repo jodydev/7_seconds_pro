@@ -79,7 +79,7 @@ export default function JobDetails() {
         data-aos="fade-down"
         className={`${
           modalOpen ? "opacity-10" : "opacity-100 shadow-md"
-        } bg-white px-6 py-4 2xl:py-8  rounded-2xl mt-0 2xl:my-10`}
+        } bg-white px-6 py-4 2xl:py-8  rounded-2xl mt-0 `}
       >
         {selectedJob && (
           <div className={`${modalOpen ? "opacity-10" : "opacity-100"}`}>
@@ -89,7 +89,7 @@ export default function JobDetails() {
                   {`${selectedJob.role} at ${selectedJob.company_name} [${selectedJob.seniority}]`}
                 </h2>
                 <div className="mt-1 flex flex-col sm:flex-row sm:flex-wrap sm:space-x-6">
-                  <div className="mt-2 flex items-center text-xs 2xl:text-sm text-gray-500">
+                  <div className=" flex items-center text-xs 2xl:text-sm text-gray-500">
                     <CalendarIcon
                       className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400"
                       aria-hidden="true"
@@ -103,7 +103,7 @@ export default function JobDetails() {
                   </div>
                 </div>
               </div>
-              <div className="mt-5 flex lg:ml-4 lg:mt-0">
+              <div className="flex">
                 <button
                   onClick={openModal}
                   type="button"
@@ -114,9 +114,9 @@ export default function JobDetails() {
                 </button>
               </div>
             </div>
-            <div className="mt-6 border-t border-gray-100">
+            <div className="mt-3 border-t border-gray-100">
               <dl className="divide-y divide-gray-100">
-                <div className="py-3 2xl:py-5 w-full">
+                <div className="mt-2 w-full">
                   <span className="text-base 2xl:text-xl font-semibold leading-6 text-gray-900">
                     Job Description:{" "}
                     <p className="text-sm 2xl:text-base font-light  leading-6 text-gray-900">

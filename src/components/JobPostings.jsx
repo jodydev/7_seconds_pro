@@ -154,7 +154,7 @@ export default function JobPostings() {
         )}
         <div
           className={`${modalOpen ? "opacity-10" : "opacity-100"} 
-           ${message ? "my-0" : "my-8 2xl:my-14"}
+           ${message ? "my-0" : "my-8 2xl:my-10"}
            ${totalJobs === 0 ? "h-[600px] 2xl:min-h-[1000px]" : ""}
            bg-white px-6 py-4 shadow-lg rounded-2xl`}
         >
@@ -273,7 +273,7 @@ export default function JobPostings() {
             <div
               className={`${
                 totalJobs >= 1 ? "block" : "hidden"
-              } flex items-center justify-between  bg-white p-6`}
+              } flex items-center justify-between  bg-white px-6 py-3 2xl:p-6`}
             >
               <div className="flex flex-1 justify-between sm:hidden">
                 <Link
