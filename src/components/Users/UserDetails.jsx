@@ -45,7 +45,7 @@ export default function UserDetails() {
                 <div className="flex justify-between items-center gap-0 2xl:gap-60">
                   <div className="flex">
                     <h2 className="text-xl ms-6 font-bold leading-7 text-gray-900 sm:truncate 2xl:text-3xl sm:tracking-tight">
-                      {applicant.name || "Nessun nome specificato"}
+                      {applicant.fullname || "Nessun nome specificato"}
                     </h2>
                     <div className="flex items-center ml-3">
                       {[...Array(5)].map((_, index) => (
@@ -64,7 +64,8 @@ export default function UserDetails() {
                   <h3 className="text-sm 2xl:text-base font-semibold leading-7 text-gray-900">
                     Applied for:{" "}
                     <span className="font-bold text-indigo-500">
-                      {applicant.job_title || "Nessun titolo di lavoro specificato"}
+                      {applicant.title ||
+                        "Nessun titolo di lavoro specificato"}
                     </span>
                   </h3>
 
@@ -95,12 +96,12 @@ export default function UserDetails() {
                           <li className="mt-1 text-xs 2xl:text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 flex text-nowrap items-center gap-3">
                             <BsFillTelephoneFill className="w-4 h-4 text-gray-400 hidden 2xl:block" />{" "}
                             {applicant.phone ||
-                            "Nessun numero di telefono specificato"}
+                              "Nessun numero di telefono specificato"}
                           </li>
                           <li className="mt-1 text-xs 2xl:text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 flex items-center gap-3 text-nowrap">
                             <MdEmail className="w-4 h-4 text-gray-400 hidden 2xl:block" />{" "}
-                            {applicant.phone ||
-                            "Nessun indirizzo email specificato"}
+                            {applicant.email ||
+                              "Nessun indirizzo email specificato"}
                           </li>
                         </ul>
                       </div>
@@ -118,21 +119,7 @@ export default function UserDetails() {
                   <div className="mt-1 flex flex-col">
                     <div className="mt-1 2xl:mt-3 border-t border-gray-100 ">
                       <p className="mt-1 2xl:mt-3 text-xs 2xl:text-sm max-w-2xl leading-7 text-gray-500 w-full">
-                        {/* //!todo [aggiungere i consigli dell'AI] */}
-                        After carefully reviewing your work experiences, skills,
-                        and education, I'd like to provide you with some
-                        feedback. Firstly, I'd like to commend you on your
-                        extensive experience in the IT sector and the technical
-                        skills you've acquired over the years. It's evident that
-                        you've worked on a variety of complex projects and
-                        achieved significant results in various domains.
-                        However, I've noticed that there are some gaps in your
-                        soft skills, such as time management and effective
-                        communication. These are important areas to develop,
-                        especially considering your interest in working in
-                        collaborative and team-oriented environments. I would
-                        recommend focusing on these areas for improvement and
-                        seeking opportunities to hone your skills.
+                        {applicant.feedback}
                       </p>
                     </div>
                   </div>
