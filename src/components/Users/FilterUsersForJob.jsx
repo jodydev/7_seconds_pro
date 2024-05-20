@@ -260,6 +260,7 @@ export default function FilterUsersForJob({ skeletron }) {
                 )}
 
                 {currentApplicants.map((applicant) => (
+                  console.log(applicant),
                   <tr
                     key={applicant.thread_id}
                     className="2xl:text-lg bg-white border-b"
@@ -267,26 +268,26 @@ export default function FilterUsersForJob({ skeletron }) {
                     <td className="px-6 py-4">
                       <Link to={`/user-details/${applicant.thread_id}`}>
                         <div className="w-full">
-                          {applicant.fullname || "Jody Ossino"}
+                          {applicant.fullname || "n/d"}
                         </div>
                       </Link>
                     </td>
                     <td className="px-6 py-4">
                       <Link to={`/user-details/${applicant.thread_id}`}>
-                        <div className="w-full">{applicant.age || "23"}</div>
+                        <div className="w-full">{applicant.age || "n/d"}</div>
                       </Link>
                     </td>
                     <td className="px-6 py-4">
                       <Link to={`/user-details/${applicant.thread_id}`}>
                         <div className="w-full">
-                          {applicant.city || "Bologna"}
+                          {applicant.city || "n/d"}
                         </div>
                       </Link>
                     </td>
                     <td className="px-6 py-4">
                       <Link to={`/user-details/${applicant.thread_id}`}>
                         <div className="w-full">
-                          {new Date(applicant.created_at).toLocaleString()}
+                          {new Date(applicant.cv_created_at).toLocaleString()}
                         </div>
                       </Link>
                     </td>

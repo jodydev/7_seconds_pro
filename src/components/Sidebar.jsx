@@ -1,9 +1,6 @@
 import { useLocation, Link, useNavigate } from "react-router-dom";
-import useAuth from "../hook/useAuth";
 import supabase from "../supabase/client";
 import { useAppContext } from "../context/AppContext";
-import { MdSettings } from "react-icons/md";
-import { FaUsers } from "react-icons/fa";
 import { BsStars } from "react-icons/bs";
 import { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
@@ -15,38 +12,31 @@ import {
   BriefcaseIcon,
 } from "@heroicons/react/24/outline";
 import { TbLogout2 } from "react-icons/tb";
-
-const navigation = [
-  { name: "Dashboard", to: "/home", icon: HomeIcon, current: true },
-  { name: "Upgrade Plan", to: "/upgrade-plan", icon: BsStars, current: false },
-  // { name: "Settings", to: "/settings", icon: MdSettings, current: false },
-  // { name: "Jobs", to: "/jobs", icon: BriefcaseIcon, current: false },
-  // { name: "Users", to: "/users", icon: FaUsers, current: false },
-  // {
-  //   name: "Documents",
-  //   to: "/documents",
-  //   icon: DocumentDuplicateIcon,
-  //   current: false,
-  // },
-];
+import { getUserData } from "../hook/getUserData";
+import { LuUser2 } from "react-icons/lu";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
+
 export default function Sidebar() {
   const { modalOpen } = useAppContext();
-  // const { session } = useAuth();
-
+  const { subscription } = getUserData();
   const navigate = useNavigate();
   const location = useLocation();
-
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  // const [user, setUser] = useState(null);
+  const trial = subscription === "trial";
 
-  // useEffect(() => {
-  //   setUser(session.user.email);
-  // }, [session]);
+  const navigation = [
+    { name: "Dashboard", to: "/home", icon: HomeIcon, current: true },
+    {
+      name: trial ? "Upgrade Plan" : "Account Info",
+      to: trial ? "/upgrade-plan" : "https://billing.stripe.com/p/login/test_7sI3fK8jr7k97GE5kk",
+      icon: trial ? BsStars : LuUser2,
+      current: false,
+    },
+  ];
 
   const signOut = async () =>
     (await supabase.auth.signOut()) && navigate("/login");

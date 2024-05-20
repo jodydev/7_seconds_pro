@@ -2,11 +2,10 @@ import { useAppContext } from "../context/AppContext";
 import { useLocation } from "react-router-dom";
 import { FaUsers } from "react-icons/fa";
 import { BsStars } from "react-icons/bs";
-import {
-  BriefcaseIcon,
-} from "@heroicons/react/24/outline";
-import { useEffect, useState } from "react";
-import supabase from "../supabase/client";
+import { BriefcaseIcon } from "@heroicons/react/24/outline";
+import { useJobs } from "../hook/useJobs";
+import { useFileCount } from "../hook/useFileCount";
+import { getUserData } from "../hook/getUserData";
 
 const WorkIcon = () => (
   <svg
@@ -44,93 +43,9 @@ const FileIcon = () => (
 export default function HeaderCard() {
   const location = useLocation();
   const { modalOpen } = useAppContext();
-  const [totalJobs, setTotalJobs] = useState(0);
-  const [fileCount, setFileCount] = useState(null);
-  const [userEmail, setUserEmail] = useState("");
-  const [accountCredits, setAccountCredits] = useState(0);
-  const [subscription, setSubscription] = useState();
-
-
-  //! Funzione per ottenere i crediti da tabella accounts
-  const getAccountCredits = async (userId) => {
-    try {
-      const { data, error } = await supabase
-        .from("accounts")
-        .select("*")
-        .eq("userid", userId);
-
-      if (error) {
-        console.error(
-          "Errore durante il caricamento dei crediti dell'account:",
-          error.message
-        );
-      } else {
-        setAccountCredits(data[0].credits_total || 0);
-        setSubscription(data[0].subscription_plan);
-      }
-    } catch (error) {
-      console.error(
-        "Errore durante il caricamento dei crediti dell'account:",
-        error.message
-      );
-    }
-  };
-
-  useEffect(() => {
-    //! Funzione per prendere i jobs
-    const getJobs = async () => {
-      try {
-        const { data, error } = await supabase.from("jobs").select("*");
-        if (error) {
-          throw error;
-        } else {
-          setTotalJobs(data.length);
-        }
-      } catch (error) {
-        console.error("Errore durante il caricamento dei jobs:", error.message);
-      }
-    };
-    getJobs();
-  }, []);
-
-  //! Funzione per ottenere il numero di file dallo storage
-  useEffect(() => {
-    const fetchFileCount = async () => {
-      try {
-        const { data, error } = await supabase.storage.from("cvfiles").list();
-
-        if (error) {
-          throw error;
-        }
-
-        const count = data ? data.length : 0;
-        setFileCount(count);
-      } catch (error) {
-        console.error("Error fetching file count:", error.message);
-      }
-    };
-    fetchFileCount();
-  }, []);
-
-  //! Funzione per recuperare l'ID dell'utente attualmente loggato
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const { data } = await supabase.auth.getUser();
-        const user = data.user;
-
-        setUserEmail(user.email);
-        getAccountCredits(user.id);
-      } catch (error) {
-        console.error(
-          "Errore durante il recupero dell'ID dell'utente:",
-          error.message
-        );
-      }
-    };
-
-    fetchUserData();
-  }, []);
+  const totalJobs = useJobs();
+  const fileCount = useFileCount();
+  const { userEmail, accountCredits, subscription } = getUserData();
 
   const config = {
     home: [
