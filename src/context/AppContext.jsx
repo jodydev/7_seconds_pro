@@ -1,4 +1,4 @@
-import { createContext, useState, useContext, useEffect } from 'react';
+import { createContext, useState, useContext } from 'react';
 
 const AppContext = createContext();
 
@@ -16,7 +16,6 @@ export const AppProvider = ({ children }) => {
   const closeModal = () => {
     setModalOpen(false);
   };
-
 
   return (
     <AppContext.Provider value={{ modalOpen, openModal, closeModal, checkDeviceSizeJobTable, checkDeviceSizeApplicantsTable }}>

@@ -2,8 +2,7 @@ import { useAppContext } from "../context/AppContext";
 import { useLocation } from "react-router-dom";
 import { FaUsers } from "react-icons/fa";
 import { BsStars } from "react-icons/bs";
-import { BriefcaseIcon } from "@heroicons/react/24/outline";
-import { useJobs } from "../hook/useJobs";
+import { useGetTotalJobs } from "../hook/useGetTotalJobs";
 import { useFileCount } from "../hook/useFileCount";
 import { getUserData } from "../hook/getUserData";
 
@@ -43,9 +42,9 @@ const FileIcon = () => (
 export default function HeaderCard() {
   const location = useLocation();
   const { modalOpen } = useAppContext();
-  const totalJobs = useJobs();
+  const { accountCredits, subscription } = getUserData();
+  const totalJobs = useGetTotalJobs();
   const fileCount = useFileCount();
-  const { userEmail, accountCredits, subscription } = getUserData();
 
   const config = {
     home: [
@@ -79,89 +78,15 @@ export default function HeaderCard() {
         colorText: "gray-900",
       },
     ],
-    // users: [
-    //   { name: "Total Users", stat: "588", icon: FaUsers, aos: "fade-down" },
+    // "job-details/:id": [
     //   {
-    //     name: "Add Today",
-    //     stat: "6",
-    //     icon: MdGroupAdd,
-    //     aos: "fade-down",
-    //   },
-    //   { name: "Add This Week", stat: "48", icon: MdGroupAdd, aos: "fade-down" },
-    //   {
-    //     name: "Add This Month",
-    //     stat: "248",
-    //     icon: MdGroupAdd,
-    //     aos: "fade-down",
-    //   },
-    // ],
-    // jobs: [
-    //   {
-    //     name: "Total Jobs",
-    //     stat: "71,897",
+    //     name: "CVs for this position",
+    //     stat: "71",
     //     icon: BriefcaseIcon,
     //     aos: "fade-down",
     //   },
-    //   { name: "Add Today", stat: "6", icon: MdDomainAdd, aos: "fade-down" },
-    //   {
-    //     name: "Add This Week",
-    //     stat: "48",
-    //     icon: MdDomainAdd,
-    //     aos: "fade-down",
-    //   },
-    //   {
-    //     name: "Add This Month",
-    //     stat: "248",
-    //     icon: MdDomainAdd,
-    //     aos: "fade-down",
-    //   },
+    //   { name: "Average Rating", stat: "4", icon: BsStars, aos: "fade-down" },
     // ],
-    // ai: [
-    //   {
-    //     name: "Total Requests",
-    //     stat: "71,897",
-    //     icon: BsStars,
-    //     aos: "fade-down",
-    //   },
-    //   {
-    //     name: "Requests Today",
-    //     stat: "6",
-    //     icon: FaWandMagicSparkles,
-    //     aos: "fade-down",
-    //   },
-    //   {
-    //     name: "Requests This Week",
-    //     stat: "48",
-    //     icon: FaWandMagicSparkles,
-    //     aos: "fade-down",
-    //   },
-    //   {
-    //     name: "Requests This Month",
-    //     stat: "248",
-    //     icon: FaWandMagicSparkles,
-    //     aos: "fade-down",
-    //   },
-    // ],
-    // documents: [
-    //   { name: "Total CVs", stat: "71,897", icon: FaFilePdf, aos: "fade-down" },
-    //   { name: "CVs Today", stat: "6", icon: FaFilePdf, aos: "fade-down" },
-    //   { name: "CVs This Week", stat: "48", icon: FaFilePdf, aos: "fade-down" },
-    //   {
-    //     name: "CVs This Month",
-    //     stat: "248",
-    //     icon: FaFilePdf,
-    //     aos: "fade-down",
-    //   },
-    // ],
-    "job-details/:id": [
-      {
-        name: "CVs for this position",
-        stat: "71",
-        icon: BriefcaseIcon,
-        aos: "fade-down",
-      },
-      { name: "Average Rating", stat: "4", icon: BsStars, aos: "fade-down" },
-    ],
   };
 
   const renderCards = (pathname) => {

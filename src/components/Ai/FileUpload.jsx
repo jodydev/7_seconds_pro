@@ -71,7 +71,7 @@ export default function FileUpload() {
                     Upload your files to start processing
                   </p>
                   <div className="mt-10">
-                    <div className="inline-flex items-center rounded-2xl bg-indigo-600 px-5 py-3 text-base font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                    <div className="inline-flex items-center rounded-2xl bg-indigo-600 px-4 py-3 2xl:px-5  text-base font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                       <label
                         htmlFor="file-upload"
                         className="cursor-pointer flex items-center"

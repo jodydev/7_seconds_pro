@@ -260,7 +260,6 @@ export default function FilterUsersForJob({ skeletron }) {
                 )}
 
                 {currentApplicants.map((applicant) => (
-                  console.log(applicant),
                   <tr
                     key={applicant.thread_id}
                     className="2xl:text-lg bg-white border-b"

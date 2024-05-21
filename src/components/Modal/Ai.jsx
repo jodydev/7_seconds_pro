@@ -15,30 +15,31 @@ export default function Ai({ closeModal, onResult, onUploadCv }) {
   const [files, setFiles] = useState([]);
   const [ready, setReady] = useState(false);
 
-  // const deleteFile = async (indexToDelete) => {
-  //   try {
-  //     const fileToDelete = files[indexToDelete];
-  //     console.log("File to delete:", fileToDelete);
+  const deleteFiles = async (indexToDelete) => {
+    try {
+      const fileToDelete = files[indexToDelete];
+      const { error } = await supabase.storage
+        .from("cvfiles")
+        .remove([fileToDelete.id]);
+      if (error) {
+        throw new Error(error.message);
+      }
 
-  //     const { error } = await supabase.storage
-  //       .from("cvfiles")
-  //       .remove([fileToDelete.id]);
-  //     if (error) {
-  //       throw new Error(error.message);
-  //     }
+      setFiles((prevFiles) => {
+        const updatedFiles = prevFiles.filter(
+          (file, index) => index !== indexToDelete
+        );
+        return updatedFiles;
+      });
 
-  //     setFiles((prevFiles) => {
-  //       const updatedFiles = prevFiles.filter(
-  //         (file, index) => index !== indexToDelete
-  //       );
-  //       return updatedFiles;
-  //     });
-
-  //     console.log("File deleted successfully:", fileToDelete);
-  //   } catch (error) {
-  //     console.error("Error deleting file:", error.message);
-  //   }
-  // };
+      if (files.length === 1) {
+        setFiles([]);
+        setReady(false);
+      }
+    } catch (error) {
+      console.error("Error deleting file:", error.message);
+    }
+  };
 
   const getFiles = (event) => {
     const selectedFiles = event.target.files;
@@ -48,6 +49,7 @@ export default function Ai({ closeModal, onResult, onUploadCv }) {
   };
 
   const handleUpload = () => {
+    setReady(false);
     setLoading(true);
     sendFiles(files);
   };
@@ -120,8 +122,6 @@ export default function Ai({ closeModal, onResult, onUploadCv }) {
         jobid: jobId,
       }));
 
-      console.log(cvIds, jobId);
-
       const { data, error } = await supabase.from("threads").insert(threadData);
 
       if (error) {
@@ -142,7 +142,7 @@ export default function Ai({ closeModal, onResult, onUploadCv }) {
         className="flex overflow-hidden overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
       >
         <div className="relative p-10 w-full md:max-w-[50%]">
-          <div className="relative bg-white rounded-lg  dark:bg-gray-700 py-6 px-12 border border-indigo-50 shadow-lg shadow-indigo-500/50">
+          <div className="relative bg-white rounded-lg dark:bg-gray-700 py-6 px-12 border border-indigo-50 shadow-lg shadow-indigo-500/50">
             <div className="flex items-center justify-between my-2 border-b rounded-t dark:border-gray-600 ">
               <h3 className="text-2xl 2xl:text-3xl my-2 font-semibold text-gray-900 dark:text-white">
                 {files.length > 0
@@ -183,11 +183,13 @@ export default function Ai({ closeModal, onResult, onUploadCv }) {
 
             <form>
               <div className="w-full h-full my-0 2xl:my-10">
-                <div className="flex justify-center w-full px-6">
-                  <div className="text-center">
+                <div className="flex-col items-center justify-center w-full px-6 overflow-y-auto">
+                  <div className="text-center max-h-[400px] ">
                     {loading ? (
                       <div className="loader my-40">
-                        <p className="text-lg 2xl:text-2xl">Attendere, caricamento in corso...</p>
+                        <p className="text-lg 2xl:text-2xl">
+                          Attendere, caricamento in corso...
+                        </p>
                         <span className="words text-lg 2xl:text-2xl text-indigo-500">
                           <p className="word">curriculum</p>
                           <p className="word">competenze</p>
@@ -203,7 +205,7 @@ export default function Ai({ closeModal, onResult, onUploadCv }) {
                             <img
                               src="/upload.gif"
                               alt="Upload File"
-                              className="mx-auto h-[200px] w-[200px] 2xl:h-[300px] 2xl:w-[300px] text-gray-400"
+                              className="mx-auto h-[220px] w-[220px] 2xl:h-[300px] 2xl:w-[300px] text-gray-400"
                             />
                             <h3 className="text-sm 2xl:text-lg font-semibold text-gray-900">
                               Upload one or more files to start processing...
@@ -212,8 +214,8 @@ export default function Ai({ closeModal, onResult, onUploadCv }) {
                               *only accepts pdf files
                             </p>
 
-                            <div className="mt-10">
-                              <div className="inline-flex items-center rounded-xl bg-indigo-500 px-5 py-3 text-base font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                            <div className="my-10">
+                              <div className="inline-flex items-center rounded-xl bg-indigo-500 px-4 py-3 2xl:px-5  text-base font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                                 <label
                                   htmlFor="file-upload"
                                   className="cursor-pointer flex items-center"
@@ -244,17 +246,17 @@ export default function Ai({ closeModal, onResult, onUploadCv }) {
                                   className="mx-auto h-[150px] w-[150px] 2xl:h-[200px] 2xl:w-[200px] text-gray-400"
                                 />
 
-                                <h3 className="my-5 text-sm 2xl:text-base font-semibold text-gray-900">
-                                  <span className="text-base font-semibold text-indigo-500">
+                                <h3 className="mt-2 mb-5 2xl:my-5 text-sm 2xl:text-base font-semibold text-gray-900">
+                                  <span className="text-sm 2xl:text-base font-semibold text-indigo-500">
                                     +{files.length}
                                   </span>{" "}
                                   {files.length === 1 ? "File" : "Files"}{" "}
                                   Inserted Successfully
                                 </h3>
 
-                                {files.map((file) => (
+                                {files.map((file, index) => (
                                   <div key={`${file.name}-${Date.now()}`}>
-                                    <div className="bg-gray-50 px-4 py-2 my-5 rounded-xl hover:cursor-pointer">
+                                    <div className="bg-gray-50 my-2 px-2 py-1 2xl:px-4 2xl:py-2 2xl:my-5 rounded-xl hover:cursor-pointer">
                                       <div className="lg:flex lg:items-center lg:justify-between my-2 ">
                                         <div className="min-w-0 flex ">
                                           <GrDocumentPdf className="mx-3 h-5 w-5 2xl:h-6 2xl:w-6" />
@@ -262,61 +264,34 @@ export default function Ai({ closeModal, onResult, onUploadCv }) {
                                             {file.name}
                                           </p>
                                         </div>
-                                        {/* <div className="mt-5 flex lg:ml-4 lg:mt-0">
-                                  <span className="hidden sm:block">
-                                    <button
-                                      onClick={() => deleteFile(index)}
-                                      type="button"
-                                      className="inline-flex items-center rounded-md bg-red-500 px-3 py-2 text-xs font-semibold text-white shadow-sm hover:bg-red-600 hover:cursor-pointer"
-                                    >
-                                      <svg
-                                        className="-ml-0.5 mr-1.5 h-5 w-5 text-white"
-                                        dataslot="icon"
-                                        fill="currentColor"
-                                        viewBox="0 0 20 20"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        aria-hidden="true"
-                                      >
-                                        <path
-                                          clipRule="evenodd"
-                                          fillRule="evenodd"
-                                          d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z"
-                                        />
-                                      </svg>
-                                      Delete
-                                    </button>
-                                  </span>
-                                </div> */}
+                                        <div className="mt-5 flex lg:ml-4 lg:mt-0">
+                                          <span className="hidden sm:block">
+                                            <button
+                                              onClick={() => deleteFiles(index)}
+                                              type="button"
+                                              className="inline-flex items-center rounded-md bg-red-500 px-3 py-2 text-xs font-semibold text-white shadow-sm hover:bg-red-600 hover:cursor-pointer"
+                                            >
+                                              <svg
+                                                className="-ml-0.5 mr-1.5 w-4 h-4 2xl:h-5 2xl:w-5 text-white"
+                                                fill="currentColor"
+                                                viewBox="0 0 20 20"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                aria-hidden="true"
+                                              >
+                                                <path
+                                                  clipRule="evenodd"
+                                                  fillRule="evenodd"
+                                                  d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z"
+                                                />
+                                              </svg>
+                                              Delete
+                                            </button>
+                                          </span>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
                                 ))}
-                                <div>
-                                  <div className="inline-flex items-center rounded-xl bg-indigo-500 px-4 py-3 mt-10 text-sm 2xl:text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                                    <button
-                                      id="confirm-upload"
-                                      type="button"
-                                      className="inline-flex items-center "
-                                      onClick={handleUpload}
-                                    >
-                                      {" "}
-                                      <FaCheckCircle className="me-2 h-5 w-5 2xl:h-6 2xl:w-6" />
-                                      Confirm Upload
-                                    </button>
-                                  </div>
-
-                                  {/* <div className="mx-5 inline-flex items-center rounded-md bg-red-500 px-4 py-3 text-sm font-semibold text-white hover:cursor-pointer shadow-sm hover:bg-red-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                                      <button
-                                        onClick={closeModal}
-                                        type="button"
-                                        className="inline-flex items-center rounded-md"
-                                        data-modal-toggle="crud-modal"
-                                      >
-                                        <IoCloseCircle className="me-2 h-5 w-5" />
-                                        Close
-                                      </button>
-                                    </div> */}
-                                </div>
                               </div>
                             )}
                           </>
@@ -324,7 +299,24 @@ export default function Ai({ closeModal, onResult, onUploadCv }) {
                       </div>
                     )}
                   </div>
+                 
                 </div>
+                {ready && (
+                    <div className="my-5 px-44">
+                      <div className="flex justify-center items-center rounded-xl bg-indigo-500 px-4 py-3 text-sm 2xl:text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                        <button
+                          id="confirm-upload"
+                          type="button"
+                          className="flex items-center "
+                          onClick={handleUpload}
+                        >
+                          {" "}
+                          <FaCheckCircle className="me-2 h-5 w-5 2xl:h-6 2xl:w-6" />
+                          Confirm Upload
+                        </button>
+                      </div>
+                    </div>
+                  )}
               </div>
             </form>
           </div>

@@ -2,16 +2,11 @@ import { useState, useEffect, useContext } from "react";
 import supabase from "../supabase/client";
 import AppContext from "../context/AppContext";
 
-// Hook per ottenere il profilo dell'utente corrente
 function useProfile() {
-  // Ottiene la sessione dall'AppContext
   const { session } = useContext(AppContext);
-
-  // Stati per memorizzare il profilo e lo stato di caricamento
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Effetto per recuperare il profilo dell'utente in base alla sessione
   useEffect(() => {
     let ignore = false;
 
@@ -29,7 +24,7 @@ function useProfile() {
         if (error) {
           console.error(error);
         } else if (data) {
-          setProfile(data); // Imposta il profilo ottenuto dal database
+          setProfile(data); 
         }
       }
 
@@ -43,10 +38,9 @@ function useProfile() {
     };
   }, [session]);
 
-  // Restituisce il profilo e lo stato di caricamento
   return {
-    profile, // Profilo dell'utente
-    loading, // Stato di caricamento
+    profile, 
+    loading,
   };
 }
 

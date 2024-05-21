@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import supabase from "../supabase/client";
 
-export function useJobs() {
+export function useGetTotalJobs() {
   const [totalJobs, setTotalJobs] = useState(0);
 
   useEffect(() => {

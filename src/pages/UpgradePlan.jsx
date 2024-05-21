@@ -3,8 +3,6 @@ import { loadStripe } from "@stripe/stripe-js";
 import { useEffect, useState } from "react";
 import supabase from "../supabase/client";
 
-
-
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
@@ -32,43 +30,42 @@ export default function UpgradePlan() {
   }, []);
 
   const tiers = [
-    // {
-    //   name: "Free",
-    //   id: "tier-freelancer",
-    //   href: "#",
-    //   priceMonthly: "€0",
-    //   description: "The essentials to provide your best work for clients.",
-    //   features: ["Up to 10 CVs per month"],
-    //   mostPopular: false,
-    //   buyPlan: "Your current plan",
-    // },
+    {
+      name: "Free",
+      id: "tier-freelancer",
+      href: "#",
+      priceMonthly: "€0",
+      description: "The essentials to provide your best work for clients.",
+      features: ["Up to 10 CVs per month"],
+      mostPopular: false,
+      buyPlan: "Your current plan",
+    },
     {
       id: 2,
       name: "Standard",
       priceId: "price_1PIBttFezQmx9aELpJr12Feq",
-      // href: "https://buy.stripe.com/7sI3cWaaack58Ok28c",
-      href: `https://buy.stripe.com/test_9AQdUI2yBbbYgFO5kl?prefilled_email=${userEmail}`,
+      href: `https://buy.stripe.com/7sI3cWaaack58Ok28c?prefilled_email=${userEmail}`,
       priceMonthly: "€47,58",
       description: "A plan that scales with your rapidly growing business.",
       features: ["Up to 100 CVs per month"],
       mostPopular: true,
       buyPlan: "Buy plan",
     },
-    // {
-    //   name: "Premium",
-    //   id: "tier-enterprise",
-    //   href: "https://buy.stripe.com/eVabJsdmm83P2pW28d",
-    //   priceMonthly: "€120,78",
-    //   description: "Dedicated support and infrastructure for your company.",
-    //   features: ["Up to 300 CVs per month"],
-    //   mostPopular: false,
-    //   buyPlan: "Buy plan",
-    // },
+    {
+      name: "Premium",
+      id: "tier-enterprise",
+      href: `https://buy.stripe.com/eVabJsdmm83P2pW28d?prefilled_email=${userEmail}`,
+      priceMonthly: "€120,78",
+      description: "Dedicated support and infrastructure for your company.",
+      features: ["Up to 300 CVs per month"],
+      mostPopular: false,
+      buyPlan: "Buy plan",
+    },
   ];
 
   return (
     <div data-aos="fade-up">
-      <div className="bg-white py-10 2xl:py-60">
+      <div className="bg-white py-10 px-20 2xl:py-60">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-4xl text-center">
             <h2 className="text-3xl font-semibold leading-7 text-indigo-600">

@@ -7,10 +7,11 @@ import { FaCheckCircle } from "react-icons/fa";
 import Job from "./Modal/Job";
 import Loader from "./Loader";
 import supabase from "../supabase/client";
+import { useGetTotalJobs } from "../hook/useGetTotalJobs";
 
 export default function JobPostings() {
   const { modalOpen, openModal, closeModal, checkDeviceSizeJobTable } = useAppContext();
-  const [totalJobs, setTotalJobs] = useState(0);
+  const totalJobs = useGetTotalJobs();
   const [cvsForJob, setCvsForJob] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showAllJobs, setShowAllJobs] = useState(false);
@@ -49,23 +50,6 @@ export default function JobPostings() {
     }
   }, [message]);
 
-  //! Funzione per prendere i jobs
-  useEffect(() => {
-    const getJobs = async () => {
-      try {
-        const { data, error } = await supabase.from("jobs").select("*");
-        if (error) {
-          throw error;
-        } else {
-          setTotalJobs(data.length);
-        }
-      } catch (error) {
-        console.error("Errore durante il caricamento dei jobs:", error.message);
-      }
-    };
-    getJobs();
-  }, []);
-
   //! Funzione per ottenere i jobs con il numero di cv associati
   useEffect(() => {
     const getFilterJobs = async () => {
@@ -90,7 +74,6 @@ export default function JobPostings() {
         );
         setCvsForJob(jobsWithCvsCount);
 
-        // Definisci una funzione per gestire gli inserimenti
         const handleChanges = (payload) => {
           if (payload.eventType === "INSERT") {
             setTotalJobs((prevTotal) => prevTotal + 1);
@@ -111,7 +94,6 @@ export default function JobPostings() {
           }
         };
 
-        // Ascolta tutti gli eventi di cambiamento sulla tabella "jobs"
         supabase
           .channel("schema-db-changes")
           .on(
