@@ -32,7 +32,7 @@ export default function Sidebar() {
     { name: "Dashboard", to: "/home", icon: HomeIcon, current: true },
     {
       name: trial ? "Upgrade Plan" : "Account Info",
-      to: trial ? "/upgrade-plan" : "https://billing.stripe.com/p/login/test_7sI3fK8jr7k97GE5kk",
+      to: trial ? "/upgrade-plan" : "https://billing.stripe.com/p/login/28o29f66Ue515xeaEE",
       icon: trial ? BsStars : LuUser2,
       current: false,
     },
