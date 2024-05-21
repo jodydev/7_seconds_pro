@@ -16,6 +16,7 @@ export default function JobDetails() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
   const [skeletron, setSkeletron] = useState(false);
+  const [refresh , setRefresh] = useState(false);
 
   //! gestione dello stato per lo skeletron dopo l'upload del cv
   const handleUploadCv = (bol) => {
@@ -25,6 +26,11 @@ export default function JobDetails() {
   //! gestione dello stato del messaggio di successo dopo l'upload del cv
   const handleResult = (data) => {
     setMessage(data);
+  };
+
+  //! funzione per aggiornare i dati dopo l'upload del cv
+  const refreshData = (bol) => {
+    setRefresh(bol);
   };
 
   //! gestione del messaggio di successo dopo l'upload del cv
@@ -71,6 +77,7 @@ export default function JobDetails() {
           onResult={handleResult}
           onUploadCv={handleUploadCv}
           closeModal={closeModal}
+          refreshData={refreshData}
         />
       )}
       {loading && <Loader />}
@@ -144,7 +151,7 @@ export default function JobDetails() {
         </div>
       )}
 
-      <FilterUsersForJob skeletron={skeletron} />
+      <FilterUsersForJob refreshData={refreshData} refresh={refresh} skeletron={skeletron} />
     </section>
   );
 }

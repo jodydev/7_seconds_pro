@@ -4,14 +4,13 @@ import { Link } from "react-router-dom";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import { TbSquareRoundedPlusFilled } from "react-icons/tb";
 import { FaCheckCircle } from "react-icons/fa";
+import supabase from "../supabase/client";
 import Job from "./Modal/Job";
 import Loader from "./Loader";
-import supabase from "../supabase/client";
-import { useGetTotalJobs } from "../hook/useGetTotalJobs";
 
 export default function JobPostings() {
   const { modalOpen, openModal, closeModal, checkDeviceSizeJobTable } = useAppContext();
-  const totalJobs = useGetTotalJobs();
+  const [totalJobs, setTotalJobs] = useState(0);
   const [cvsForJob, setCvsForJob] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showAllJobs, setShowAllJobs] = useState(false);
@@ -24,6 +23,22 @@ export default function JobPostings() {
   const currentJobs = showAllJobs
     ? cvsForJob
     : cvsForJob.slice(indexOfFirstJob, indexOfLastJob);
+
+  useEffect(() => {
+    const getJobs = async () => {
+      try {
+        const { data, error } = await supabase.from("jobs").select("*");
+        if (error) {
+          throw error;
+        } else {
+          setTotalJobs(data.length);
+        }
+      } catch (error) {
+        console.error("Errore durante il caricamento dei jobs:", error.message);
+      }
+    };
+    getJobs();
+  }, []);
 
   const handlePageChange = (pageNumber) => {
     if (pageNumber >= 1 && pageNumber <= totalPages) {
@@ -232,7 +247,9 @@ export default function JobPostings() {
                 <tbody>
                   <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                     <td className="text-center py-6" colSpan="4">
-                      <p className="text-3xl 2xl:text-5xl font-semibold">No Jobs Found...</p>
+                      <p className="text-3xl 2xl:text-5xl font-semibold">
+                        No Jobs Found...
+                      </p>
                       <p className="text-xl 2xl:text-4xl font-semibold my-3">
                         Insert your first{" "}
                         <span className="text-indigo-500">Job!</span>
@@ -299,7 +316,9 @@ export default function JobPostings() {
                       onChange={handleJobsPerPageChange}
                       className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     >
-                      <option value={checkDeviceSizeJobTable}>{checkDeviceSizeJobTable}</option>
+                      <option value={checkDeviceSizeJobTable}>
+                        {checkDeviceSizeJobTable}
+                      </option>
                       <option value={25}>25</option>
                       <option value={50}>50</option>
                       <option value={100}>100</option>

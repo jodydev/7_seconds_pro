@@ -8,7 +8,7 @@ import { FaCheckCircle } from "react-icons/fa";
 import supabase from "../../supabase/client";
 import useAuth from "../../hook/useAuth";
 
-export default function Ai({ closeModal, onResult, onUploadCv }) {
+export default function Ai({ closeModal, onResult, onUploadCv, refreshData}) {
   const { session } = useAuth();
   const jobId = useParams().id;
   const [loading, setLoading] = useState(false);
@@ -85,6 +85,7 @@ export default function Ai({ closeModal, onResult, onUploadCv }) {
       closeModal();
       onResult(true);
       onUploadCv(true);
+      refreshData(true);
     } catch (error) {
       setLoading(false);
     }

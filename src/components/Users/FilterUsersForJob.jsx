@@ -12,7 +12,8 @@ import { useParams } from "react-router-dom";
 import supabase from "../../supabase/client";
 import Loader from "../Loader";
 
-export default function FilterUsersForJob({ skeletron }) {
+export default function FilterUsersForJob({ skeletron, refresh }) {
+  console.log(refresh)
   const jobId = useParams().id;
   const applicantsCountRef = useRef(0);
   const { modalOpen, checkDeviceSizeApplicantsTable } = useAppContext();
@@ -160,7 +161,7 @@ export default function FilterUsersForJob({ skeletron }) {
         </div>
 
         <div className="relative overflow-x-auto shadow-md sm:rounded-2xl mt-5">
-          {totalApplicants === 0 ? (
+          {totalApplicants === 0 && refresh === false ? (
             <table className="w-full text-left rtl:text-right text-gray-500 dark:text-gray-400">
               <thead className="2xl:text-lg text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
