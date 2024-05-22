@@ -34,7 +34,7 @@ export function getUserData() {
             error.message
           );
         } else {
-          setAccountCredits(data[0].credits_total || 0);
+          setAccountCredits(data[0].credits_remaining);
           setSubscription(data[0].subscription_plan);
         }
       } catch (error) {

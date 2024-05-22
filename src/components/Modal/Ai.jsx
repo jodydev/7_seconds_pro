@@ -187,8 +187,8 @@ export default function Ai({ closeModal, onResult, onUploadCv, refreshData}) {
                 <div className="flex-col items-center justify-center w-full px-6 overflow-y-auto">
                   <div className="text-center max-h-[400px] ">
                     {loading ? (
-                      <div className="loader my-40 text-center">
-                        <p className="text-lg 2xl:text-2xl">
+                      <div className="loader my-40 px-0 2xl:px-60">
+                        <p className="text-lg 2xl:text-2xl text-nowrap">
                           Attendere, caricamento in corso...
                         </p>
                         <span className="words text-lg 2xl:text-2xl text-indigo-500">
@@ -257,7 +257,7 @@ export default function Ai({ closeModal, onResult, onUploadCv, refreshData}) {
 
                                 {files.map((file, index) => (
                                   <div className="flex items-center justify-center" key={`${file.name}-${Date.now()}`}>
-                                    <div className="bg-gray-50 my-2 px-2 py-1 2xl:px-4 2xl:py-3 2xl:my-2 rounded-xl hover:cursor-pointer w-1/2">
+                                    <div className="bg-gray-50 my-1 px-2 py-2 2xl:px-4 2xl:py-3 2xl:my-2 rounded-xl hover:cursor-pointer w-full 2xl:w-1/2">
                                       <div className="lg:flex lg:items-center lg:justify-between">
                                         <div className="min-w-0 flex ">
                                           <GrDocumentPdf className="mx-3 h-5 w-5 2xl:h-6 2xl:w-6" />
@@ -303,7 +303,7 @@ export default function Ai({ closeModal, onResult, onUploadCv, refreshData}) {
                 </div>
                 {ready && (
                     <div className="my-5 2xl:my-10 px-44 2xl:px-96">
-                      <div className="flex justify-center items-center rounded-xl bg-indigo-500 px-4 py-3 text-sm 2xl:text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                      <div className="flex justify-center items-center rounded-xl bg-indigo-500 px-4 py-3 text-xs 2xl:text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                         <button
                           id="confirm-upload"
                           type="button"

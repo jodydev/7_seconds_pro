@@ -28,19 +28,17 @@ export default function Register() {
     try {
       const { error } = await supabase.auth.signUp({ email, password });
       if (error) {
-        throw error;
+        console.log(error);
       } else {
         setRegisterStep(false);
         setConfirmEmail(true);
       }
     } catch (error) {
-      if (error.message.includes("already registered")) {
-        setError(true);
-      }
+      setError(true);
+
       console.error(error.message);
     }
   };
-
 
   return (
     <>

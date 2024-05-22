@@ -9,11 +9,11 @@ import { useAppContext } from "../../context/AppContext";
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
+import StarRatings from "react-star-ratings";
 import supabase from "../../supabase/client";
 import Loader from "../Loader";
 
-export default function FilterUsersForJob({ skeletron, refresh }) {
-  console.log(refresh)
+export default function FilterUsersForJob({ refresh, skeletron }) {
   const jobId = useParams().id;
   const applicantsCountRef = useRef(0);
   const { modalOpen, checkDeviceSizeApplicantsTable } = useAppContext();
@@ -77,7 +77,15 @@ export default function FilterUsersForJob({ skeletron, refresh }) {
     );
   };
 
-  //! Funzione per prendere i candidati per un job specifico
+  //! Funzione per estrarre il nome del file dal path
+  const extractFileName = (url) => {
+    let name = url || "";
+    let parts = name.split("/");
+    let lastPart = parts.pop();
+    let index = lastPart.indexOf(".pdf") + 4;
+    return lastPart.substring(0, index);
+  };
+
   useEffect(() => {
     const getApplicantsForJob = async (jobId) => {
       try {
@@ -89,9 +97,10 @@ export default function FilterUsersForJob({ skeletron, refresh }) {
 
         if (error) {
           throw error;
+        } else {
+          setApplicants(data);
+          setTotalApplicants(data.length);
         }
-
-        setApplicants(data);
       } catch (error) {
         console.error("Errore durante il caricamento dei jobs:", error.message);
       } finally {
@@ -105,9 +114,9 @@ export default function FilterUsersForJob({ skeletron, refresh }) {
   //! Funzione per gestire i cambiamenti nel database e aggiungere i nuovi candidati in tempo reale
   useEffect(() => {
     const handleChanges = (payload) => {
-      if (payload.table === "table") {
+      if (payload.eventType === "INSERT" && payload.table === "cvs") {
         setApplicants((prevApplicants) => [...prevApplicants, payload.new]);
-        setTotalApplicants(applicants.lenght + 1);
+        setTotalApplicants((prevTotal) => prevTotal + 1);
       }
     };
 
@@ -127,7 +136,7 @@ export default function FilterUsersForJob({ skeletron, refresh }) {
     return () => {
       changeSubscription.unsubscribe();
     };
-  }, []);
+  }, [jobId]);
 
   //! Funzione per aggiornare il numero totale di candidati ogni volta che ne viene aggiunto uno in tempo reale
   useEffect(() => {
@@ -150,17 +159,17 @@ export default function FilterUsersForJob({ skeletron, refresh }) {
       <div
         className={`${
           modalOpen ? "opacity-10" : "opacity-100"
-        } bg-white px-6 py-6 shadow-lg rounded-2xl mt-5`}
+        } bg-white px-6 py-6 shadow-lg rounded-2xl mt-10 `}
       >
         <div className="flex flex-wrap items-center justify-between sm:flex-nowrap border-b border-gray-200">
-          <div className="ml-0 2xl:ml-4 mb-4">
+          <div className="ml-0 2xl:ml-4 mb-4 2xl:mb-6">
             <h3 className="text-2xl 2xl:text-4xl font-bold leading-6 text-gray-900">
               Applicants
             </h3>
           </div>
         </div>
 
-        <div className="relative overflow-x-auto shadow-md sm:rounded-2xl mt-5">
+        <div className="relative overflow-x-auto shadow-md sm:rounded-2xl mt-4 2xl:mt-6">
           {totalApplicants === 0 && refresh === false ? (
             <table className="w-full text-left rtl:text-right text-gray-500 dark:text-gray-400">
               <thead className="2xl:text-lg text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -204,12 +213,6 @@ export default function FilterUsersForJob({ skeletron, refresh }) {
                     Full Name
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Age
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    City
-                  </th>
-                  <th scope="col" className="px-6 py-3">
                     <button
                       onClick={handleSortByCreatedAt}
                       className="flex items-center focus:outline-none hover:cursor-pointer"
@@ -221,6 +224,12 @@ export default function FilterUsersForJob({ skeletron, refresh }) {
                         <ChevronDownIcon className="h-4 w-4 ml-1 text-gray-500" />
                       )}
                     </button>
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Age
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    City
                   </th>
                   <th scope="col" className="px-3 py-3">
                     Ai Rating
@@ -238,28 +247,6 @@ export default function FilterUsersForJob({ skeletron, refresh }) {
                 </tr>
               </thead>
               <tbody className="hover:cursor-pointer ">
-                {skeletron ? (
-                  <tr className="text-sm 2xl:text-lg border-b">
-                    <td className="px-6 py-4">
-                      <div className="h-6 bg-gray-200 rounded-lg"></div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="h-6 bg-gray-200 rounded-lg"></div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="h-6 bg-gray-200 rounded-lg"></div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="h-6 bg-gray-200 rounded-lg"></div>
-                    </td>{" "}
-                    <td className="px-6 py-4">
-                      <div className="h-6 bg-gray-200 rounded-lg"></div>
-                    </td>
-                  </tr>
-                ) : (
-                  ""
-                )}
-
                 {currentApplicants.map((applicant) => (
                   <tr
                     key={applicant.thread_id}
@@ -268,39 +255,56 @@ export default function FilterUsersForJob({ skeletron, refresh }) {
                     <td className="px-6 py-4">
                       <Link to={`/user-details/${applicant.thread_id}`}>
                         <div className="w-full">
-                          {applicant.fullname || "n/d"}
-                        </div>
-                      </Link>
-                    </td>
-                    <td className="px-6 py-4">
-                      <Link to={`/user-details/${applicant.thread_id}`}>
-                        <div className="w-full">{applicant.age || "n/d"}</div>
-                      </Link>
-                    </td>
-                    <td className="px-6 py-4">
-                      <Link to={`/user-details/${applicant.thread_id}`}>
-                        <div className="w-full">
-                          {applicant.city || "n/d"}
+                          {applicant.fullname ||
+                            extractFileName(applicant.file) || (
+                              <div className="animate-pulse  h-6 bg-gray-200 rounded-lg"></div>
+                            )}
                         </div>
                       </Link>
                     </td>
                     <td className="px-6 py-4">
                       <Link to={`/user-details/${applicant.thread_id}`}>
                         <div className="w-full">
-                          {new Date(applicant.cv_created_at).toLocaleString()}
+                          {applicant.cv_created_at ? (
+                            new Date(applicant.cv_created_at).toLocaleString()
+                          ) : (
+                            <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
+                          )}
+                        </div>
+                      </Link>
+                    </td>
+                    <td className="px-6 py-4">
+                      <Link to={`/user-details/${applicant.thread_id}`}>
+                        <div className="w-full">
+                          {applicant.age || (
+                            <div className="animate-pulse  h-6 bg-gray-200 rounded-lg"></div>
+                          )}
+                        </div>
+                      </Link>
+                    </td>
+                    <td className="px-6 py-4">
+                      <Link to={`/user-details/${applicant.thread_id}`}>
+                        <div className="w-full">
+                          {applicant.city || (
+                            <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
+                          )}
                         </div>
                       </Link>
                     </td>
                     <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                       <div className="flex items-center">
-                        {[...Array(5)].map((_, index) => (
-                          <PiStarFill
-                            key={index}
-                            className={`text-${
-                              index < applicant.rating ? "yellow" : "gray"
-                            }-300 w-4 h-4 2xl:w-6 2xl:h-6`}
+                        {applicant.rating ? (
+                          <StarRatings
+                            rating={applicant.rating || 2.5}
+                            starRatedColor="gold"
+                            numberOfStars={5}
+                            name="rating"
+                            starDimension="22px"
+                            starSpacing="2px"
                           />
-                        ))}
+                        ) : (
+                          <div className="animate-pulse w-full h-6 bg-gray-200 rounded-lg"></div>
+                        )}
                       </div>
                     </td>
                   </tr>

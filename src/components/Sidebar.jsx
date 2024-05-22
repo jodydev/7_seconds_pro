@@ -19,7 +19,6 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-
 export default function Sidebar() {
   const { modalOpen } = useAppContext();
   const { subscription } = getUserData();
@@ -27,13 +26,14 @@ export default function Sidebar() {
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const trial = subscription === "trial";
+  const expired = subscription === "expired";
 
   const navigation = [
     { name: "Dashboard", to: "/home", icon: HomeIcon, current: true },
     {
-      name: trial ? "Upgrade Plan" : "Account Info",
-      to: trial ? "/upgrade-plan" : "https://billing.stripe.com/p/login/28o29f66Ue515xeaEE",
-      icon: trial ? BsStars : LuUser2,
+      name: trial || expired ? "Upgrade Plan" : "Account Info",
+      to: trial || expired ? "/upgrade-plan" :  "https://billing.stripe.com/p/login/28o29f66Ue515xeaEE",
+      icon: trial || expired ? BsStars : LuUser2,
       current: false,
     },
   ];

@@ -32,22 +32,26 @@ export function AuthProvider({ children }) {
   }, [session]);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    const getSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
       setSession(session);
       setLoading(false);
-    });
-
+    };
+  
+    getSession();
+  
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (_event, session) => {
         setSession(session);
         setLoading(false);
       }
     );
-
+  
     return () => {
-      authListener.unsubscribe();
+      authListener.subscription.unsubscribe();
     };
   }, []);
+  
 
   useEffect(() => {
     refreshUserData();
