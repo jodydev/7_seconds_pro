@@ -26,7 +26,11 @@ export function App() {
   const { session, user, loading } = useAuth();
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="text-center flex items-center justify-center">
+        <img src="/public/7secondspro-logo" className="w-full " />
+      </div>
+    );
   }
 
   return (

@@ -171,7 +171,7 @@ export default function Ai({ closeModal, onResult, onUploadCv, refreshData}) {
                   viewBox="0 0 14 14"
                 >
                   <path
-                    stroke="currentColor"
+                    stroke="currentColor" 
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth="2"
@@ -187,7 +187,7 @@ export default function Ai({ closeModal, onResult, onUploadCv, refreshData}) {
                 <div className="flex-col items-center justify-center w-full px-6 overflow-y-auto">
                   <div className="text-center max-h-[400px] ">
                     {loading ? (
-                      <div className="loader my-40">
+                      <div className="loader my-40 text-center">
                         <p className="text-lg 2xl:text-2xl">
                           Attendere, caricamento in corso...
                         </p>
@@ -206,7 +206,7 @@ export default function Ai({ closeModal, onResult, onUploadCv, refreshData}) {
                             <img
                               src="/upload.gif"
                               alt="Upload File"
-                              className="mx-auto h-[220px] w-[220px] 2xl:h-[300px] 2xl:w-[300px] text-gray-400"
+                              className="mx-auto h-[220px] w-[220px] 2xl:h-[260px] 2xl:w-[260px] text-gray-400"
                             />
                             <h3 className="text-sm 2xl:text-lg font-semibold text-gray-900">
                               Upload one or more files to start processing...
@@ -244,7 +244,7 @@ export default function Ai({ closeModal, onResult, onUploadCv, refreshData}) {
                                   autoPlay
                                   src="/success.mp4"
                                   alt="Success Upload"
-                                  className="mx-auto h-[150px] w-[150px] 2xl:h-[200px] 2xl:w-[200px] text-gray-400"
+                                  className="mx-auto h-[150px] w-[150px] 2xl:h-[180px] 2xl:w-[180px] text-gray-400"
                                 />
 
                                 <h3 className="mt-2 mb-5 2xl:my-5 text-sm 2xl:text-base font-semibold text-gray-900">
@@ -256,9 +256,9 @@ export default function Ai({ closeModal, onResult, onUploadCv, refreshData}) {
                                 </h3>
 
                                 {files.map((file, index) => (
-                                  <div key={`${file.name}-${Date.now()}`}>
-                                    <div className="bg-gray-50 my-2 px-2 py-1 2xl:px-4 2xl:py-2 2xl:my-5 rounded-xl hover:cursor-pointer">
-                                      <div className="lg:flex lg:items-center lg:justify-between my-2 ">
+                                  <div className="flex items-center justify-center" key={`${file.name}-${Date.now()}`}>
+                                    <div className="bg-gray-50 my-2 px-2 py-1 2xl:px-4 2xl:py-3 2xl:my-2 rounded-xl hover:cursor-pointer w-1/2">
+                                      <div className="lg:flex lg:items-center lg:justify-between">
                                         <div className="min-w-0 flex ">
                                           <GrDocumentPdf className="mx-3 h-5 w-5 2xl:h-6 2xl:w-6" />
                                           <p className="text-sm 2xl:text-base font-semibold leading-7 text-gray-900 sm:truncate sm:tracking-tight">
@@ -300,10 +300,9 @@ export default function Ai({ closeModal, onResult, onUploadCv, refreshData}) {
                       </div>
                     )}
                   </div>
-                 
                 </div>
                 {ready && (
-                    <div className="my-5 px-44">
+                    <div className="my-5 2xl:my-10 px-44 2xl:px-96">
                       <div className="flex justify-center items-center rounded-xl bg-indigo-500 px-4 py-3 text-sm 2xl:text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                         <button
                           id="confirm-upload"

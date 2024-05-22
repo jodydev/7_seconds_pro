@@ -37,7 +37,7 @@ export default function UserDetails() {
         <section
           key={applicant.thread_id}
           id="detailsjob"
-          className="grid lg:grid-cols-2 gap-10"
+          className="grid lg:grid-cols-2 gap-10 p-10"
         >
           <div data-aos="fade-right" className="flex justify-between">
             <div className="min-w-0 flex-1 ">
