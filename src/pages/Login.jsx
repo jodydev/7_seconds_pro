@@ -62,14 +62,14 @@ export default function Login() {
               </div>
             </div>
           )}
-          <div className="flex min-h-full flex-1 flex-col items-center justify-center py-32 2xl:py-96">
-            <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-              <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+          <div className="flex min-h-full flex-col items-center justify-center h-screen bg-gradient-to-r from-violet-600 to-indigo-600">
+            <div className="sm:mx-auto sm:w-full sm:max-w-sm ">
+              <h2 className="text-center text-2xl 2xl:text-4xl text-nowrap font-bold leading-9 tracking-tight text-white">
                 {t("Login to your account")}
               </h2>
             </div>
 
-            <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+            <div className="bg-gray-50 shadow-sm rounded-2xl p-10 mt-10 2xl:mt-20 mx-auto w-full max-w-sm" >
               <form className="space-y-6" onSubmit={handleSubmit}>
                 <div>
                   <label
@@ -133,7 +133,7 @@ export default function Login() {
                     type="submit"
                     className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   >
-                    {t("Login")}
+                    {t("Sign in")}
                   </button>
                 </div>
               </form>

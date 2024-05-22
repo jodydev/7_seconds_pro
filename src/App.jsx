@@ -17,6 +17,8 @@ import PageNotFound from "./pages/PageNotFound";
 import JobDetails from "./components/Jobs/JobDetails";
 import UserDetails from "./components/Users/UserDetails";
 import UpgradePlan from "./pages/UpgradePlan";
+import { I18nextProvider } from "react-i18next";
+import i18n from "./i18n";
 
 export function App() {
   useEffect(() => {
@@ -65,13 +67,15 @@ function LayoutWithRoutes({ session, user }) {
 
 function Root() {
   return (
-    <AppProvider>
-      <AuthProvider>
-        <Router>
-          <App />
-        </Router>
-      </AuthProvider>
-    </AppProvider>
+    <I18nextProvider i18n={i18n}>
+      <AppProvider>
+        <AuthProvider>
+          <Router>
+            <App />
+          </Router>
+        </AuthProvider>
+      </AppProvider>
+    </I18nextProvider>
   );
 }
 

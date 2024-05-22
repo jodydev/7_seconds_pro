@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { MdEmail } from "react-icons/md";
 import { HiEye, HiEyeOff } from "react-icons/hi";
@@ -14,6 +14,7 @@ export default function Register() {
   const [registerStep, setRegisterStep] = useState(true);
   const [confirmEmail, setConfirmEmail] = useState(false);
   const [error, setError] = useState(false);
+  const [errMessage, setErrMessage] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
   //! Chiamata API a Supabase per la registrazione dell'utente
@@ -21,29 +22,43 @@ export default function Register() {
     event.preventDefault();
     const passwordRegex =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()])[A-Za-z\d!@#$%^&*()]{8,}$/;
-    if (!passwordRegex.test(password)) {
-      setPasswordError(
-        "Password must contain at least one lowercase letter, one uppercase letter, one number, one special character, and be at least 8 characters long."
-      );
-    }
+
     try {
       const { error } = await supabase.auth.signUp({ email, password });
       if (error) {
         console.log(error);
+        setError(true);
+        setErrMessage(error.message);
       } else {
+        if (!passwordRegex.test(password)) {
+          setPasswordError(
+            t(
+              "Password must contain at least one lowercase letter, one uppercase letter, one number, one special character, and be at least 8 characters long."
+            )
+          );
+        }
         setRegisterStep(false);
         setConfirmEmail(true);
       }
     } catch (error) {
-      setError(true);
       console.error(error.message);
+      setError(true);
+      if (
+        error.message ===
+        "A user with this email address has already been registered"
+      ) {
+        setErrMessage(t("User already registered, please try again."));
+      } else if (error.message === "Error sending confirmation mail") {
+        setErrMessage(t("Error sending confirmation mail, please try again."));
+      }
     }
   };
 
+
   return (
-    <>
+    <section className="bg-gradient-to-r from-violet-600 to-indigo-600">
       {error && (
-        <div className="text-center mt-10">
+        <div className="text-center pt-10">
           <div
             className="p-3 bg-red-500 items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex"
             role="alert"
@@ -52,7 +67,7 @@ export default function Register() {
               {t("Error")}
             </span>
             <span className="font-semibold mr-2 text-left flex-auto">
-              {t("User already registered, please try again.")}
+              {errMessage}
             </span>
             <IoCloseCircleOutline
               className="cursor-pointer w-5 h-5"
@@ -63,21 +78,21 @@ export default function Register() {
       )}
 
       {confirmEmail && (
-        <div className="py-40 2xl:py-96 flex-col items-center justify-center h-screen text-center">
+        <div className="py-40 2xl:py-96 flex-col items-center justify-center h-screen text-center bg-white">
           <img
             src="/email.gif"
             alt="Email"
             className="mx-auto h-[300px] w-[300px] text-gray-400"
           />
           <div className="flex flex-col items-center justify-center">
-            <p className="text-2xl text-gray-500 mb-6">
+            <p className="text-2xl  text-gray-500 font-semibold my-6">
               {t("Please, confirm your email to proceed to the dashboard.")}
             </p>
             <a
               href={`https://www.${encodeURIComponent(email.split("@")[1])}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-indigo-600 hover:text-indigo-500 font-semibold"
+              className="text-indigo-600 hover:text-indigo-500 mt-5 font-semibold"
             >
               <button className="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-full">
                 <MdEmail className="inline-block w-6 h-6 me-2" />
@@ -89,14 +104,14 @@ export default function Register() {
       )}
 
       {registerStep && (
-        <div className="flex min-h-full flex-1 flex-col items-center justify-center py-32 2xl:py-96">
+        <div className="flex min-h-full flex-1 flex-col items-center justify-center  h-screen ">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-            <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+            <h2 className="text-center text-2xl 2xl:text-4xl text-nowrap font-bold leading-9 tracking-tight text-white">
               {t("Register your account")}
             </h2>
           </div>
 
-          <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+          <div className="bg-gray-50 shadow-sm rounded-2xl p-10 mt-10 2xl:mt-20 mx-auto w-full max-w-sm">
             <form className="space-y-6" onSubmit={handleRegister}>
               <div>
                 <label
@@ -175,12 +190,12 @@ export default function Register() {
                 to="/login"
                 className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 ms-1"
               >
-                {t("Sing in")}
+                {t("Sign in")}
               </Link>
             </p>
           </div>
         </div>
       )}
-    </>
+    </section>
   );
 }
