@@ -85,5 +85,6 @@
   "Upload CVs to Analyze": "Carica CV da Analizzare",
   "Page not found." : "Pagina non trovata.",
   "Password must contain at least one lowercase letter, one uppercase letter, one number, one special character, and be at least 8 characters long." : "La password deve contenere almeno una lettera minuscola, una lettera maiuscola, un numero, un carattere speciale e deve essere lunga almeno 8 caratteri.",
-  "Error sending confirmation mail, please try again." : "Errore nell'invio della mail di conferma, riprova."
+  "Error sending confirmation mail, please try again." : "Errore nell'invio della mail di conferma, riprova.",
+  "Invalid login credentials" : "Credenziali di accesso non valide"
 }

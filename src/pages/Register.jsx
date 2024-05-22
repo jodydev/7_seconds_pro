@@ -28,7 +28,16 @@ export default function Register() {
       if (error) {
         console.log(error);
         setError(true);
-        setErrMessage(error.message);
+        if (
+          error.message ===
+          "A user with this email address has already been registered"
+        ) {
+          setErrMessage(t("User already registered, please try again."));
+        } else if (error.message === "Error sending confirmation mail") {
+          setErrMessage(
+            t("Error sending confirmation mail, please try again.")
+          );
+        }
       } else {
         if (!passwordRegex.test(password)) {
           setPasswordError(
@@ -53,7 +62,6 @@ export default function Register() {
       }
     }
   };
-
 
   return (
     <section className="bg-gradient-to-r from-violet-600 to-indigo-600">

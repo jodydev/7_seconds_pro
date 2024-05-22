@@ -13,24 +13,26 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(false);
+  const [errMessage, setErrMessage] = useState("");
 
-  //! Funzione per il login di un utente esistente
-  const signIn = async (email, password) => {
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    if (error) {
-      throw error;
-    }
-    setSession(true);
-  };
-
+  //! Funzione per la login utente
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await signIn(email, password);
-      navigate("/home");
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      if (error) {
+        console.log(error);
+        setError(true);
+        if (error.message === "Invalid login credentials") {
+          setErrMessage(t("Invalid login credentials"));
+        }
+      } else {
+        setSession(true);
+        navigate("/home");
+      }
     } catch (error) {
       setError(true);
       console.error("Error logging in:", error.message);
@@ -40,9 +42,9 @@ export default function Login() {
   return (
     <>
       {!session && (
-        <>
+        <section className="bg-gradient-to-r from-violet-600 to-indigo-600">
           {error && (
-            <div className="text-center mt-10">
+            <div className="text-center pt-10">
               <div
                 className="p-3 bg-red-500 items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex"
                 role="alert"
@@ -51,9 +53,7 @@ export default function Login() {
                   {t("Error")}
                 </span>
                 <span className="font-semibold mr-2 text-left flex-auto">
-                  {t(
-                    "Invalid credentials or user does not exist, please try again."
-                  )}
+                  {errMessage}
                 </span>
                 <IoCloseCircleOutline
                   className="cursor-pointer w-5 h-5"
@@ -69,7 +69,7 @@ export default function Login() {
               </h2>
             </div>
 
-            <div className="bg-gray-50 shadow-sm rounded-2xl p-10 mt-10 2xl:mt-20 mx-auto w-full max-w-sm" >
+            <div className="bg-gray-50 shadow-sm rounded-2xl p-10 mt-10 2xl:mt-20 mx-auto w-full max-w-sm">
               <form className="space-y-6" onSubmit={handleSubmit}>
                 <div>
                   <label
@@ -139,7 +139,7 @@ export default function Login() {
               </form>
 
               <p className="mt-10 text-center text-sm text-gray-500">
-                 {t("Do not have an account?")}
+                {t("Do not have an account?")}
                 <Link
                   to="/register"
                   className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 ms-1"
@@ -149,7 +149,7 @@ export default function Login() {
               </p>
             </div>
           </div>
-        </>
+        </section>
       )}
     </>
   );
