@@ -83,9 +83,10 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
     let parts = name.split("/");
     let lastPart = parts.pop();
     let index = lastPart.indexOf(".pdf") + 4;
-    return lastPart.substring(0, index);
+    return lastPart.substring(0, index).toLowerCase();
   };
 
+  //! Funzione per ottenere i candidati per il lavoro selezionato
   useEffect(() => {
     const getApplicantsForJob = async (jobId) => {
       try {
@@ -159,7 +160,7 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
       <div
         className={`${
           modalOpen ? "opacity-10" : "opacity-100"
-        } bg-white px-6 py-6 shadow-lg rounded-2xl mt-10 `}
+        } bg-white px-6 py-6 shadow-lg rounded-2xl mt-8 2xl:mt-10 `}
       >
         <div className="flex flex-wrap items-center justify-between sm:flex-nowrap border-b border-gray-200">
           <div className="ml-0 2xl:ml-4 mb-4 2xl:mb-6">

@@ -151,12 +151,12 @@ export default function JobPostings() {
         )}
         <div
           className={`${modalOpen ? "opacity-10" : "opacity-100"} 
-           ${message ? "my-0" : "my-8 2xl:my-10"}
+           ${message ? "my-0" : "my-10 2xl:my-20"}
            ${totalJobs === 0 ? "h-[600px] 2xl:min-h-[1000px]" : ""}
            bg-white px-6 py-4 shadow-lg rounded-2xl`}
         >
           <div className="flex flex-wrap items-center justify-between sm:flex-nowrap border-b border-gray-200">
-            <div className="ml-4">
+            <div className="ml-4 my-2 2xl:my-4">
               <h3 className="text-2xl 2xl:text-4xl font-bold leading-6 mb-2 text-gray-900">
                 Job Postings
               </h3>
