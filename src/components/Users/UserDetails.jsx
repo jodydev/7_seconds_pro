@@ -5,8 +5,10 @@ import supabase from "../../supabase/client";
 import { BsStars } from "react-icons/bs";
 import { MdEmail } from "react-icons/md";
 import { BsFillTelephoneFill } from "react-icons/bs";
+import { useTranslation } from "react-i18next";
 
 export default function UserDetails() {
+  const { t } = useTranslation();
   const thread_id = useParams().id;
   const [applicants, setApplicants] = useState([]);
 
@@ -64,7 +66,7 @@ export default function UserDetails() {
 
                 <div className="mt-1 w-full">
                   <h3 className="text-sm 2xl:text-lg font-semibold leading-7 text-gray-900">
-                    Applied for:{" "}
+                   {t("Applied for:")}{" "}
                     <span className="font-bold text-indigo-500">
                       {applicant.title || (
                         <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
@@ -76,7 +78,7 @@ export default function UserDetails() {
                     <dl className="divide-y divide-gray-100">
                       <div className="px-4 py-3 2xl:py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                         <p className="text-xs 2xl:text-sm font-medium leading-6 text-gray-900">
-                          Age:
+                          {t("Age: ")}
                         </p>
                         <dd className="mt-1 text-xs 2xl:text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                           {applicant.age || (
@@ -86,7 +88,7 @@ export default function UserDetails() {
                       </div>
                       <div className="px-4 py-3 2xl:py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                         <p className="text-xs 2xl:text-sm font-medium leading-6 text-gray-900">
-                          Location:
+                           {t("Location: ")}
                         </p>
                         <dd className="mt-1 text-xs 2xl:text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
                           {applicant.city || (
@@ -96,7 +98,7 @@ export default function UserDetails() {
                       </div>
                       <div className="px-4 py-3 2xl:py-6 sm:grid sm:grid-cols-3 sm:gap-5 sm:px-0">
                         <p className="text-xs 2xl:text-sm font-medium leading-6 text-gray-900">
-                          Contacts:
+                           {t("Contacts: ")}
                         </p>
                         <ul>
                           <li className="mt-1 text-xs 2xl:text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 flex text-nowrap items-center gap-3">
@@ -121,7 +123,7 @@ export default function UserDetails() {
               <div className="flex justify-between mt-5 2xl:mt-10">
                 <div className="min-w-0 flex-1 bg-white px-6 2xl:px-10 py-8 shadow-lg rounded-2xl">
                   <h2 className="text-xl 2xl:text-3xl font-bold leading-7 text-gray-900 flex gap-1">
-                    Canditate Summary <BsStars className="h-6 w-6" />
+                     {t("Canditate Summary")} <BsStars className="h-6 w-6" />
                   </h2>
 
                   <div className="mt-1 flex flex-col">

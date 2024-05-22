@@ -1,11 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { IoCloseCircleOutline } from "react-icons/io5";
-import { MdEmail } from "react-icons/md";
+import { useTranslation } from "react-i18next";
 import { HiEye, HiEyeOff } from "react-icons/hi";
 import supabase from "../supabase/client";
 
 export default function Login() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [session, setSession] = useState(false);
   const [email, setEmail] = useState("");
@@ -47,10 +48,12 @@ export default function Login() {
                 role="alert"
               >
                 <span className="flex rounded-full bg-red-600 uppercase px-2 py-1 text-xs font-bold mr-3">
-                  Error
+                  {t("Error")}
                 </span>
                 <span className="font-semibold mr-2 text-left flex-auto">
-                  Invalid credentials or user does not exist, please try again.
+                  {t(
+                    "Invalid credentials or user does not exist, please try again."
+                  )}
                 </span>
                 <IoCloseCircleOutline
                   className="cursor-pointer w-5 h-5"
@@ -62,7 +65,7 @@ export default function Login() {
           <div className="flex min-h-full flex-1 flex-col items-center justify-center py-32 2xl:py-96">
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
               <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-                Login to your account
+                {t("Login to your account")}
               </h2>
             </div>
 
@@ -73,7 +76,7 @@ export default function Login() {
                     htmlFor="email"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
-                    Email address
+                    {t("Email address")}
                   </label>
                   <div className="mt-2">
                     <input
@@ -94,7 +97,7 @@ export default function Login() {
                     htmlFor="password"
                     className="block text-sm font-medium leading-6 text-gray-900"
                   >
-                    Password
+                    {t("Password")}
                   </label>
                   <div className="mt-2 relative">
                     <input
@@ -130,18 +133,18 @@ export default function Login() {
                     type="submit"
                     className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   >
-                    Login
+                    {t("Login")}
                   </button>
                 </div>
               </form>
 
               <p className="mt-10 text-center text-sm text-gray-500">
-                Do not have an account?
+                 {t("Do not have an account?")}
                 <Link
                   to="/register"
                   className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 ms-1"
                 >
-                  Sign in
+                  {t("Sign up")}
                 </Link>
               </p>
             </div>

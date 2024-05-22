@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate, Link } from "react-router-dom";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import { MdEmail } from "react-icons/md";
@@ -6,7 +7,7 @@ import { HiEye, HiEyeOff } from "react-icons/hi";
 import supabase from "../supabase/client";
 
 export default function Register() {
-  const navigate = useNavigate();
+  const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -35,7 +36,6 @@ export default function Register() {
       }
     } catch (error) {
       setError(true);
-
       console.error(error.message);
     }
   };
@@ -49,10 +49,10 @@ export default function Register() {
             role="alert"
           >
             <span className="flex rounded-full bg-red-600 uppercase px-2 py-1 text-xs font-bold mr-3">
-              Error
+              {t("Error")}
             </span>
             <span className="font-semibold mr-2 text-left flex-auto">
-              User already registered, please try again.
+              {t("User already registered, please try again.")}
             </span>
             <IoCloseCircleOutline
               className="cursor-pointer w-5 h-5"
@@ -71,7 +71,7 @@ export default function Register() {
           />
           <div className="flex flex-col items-center justify-center">
             <p className="text-2xl text-gray-500 mb-6">
-              Please, confirm your email to proceed to the dashboard.
+              {t("Please, confirm your email to proceed to the dashboard.")}
             </p>
             <a
               href={`https://www.${encodeURIComponent(email.split("@")[1])}`}
@@ -81,7 +81,7 @@ export default function Register() {
             >
               <button className="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-full">
                 <MdEmail className="inline-block w-6 h-6 me-2" />
-                Confirm Email
+                {t("Confirm Email")}
               </button>
             </a>
           </div>
@@ -92,7 +92,7 @@ export default function Register() {
         <div className="flex min-h-full flex-1 flex-col items-center justify-center py-32 2xl:py-96">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-              Register your account
+              {t("Register your account")}
             </h2>
           </div>
 
@@ -103,7 +103,7 @@ export default function Register() {
                   htmlFor="email"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                  Email address
+                  {t("Email address")}
                 </label>
                 <div className="mt-2">
                   <input
@@ -124,7 +124,7 @@ export default function Register() {
                   htmlFor="password"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                  Password
+                  {t("Password")}
                 </label>
                 <div className="mt-2 relative">
                   <input
@@ -164,18 +164,18 @@ export default function Register() {
                   type="submit"
                   className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
-                  Register
+                  {t("Register")}
                 </button>
               </div>
             </form>
 
             <p className="mt-10 text-center text-sm text-gray-500">
-              Do you already have an account?
+              {t("Do you already have an account?")}
               <Link
                 to="/login"
                 className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 ms-1"
               >
-                Login
+                {t("Sing in")}
               </Link>
             </p>
           </div>

@@ -9,11 +9,13 @@ import { useAppContext } from "../../context/AppContext";
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import StarRatings from "react-star-ratings";
 import supabase from "../../supabase/client";
 import Loader from "../Loader";
 
 export default function FilterUsersForJob({ refresh, skeletron }) {
+  const { t } = useTranslation();
   const jobId = useParams().id;
   const applicantsCountRef = useRef(0);
   const { modalOpen, checkDeviceSizeApplicantsTable } = useAppContext();
@@ -165,7 +167,7 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
         <div className="flex flex-wrap items-center justify-between sm:flex-nowrap border-b border-gray-200">
           <div className="ml-0 2xl:ml-4 mb-4 2xl:mb-6">
             <h3 className="text-2xl 2xl:text-4xl font-bold leading-6 text-gray-900">
-              Applicants
+              {t("Applicants")}
             </h3>
           </div>
         </div>
@@ -176,19 +178,19 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
               <thead className="2xl:text-lg text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                   <th scope="col" className="px-6 py-3">
-                    Full Name
+                     {t("Full Name")}
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Age
+                       {t("Age")}
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Email
+                       {t("Email")}
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Created at
+                       {t("Created at")}
                   </th>
                   <th scope="col" className="px-3 py-3">
-                    Ai Rating
+                       {t("Ai Rating")}
                   </th>
                 </tr>
               </thead>
@@ -196,11 +198,11 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
                 <tr className="bg-white h-[380px] 2xl:h-[700px] border-b dark:bg-gray-800 dark:border-gray-700">
                   <td className="text-center py-6" colSpan="5">
                     <p className="text-2xl 2xl:text-5xl  font-semibold">
-                      No applications for this job yet...
+                       {t("No applications for this job yet...")}
                     </p>
                     <p className="text-xl 2xl:text-4xl  font-semibold my-3">
-                      upload your first
-                      <span className="text-indigo-500 ms-2">CVs!</span>
+                                      {t("upload your first")}
+                      <span className="text-indigo-500 ms-2">{t("CV!")}</span>
                     </p>
                   </td>
                 </tr>
@@ -211,14 +213,14 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
               <thead className=" text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr className="2xl:text-xl">
                   <th scope="col" className="px-6 py-3 ">
-                    Full Name
+                  {t("Full Name")}
                   </th>
                   <th scope="col" className="px-6 py-3">
                     <button
                       onClick={handleSortByCreatedAt}
                       className="flex items-center focus:outline-none hover:cursor-pointer"
                     >
-                      Created at
+                      {t("Created at")}
                       {sortDirectionC === "asc" ? (
                         <ChevronUpIcon className="h-4 w-4 ml-1 text-gray-500" />
                       ) : (
@@ -227,13 +229,13 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
                     </button>
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    Age
+                  {t("Age")}
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    City
+                  {t("City")}
                   </th>
                   <th scope="col" className="px-3 py-3">
-                    Ai Rating
+                    {t("Ai Rating")}
                     <button
                       onClick={handleSortByRating}
                       className="flex-row items-center focus:outline-none hover:cursor-pointer"
@@ -327,7 +329,7 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
                   currentPage === 1 ? "disabled" : ""
                 } relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-xs font-medium text-gray-700 hover:bg-gray-50`}
               >
-                Previous
+                {t("Previous")}
               </Link>
               <Link
                 onClick={() => handlePageChange(currentPage + 1)}
@@ -335,22 +337,22 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
                   currentPage === totalPages ? "hidden" : ""
                 } relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-xs font-medium text-gray-700 hover:bg-gray-50`}
               >
-                Next
+                {t("Next")}
               </Link>
             </div>
             <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
               <div>
                 <p className="text-sm 2xl:text-base text-gray-700">
-                  Showing{" "}
+                  {t("Showing")}{" "}
                   <span className="font-semibold text-indigo-500">1</span> to{" "}
                   <span className="font-semibold text-indigo-500">
                     {currentApplicants.length}
                   </span>{" "}
-                  of{" "}
+                  {t("of")}{" "}
                   <span className="font-semibold text-indigo-500">
                     {totalApplicants}
                   </span>{" "}
-                  results
+                  {t("results")}
                 </p>
               </div>
               <div className="flex items-center gap-5">
@@ -381,7 +383,7 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
                       currentPage === 1 ? "disabled" : ""
                     } relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0`}
                   >
-                    <span className="sr-only">Previous</span>
+                    <span className="sr-only">{t("Previous")}</span>
                     <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
                   </Link>
                   {Array.from({ length: totalPages }, (_, index) => {
@@ -412,7 +414,7 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
                     onClick={() => handlePageChange(currentPage + 1)}
                     className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
                   >
-                    <span className="sr-only">Next</span>
+                    <span className="sr-only">{t("Next")}</span>
                     <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
                   </Link>
                 </nav>

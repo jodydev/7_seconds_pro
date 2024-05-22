@@ -2,15 +2,17 @@ import { useState, useEffect } from "react";
 import { useAppContext } from "../../context/AppContext";
 import { CalendarIcon } from "@heroicons/react/20/solid";
 import { BsStars } from "react-icons/bs";
+import { getUserData } from "../../hook/getUserData";
+import { useTranslation } from "react-i18next";
+import { useParams } from "react-router-dom";
+import { FaCheckCircle } from "react-icons/fa";
+import supabase from "../../supabase/client";
+import Loader from "../Loader";
 import FilterUsersForJob from "../Users/FilterUsersForJob";
 import Ai from "../Modal/Ai";
-import { useParams } from "react-router-dom";
-import supabase from "../../supabase/client";
-import { FaCheckCircle } from "react-icons/fa";
-import Loader from "../Loader";
-import { getUserData } from "../../hook/getUserData";
 
 export default function JobDetails() {
+  const { t } = useTranslation();
   const { modalOpen, openModal, closeModal } = useAppContext();
   const { accountCredits } = getUserData();
   const { id } = useParams();
@@ -103,7 +105,7 @@ export default function JobDetails() {
                       className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400"
                       aria-hidden="true"
                     />
-                    posted{" "}
+                    {t("posted on")}{" "}
                     {selectedJob.created_at
                       .split("T")[0]
                       .split("-")
@@ -117,10 +119,10 @@ export default function JobDetails() {
                   <button
                     onClick={openModal}
                     type="button"
-                    className="inline-flex items-center rounded-2xl bg-indigo-600 px-4 py-3 2xl:px-5  text-base font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    className="inline-flex items-center rounded-2xl bg-indigo-600 px-4 py-3 2xl:px-5  text-base 2xl:text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   >
                     <BsStars className="me-2 w-6 h-6" />
-                    Upload CVs
+                     {t("Upload CVs")}
                   </button>
                 </div>
               ) : (
@@ -131,7 +133,7 @@ export default function JobDetails() {
               <dl className="divide-y divide-gray-100">
                 <div className="mt-2 w-full">
                   <span className="text-base 2xl:text-xl font-semibold leading-6 text-gray-900">
-                    Job Description:{" "}
+                     {t("Job Description:")}{" "}
                     <p className="text-sm 2xl:text-base font-light my-2 leading-6 text-gray-900 w-1/2">
                       {selectedJob.description}
                     </p>
@@ -149,10 +151,10 @@ export default function JobDetails() {
           role="alert"
         >
           <FaCheckCircle className="w-5 h-5 me-2" />
-          <span className="sr-only">Info</span>
+          <span className="sr-only"> {t("Info")}</span>
           <div>
             <span className="font-medium text-sm 2xl:text-base">
-              Upload Successful!
+              {t("Upload Successful!")}
             </span>
           </div>
         </div>

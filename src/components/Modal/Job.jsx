@@ -4,6 +4,7 @@ import { Fragment } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { FaPencil } from "react-icons/fa6";
+import { useTranslation } from "react-i18next";
 import supabase from "../../supabase/client";
 
 function classNames(...classes) {
@@ -17,6 +18,7 @@ const senioritys = [
 ];
 
 export default function Job({ closeModal, onResult }) {
+  const { t } = useTranslation();
   const [selected, setSelected] = useState(senioritys[0]);
   
   const resetForm = () => {
@@ -63,7 +65,7 @@ export default function Job({ closeModal, onResult }) {
         <div className="relative bg-white rounded-lg  dark:bg-gray-700 py-6 px-12 border border-indigo-50 shadow-lg shadow-indigo-500/50">
           <div className="flex items-center justify-center my-2 border-b rounded-t dark:border-gray-600 ">
             <h3 className="flex text-2xl 2xl:text-3xl my-2 font-semibold text-gray-900 dark:text-white">
-              Add New Job
+              {t("Add a New Job")}
               <FaPencil className="w-6 h-6 2xl:w-7 2xl:h-7 ml-3" />
             </h3>
             <button
@@ -87,7 +89,7 @@ export default function Job({ closeModal, onResult }) {
                   d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                 />
               </svg>
-              <span className="sr-only">Close modal</span>
+              <span className="sr-only"> {t("Close modal")}</span>
             </button>
           </div>
 
@@ -95,10 +97,10 @@ export default function Job({ closeModal, onResult }) {
             <div className="space-y-12">
               <div className="border-b border-gray-900/10 pb-12">
                 <h2 className="text-base font-semibold leading-7 text-gray-900">
-                  Job Information
+                  {t("Job Information")}
                 </h2>
                 <p className="mt-1 text-sm leading-6 text-gray-600">
-                  Fill in all fields correctly to continue with the request.
+                  {t("Fill in all fields correctly to continue with the request.")}
                 </p>
 
                 <div className="mt-5 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -107,7 +109,7 @@ export default function Job({ closeModal, onResult }) {
                       htmlFor="company-name"
                       className="block text-sm font-medium leading-6 text-gray-900"
                     >
-                      Company Name
+                      {t("Company Name")}
                     </label>
                     <div className="mt-2">
                       <input
@@ -125,7 +127,7 @@ export default function Job({ closeModal, onResult }) {
                       htmlFor="role"
                       className="block text-sm font-medium leading-6 text-gray-900"
                     >
-                      Role
+                       {t("Role")}
                     </label>
                     <div className="mt-2">
                       <input
@@ -143,7 +145,7 @@ export default function Job({ closeModal, onResult }) {
                       htmlFor="country"
                       className="block text-sm font-medium leading-6 text-gray-900"
                     >
-                      Seniority
+                      {t("Seniority")}
                     </label>
                     <div className="mt-2">
                       <Listbox value={selected} onChange={setSelected}>
@@ -233,7 +235,7 @@ export default function Job({ closeModal, onResult }) {
                       htmlFor="job-description"
                       className="block text-sm font-medium leading-6 text-gray-900 mb-2"
                     >
-                      Job Description
+                        {t("Job Description")}
                     </label>
                     <Textarea
                       id="job-description"
@@ -254,13 +256,13 @@ export default function Job({ closeModal, onResult }) {
                 onClick={resetForm}
                 className="rounded-md bg-gray-200 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-300"
               >
-                Reset
+                {t("Reset")}
               </button>
               <button
                 type="submit"
                 className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-                Send
+                 {t("Send")}
               </button>
             </div>
           </form>

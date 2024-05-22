@@ -14,12 +14,14 @@ import {
 import { TbLogout2 } from "react-icons/tb";
 import { getUserData } from "../hook/getUserData";
 import { LuUser2 } from "react-icons/lu";
+import { useTranslation } from "react-i18next";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 export default function Sidebar() {
+  const { t } = useTranslation();
   const { modalOpen } = useAppContext();
   const { subscription } = getUserData();
   const navigate = useNavigate();
@@ -29,10 +31,13 @@ export default function Sidebar() {
   const expired = subscription === "expired";
 
   const navigation = [
-    { name: "Dashboard", to: "/home", icon: HomeIcon, current: true },
+    { name: t("Dashboard"), to: "/home", icon: HomeIcon, current: true },
     {
-      name: trial || expired ? "Upgrade Plan" : "Account Info",
-      to: trial || expired ? "/upgrade-plan" :  "https://billing.stripe.com/p/login/28o29f66Ue515xeaEE",
+      name: trial || expired ? t("Upgrade Plan") : t("Account"),
+      to:
+        trial || expired
+          ? "/upgrade-plan"
+          : "https://billing.stripe.com/p/login/28o29f66Ue515xeaEE",
       icon: trial || expired ? BsStars : LuUser2,
       current: false,
     },
@@ -88,7 +93,7 @@ export default function Sidebar() {
                       className="-m-2.5 p-2.5"
                       onClick={() => setSidebarOpen(false)}
                     >
-                      <span className="sr-only">Close sidebar</span>
+                      <span className="sr-only">{t("Close sidebar")}</span>
                       <XMarkIcon
                         className="h-6 w-6 text-white"
                         aria-hidden="true"
@@ -100,7 +105,7 @@ export default function Sidebar() {
                 <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-2">
                   <div className="flex h-16 shrink-0 items-center border-b border-gray-200">
                     <h3 className="text-2xl font-semibold leading-6 text-gray-900 mt-5 ">
-                      Menu
+                      {t("Menu")}
                     </h3>
                   </div>
                   <nav className="flex flex-1 flex-col">
@@ -146,7 +151,7 @@ export default function Sidebar() {
       <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
         <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6">
           <h3 className="text-2xl font-semibold leading-6 text-gray-900 mt-10 ">
-            Menu
+            {t("Menu")}
           </h3>
 
           <nav className="flex flex-1 flex-col border-t text-gray-900 ">
@@ -176,26 +181,14 @@ export default function Sidebar() {
                 </li>
               ))}
             </ul>
-
-            {/* User profile and sign out */}
             <ul className="flex flex-col items-center mb-5">
-              {/* <li className="my-2">
-                <div className="group flex  gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold  text-gray-700 hover:text-indigo-600 hover:bg-gray-50">
-                  <img
-                    className="inline-block h-6 w-6 p-1 rounded-full ring-2 ring-indigo-500"
-                    src="/7secondspro-logo/7secondspro-svg.png"
-                    alt="User Profile"
-                  />
-                  {user && <p>{session.user.email}</p>}
-                </div>
-              </li> */}
               <li className="mt-auto w-full">
                 <button
                   onClick={() => signOut()}
                   className="flex items-center w-full py-2 px-4 text-sm font-semibold bg-red-500 hover:bg-red-600 rounded-lg transition duration-300 ease-in-out"
                 >
                   <TbLogout2 className="h-6 w-6 mr-2 text-white" />
-                  <span className="text-white">Sign out</span>
+                  <span className="text-white"> {t("Sign out")}</span>
                 </button>
               </li>
             </ul>
@@ -209,7 +202,7 @@ export default function Sidebar() {
           className="-m-2.5 p-2.5 text-gray-700 lg:hidden"
           onClick={() => setSidebarOpen(true)}
         >
-          <span className="sr-only">Open sidebar</span>
+          <span className="sr-only"> {t("Open sidebar")}</span>
           <Bars3Icon className="h-6 w-6" aria-hidden="true" />
         </button>
         <div className="flex-1 text-sm font-semibold leading-6 text-gray-900">

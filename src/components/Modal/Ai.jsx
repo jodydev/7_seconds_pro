@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { BsStars } from "react-icons/bs";
 import { FaMagic } from "react-icons/fa";
@@ -8,7 +9,8 @@ import { FaCheckCircle } from "react-icons/fa";
 import supabase from "../../supabase/client";
 import useAuth from "../../hook/useAuth";
 
-export default function Ai({ closeModal, onResult, onUploadCv, refreshData}) {
+export default function Ai({ closeModal, onResult, onUploadCv, refreshData }) {
+  const { t } = useTranslation();
   const { session } = useAuth();
   const jobId = useParams().id;
   const [loading, setLoading] = useState(false);
@@ -147,8 +149,8 @@ export default function Ai({ closeModal, onResult, onUploadCv, refreshData}) {
             <div className="flex items-center justify-between my-2 border-b rounded-t dark:border-gray-600 ">
               <h3 className="text-2xl 2xl:text-3xl my-2 font-semibold text-gray-900 dark:text-white">
                 {files.length > 0
-                  ? "Operation Completed"
-                  : "Upload CVs to Analyze"}
+                  ? t("Operation Completed")
+                  : t("Upload CVs to Analyze")}
               </h3>
 
               {files.length > 0 ? (
@@ -171,14 +173,14 @@ export default function Ai({ closeModal, onResult, onUploadCv, refreshData}) {
                   viewBox="0 0 14 14"
                 >
                   <path
-                    stroke="currentColor" 
+                    stroke="currentColor"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth="2"
                     d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
                   />
                 </svg>
-                <span className="sr-only">Close modal</span>
+                <span className="sr-only">{t("Close modal")}</span>
               </button>
             </div>
 
@@ -189,14 +191,14 @@ export default function Ai({ closeModal, onResult, onUploadCv, refreshData}) {
                     {loading ? (
                       <div className="loader my-40 px-0 2xl:px-60">
                         <p className="text-lg 2xl:text-2xl text-nowrap">
-                          Attendere, caricamento in corso...
+                          {t("Please wait, loading...")}
                         </p>
                         <span className="words text-lg 2xl:text-2xl text-indigo-500">
-                          <p className="word">curriculum</p>
-                          <p className="word">competenze</p>
-                          <p className="word">esperienze</p>
-                          <p className="word">abilità</p>
-                          <p className="word">valutazioni</p>
+                          <p className="word">{t("curriculum")}</p>
+                          <p className="word">{t("skills")}</p>
+                          <p className="word">{t("experiences")}</p>
+                          <p className="word">{t("ability")}</p>
+                          <p className="word">{t("ratings")}</p>
                         </span>
                       </div>
                     ) : (
@@ -209,10 +211,12 @@ export default function Ai({ closeModal, onResult, onUploadCv, refreshData}) {
                               className="mx-auto h-[220px] w-[220px] 2xl:h-[260px] 2xl:w-[260px] text-gray-400"
                             />
                             <h3 className="text-sm 2xl:text-lg font-semibold text-gray-900">
-                              Upload one or more files to start processing...
+                              {t(
+                                "Upload one or more files to start processing..."
+                              )}
                             </h3>
                             <p className="text-xs 2xl:text-sm italic my-1">
-                              *only accepts pdf files
+                              {t("*only accepts pdf files")}
                             </p>
 
                             <div className="my-10">
@@ -222,7 +226,7 @@ export default function Ai({ closeModal, onResult, onUploadCv, refreshData}) {
                                   className="cursor-pointer flex items-center"
                                 >
                                   <TbSquareRoundedPlusFilled className="me-2 h-6 w-6" />
-                                  Upload File
+                                  {t("Upload Files")}
                                 </label>
 
                                 <input
@@ -252,11 +256,14 @@ export default function Ai({ closeModal, onResult, onUploadCv, refreshData}) {
                                     +{files.length}
                                   </span>{" "}
                                   {files.length === 1 ? "File" : "Files"}{" "}
-                                  Inserted Successfully
+                                  {t("Inserted Successfully!")}
                                 </h3>
 
                                 {files.map((file, index) => (
-                                  <div className="flex items-center justify-center" key={`${file.name}-${Date.now()}`}>
+                                  <div
+                                    className="flex items-center justify-center"
+                                    key={`${file.name}-${Date.now()}`}
+                                  >
                                     <div className="bg-gray-50 my-1 px-2 py-2 2xl:px-4 2xl:py-3 2xl:my-2 rounded-xl hover:cursor-pointer w-full 2xl:w-1/2">
                                       <div className="lg:flex lg:items-center lg:justify-between">
                                         <div className="min-w-0 flex ">
@@ -285,7 +292,7 @@ export default function Ai({ closeModal, onResult, onUploadCv, refreshData}) {
                                                   d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z"
                                                 />
                                               </svg>
-                                              Delete
+                                              {t("Delete")}
                                             </button>
                                           </span>
                                         </div>
@@ -302,21 +309,21 @@ export default function Ai({ closeModal, onResult, onUploadCv, refreshData}) {
                   </div>
                 </div>
                 {ready && (
-                    <div className="my-5 2xl:my-10 px-44 2xl:px-96">
-                      <div className="flex justify-center items-center rounded-xl bg-indigo-500 px-4 py-3 text-xs 2xl:text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                        <button
-                          id="confirm-upload"
-                          type="button"
-                          className="flex items-center "
-                          onClick={handleUpload}
-                        >
-                          {" "}
-                          <FaCheckCircle className="me-2 h-5 w-5 2xl:h-6 2xl:w-6" />
-                          Confirm Upload
-                        </button>
-                      </div>
+                  <div className="my-5 2xl:my-10 px-44 2xl:px-96">
+                    <div className="flex justify-center items-center rounded-xl bg-indigo-500 px-4 py-3 text-xs 2xl:text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                      <button
+                        id="confirm-upload"
+                        type="button"
+                        className="flex items-center "
+                        onClick={handleUpload}
+                      >
+                        {" "}
+                        <FaCheckCircle className="me-2 h-5 w-5 2xl:h-6 2xl:w-6" />
+                        {t("Confirm Upload")}
+                      </button>
                     </div>
-                  )}
+                  </div>
+                )}
               </div>
             </form>
           </div>

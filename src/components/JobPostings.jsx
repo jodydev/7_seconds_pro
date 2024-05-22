@@ -4,12 +4,15 @@ import { Link } from "react-router-dom";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import { TbSquareRoundedPlusFilled } from "react-icons/tb";
 import { FaCheckCircle } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 import supabase from "../supabase/client";
 import Job from "./Modal/Job";
 import Loader from "./Loader";
 
 export default function JobPostings() {
-  const { modalOpen, openModal, closeModal, checkDeviceSizeJobTable } = useAppContext();
+  const { t } = useTranslation();
+  const { modalOpen, openModal, closeModal, checkDeviceSizeJobTable } =
+    useAppContext();
   const [totalJobs, setTotalJobs] = useState(0);
   const [cvsForJob, setCvsForJob] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -144,7 +147,7 @@ export default function JobPostings() {
             <span className="sr-only">Info</span>
             <div>
               <span className="font-medium text-base">
-                Job Insert Successful!
+                {t("Job Insert Successful!")}
               </span>
             </div>
           </div>
@@ -158,7 +161,7 @@ export default function JobPostings() {
           <div className="flex flex-wrap items-center justify-between sm:flex-nowrap border-b border-gray-200">
             <div className="ml-4 my-2 2xl:my-4">
               <h3 className="text-2xl 2xl:text-4xl font-bold leading-6 mb-2 text-gray-900">
-                Job Postings
+                {t("Job Postings")}
               </h3>
             </div>
             {totalJobs >= 1 && (
@@ -169,7 +172,7 @@ export default function JobPostings() {
                   className="relative inline-flex items-center rounded-xl bg-indigo-600 px-3 py-2 text-lg 2xl:text-xl hover:cursor-pointer font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
                   <TbSquareRoundedPlusFilled className="w-6 h-6 me-2" />
-                  New Job
+                  {t("New Job")}
                 </button>
               </div>
             )}
@@ -183,16 +186,16 @@ export default function JobPostings() {
                 <thead className=" text-gray-700 bg-gray-50">
                   <tr className="2xl:text-xl">
                     <th scope="col" className="px-6 py-3">
-                      Company Name
+                      {t("Company Name")}
                     </th>
                     <th scope="col" className="px-6 py-3">
-                      Role
+                      {t("Role")}
                     </th>
                     <th scope="col" className="px-6 py-3">
-                      Seniority
+                      {t("Seniority")}
                     </th>
                     <th scope="col" className="px-6 py-3">
-                      #CVs
+                      {t("#CVs")}
                     </th>
                   </tr>
                 </thead>
@@ -231,16 +234,16 @@ export default function JobPostings() {
                 <thead className="text-sm text-gray-700 bg-gray-50 ">
                   <tr className="2xl:text-2xl">
                     <th scope="col" className="px-6 py-3">
-                      Company Name
+                      {t("Company Name")}
                     </th>
                     <th scope="col" className="px-6 py-3">
-                      Role
+                      {t("Role")}
                     </th>
                     <th scope="col" className="px-6 py-3">
-                      Seniority
+                      {t("Seniority")}
                     </th>
                     <th scope="col" className="px-6 py-3">
-                      #CVs
+                      {t("#CVs")}
                     </th>
                   </tr>
                 </thead>
@@ -248,11 +251,11 @@ export default function JobPostings() {
                   <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                     <td className="text-center py-6" colSpan="4">
                       <p className="text-3xl 2xl:text-5xl font-semibold">
-                        No Jobs Found...
+                        {t("No Jobs Found...")}
                       </p>
                       <p className="text-xl 2xl:text-4xl font-semibold my-3">
-                        Insert your first{" "}
-                        <span className="text-indigo-500">Job!</span>
+                        {t("Insert your first")}{" "}
+                        <span className="text-indigo-500"> {t("Job!")}</span>
                       </p>
                       <button
                         onClick={openModal}
@@ -260,7 +263,7 @@ export default function JobPostings() {
                         className="my-3 inline-flex items-center rounded-xl bg-indigo-600 px-3 py-2 2xl:px-6 2xl:py-4 text-lg 2xl:text-2xl font-semibold text-white shadow-sm hover:cursor-pointer hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                       >
                         <TbSquareRoundedPlusFilled className="w-6 h-6 me-2" />
-                        New Job
+                        {t("New Job")}
                       </button>
                     </td>
                   </tr>
@@ -281,7 +284,7 @@ export default function JobPostings() {
                     currentPage === 1 ? "disabled" : ""
                   } relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-xs font-medium text-gray-700 hover:bg-gray-50`}
                 >
-                  Previous
+                  {t("Previous")}
                 </Link>
                 <Link
                   onClick={() => handlePageChange(currentPage + 1)}
@@ -289,22 +292,22 @@ export default function JobPostings() {
                     currentPage === totalPages ? "hidden" : ""
                   } relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-xs font-medium text-gray-700 hover:bg-gray-50`}
                 >
-                  Next
+                  {t("Next")}
                 </Link>
               </div>
               <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
                 <div>
                   <p className="text-sm 2xl:text-base text-gray-700">
-                    Showing{" "}
-                    <span className="font-semibold text-indigo-500">1</span> to{" "}
+                    {t("Showing")}{" "}
+                    <span className="font-semibold text-indigo-500">1</span> {t("to")}{" "}
                     <span className="font-semibold text-indigo-500">
                       {currentJobs.length}
                     </span>{" "}
-                    of{" "}
+                    {t("of")}{" "}
                     <span className="font-semibold text-indigo-500">
                       {totalJobs}
                     </span>{" "}
-                    results
+                    {t("results")}
                   </p>
                 </div>
                 <div className="flex items-center gap-5">
@@ -335,7 +338,7 @@ export default function JobPostings() {
                         currentPage === 1 ? "disabled" : ""
                       } relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0`}
                     >
-                      <span className="sr-only">Previous</span>
+                      <span className="sr-only">{t("Previous")}</span>
                       <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
                     </Link>
                     {Array.from({ length: totalPages }, (_, index) => {
@@ -366,7 +369,7 @@ export default function JobPostings() {
                       onClick={() => handlePageChange(currentPage + 1)}
                       className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
                     >
-                      <span className="sr-only">Next</span>
+                      <span className="sr-only">{t("Next")}</span>
                       <ChevronRightIcon
                         className="h-5 w-5"
                         aria-hidden="true"

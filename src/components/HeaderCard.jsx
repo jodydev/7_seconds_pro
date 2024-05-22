@@ -5,6 +5,7 @@ import { BsStars } from "react-icons/bs";
 import { useGetTotalJobs } from "../hook/useGetTotalJobs";
 import { useFileCount } from "../hook/useFileCount";
 import { getUserData } from "../hook/getUserData";
+import { useTranslation } from "react-i18next";
 
 const WorkIcon = () => (
   <svg
@@ -45,11 +46,12 @@ export default function HeaderCard() {
   const { accountCredits, subscription } = getUserData();
   const totalJobs = useGetTotalJobs();
   const fileCount = useFileCount();
+  const { t } = useTranslation();
 
   const config = {
     home: [
       {
-        name: "Jobs",
+        name: t("Jobs"),
         stat: totalJobs,
         icon: WorkIcon,
         aos: "fade-down",
@@ -63,14 +65,14 @@ export default function HeaderCard() {
         bgCard: "indigo-700",
       },
       {
-        name: "Credits",
+        name: t("Credits"),
         stat: accountCredits,
         icon: BsStars,
         aos: "fade-down",
         bgCard: "indigo-700",
       },
       {
-        name: "Subscription",
+        name: t("Subscription"),
         stat: subscription,
         icon: FaUsers,
         aos: "fade-down",

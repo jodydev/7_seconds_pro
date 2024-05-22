@@ -1,4 +1,8 @@
+import { useTranslation } from "react-i18next";
+
 export default function Loader() {
+  const { t } = useTranslation();
+
   return (
     <div className="fixed z-50 top-0 left-0 w-full h-screen flex justify-center items-center bg-white">
       <div role="status">
@@ -18,7 +22,7 @@ export default function Loader() {
             fill="currentFill"
           />
         </svg>
-        <span className="sr-only">Loading...</span>
+        <span className="sr-only">{t("Loading...")}</span>
       </div>
     </div>
   );
