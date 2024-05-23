@@ -123,6 +123,7 @@ export default function Ai({ closeModal, onResult, onUploadCv, refreshData }) {
       const threadData = cvIds.map((cvId) => ({
         cvid: cvId,
         jobid: jobId,
+        status: "new",
       }));
 
       const { data, error } = await supabase.from("threads").insert(threadData);
