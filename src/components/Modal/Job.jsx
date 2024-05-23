@@ -5,6 +5,7 @@ import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { FaPencil } from "react-icons/fa6";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import supabase from "../../supabase/client";
 
 function classNames(...classes) {
@@ -20,7 +21,8 @@ const senioritys = [
 export default function Job({ closeModal, onResult }) {
   const { t } = useTranslation();
   const [selected, setSelected] = useState(senioritys[0]);
-  
+  const navigate = useNavigate();
+
   const resetForm = () => {
     document.getElementById("job-form").reset();
   };
@@ -41,12 +43,19 @@ export default function Job({ closeModal, onResult }) {
     };
 
     try {
-      const { data, error } = await supabase.from("jobs").insert([jobData]);
+      const { data, error } = await supabase.from("jobs")
+      .insert([jobData])
+      .select();      
       if (error) {
         throw error;
       } else {
-        onResult(true);
         closeModal();
+        onResult(true);
+        if (data && data.length > 0) {
+          navigate(`/job-details/${data[0].id}`);
+        } else {
+          console.error("No data returned after insertion");
+        }
       }
     } catch (error) {
       console.error("Error sending job:", error.message);
@@ -100,7 +109,9 @@ export default function Job({ closeModal, onResult }) {
                   {t("Job Information")}
                 </h2>
                 <p className="mt-1 text-sm leading-6 text-gray-600">
-                  {t("Fill in all fields correctly to continue with the request.")}
+                  {t(
+                    "Fill in all fields correctly to continue with the request."
+                  )}
                 </p>
 
                 <div className="mt-5 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -127,7 +138,7 @@ export default function Job({ closeModal, onResult }) {
                       htmlFor="role"
                       className="block text-sm font-medium leading-6 text-gray-900"
                     >
-                       {t("Role")}
+                      {t("Role")}
                     </label>
                     <div className="mt-2">
                       <input
@@ -235,7 +246,7 @@ export default function Job({ closeModal, onResult }) {
                       htmlFor="job-description"
                       className="block text-sm font-medium leading-6 text-gray-900 mb-2"
                     >
-                        {t("Job Description")}
+                      {t("Job Description")}
                     </label>
                     <Textarea
                       id="job-description"
@@ -262,7 +273,7 @@ export default function Job({ closeModal, onResult }) {
                 type="submit"
                 className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-                 {t("Send")}
+                {t("Send")}
               </button>
             </div>
           </form>
@@ -271,4 +282,3 @@ export default function Job({ closeModal, onResult }) {
     </div>
   );
 }
-
