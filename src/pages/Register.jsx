@@ -20,46 +20,43 @@ export default function Register() {
   //! Chiamata API a Supabase per la registrazione dell'utente
   const handleRegister = async (event) => {
     event.preventDefault();
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()])[A-Za-z\d!@#$%^&*()]{8,}$/;
 
     try {
       const { error } = await supabase.auth.signUp({ email, password });
+
+      const passwordRegex =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()])[A-Za-z\d!@#$%^&*()]{8,}$/;
+
+      if (!passwordRegex.test(password)) {
+        setError(false);
+        setPasswordError(
+          t(
+            "Password must contain at least one lowercase letter, one uppercase letter, one number, one special character, and be at least 8 characters long."
+          )
+        );
+      }
+
       if (error) {
         console.log(error);
-        setError(true);
+
         if (
           error.message ===
           "A user with this email address has already been registered"
         ) {
           setErrMessage(t("User already registered, please try again."));
+          setError(true);
         } else if (error.message === "Error sending confirmation mail") {
           setErrMessage(
             t("Error sending confirmation mail, please try again.")
           );
+          setError(true);
         }
       } else {
-        if (!passwordRegex.test(password)) {
-          setPasswordError(
-            t(
-              "Password must contain at least one lowercase letter, one uppercase letter, one number, one special character, and be at least 8 characters long."
-            )
-          );
-        }
         setRegisterStep(false);
         setConfirmEmail(true);
       }
     } catch (error) {
       console.error(error.message);
-      setError(true);
-      if (
-        error.message ===
-        "A user with this email address has already been registered"
-      ) {
-        setErrMessage(t("User already registered, please try again."));
-      } else if (error.message === "Error sending confirmation mail") {
-        setErrMessage(t("Error sending confirmation mail, please try again."));
-      }
     }
   };
 
