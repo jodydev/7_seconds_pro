@@ -94,7 +94,7 @@ export default function HeaderCard() {
           item.bgCard ? `bg-${item.bgCard}` : ""
         } ${
           item.colorText ? `text-${item.colorText}` : "text-white"
-        } px-4 py-3 2xl:py-8 shadow-lg flex-col items-center justify-center hover:cursor-pointer 2xl:mt-5`}
+        } px-4 py-4 2xl:py-8 shadow-lg flex-col items-center justify-center hover:cursor-pointer mt-5 2xl:mt-5`}
       >
         <div className="flex items-center justify-center gap-3">
           <p className="ml-2 truncate text-xl 2xl:text-4xl font-medium ">

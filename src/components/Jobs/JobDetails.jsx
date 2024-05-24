@@ -118,7 +118,7 @@ export default function JobDetails() {
   //! Funzione per formattare la descrizione come HTML
   const formatDescription = (description) => {
     if (/<[a-z][\s\S]*>/i.test(description)) {
-      return { __html: description }; 
+      return { __html: description };
     } else {
       return { __html: description.replace(/\n/g, "<br>") };
     }
@@ -190,7 +190,7 @@ export default function JobDetails() {
             <div className="mt-3 border-t border-gray-100">
               <dl className="divide-y divide-gray-100">
                 <div className="mt-2 w-full">
-                  <span className="text-base 2xl:text-2xl font-semibold leading-6 text-gray-900">
+                  <span className="text-base 2xl:text-2xl font-semibold leading-6 text-gray-900 ">
                     {t("Job Description:")}
                     <div
                       className={`text-sm 2xl:text-base font-light mt-2 leading-8 text-gray-900 w-full italic ${
@@ -202,12 +202,14 @@ export default function JobDetails() {
                     ></div>
                     {selectedJob.description.length >
                       contentLengthThreshold && (
-                      <button
-                        onClick={toggleExpansion}
-                        className="text-blue-500 text-xs hover:underline"
-                      >
-                        {isExpanded ? "Read less" : "Read more"}
-                      </button>
+                      <div className="flex items-center justify-center">
+                        <button
+                          onClick={toggleExpansion}
+                          className="text-blue-500 text-xs hover:underline mt-3 "
+                        >
+                          {isExpanded ? "Read less" : "Read more"}
+                        </button>
+                      </div>
                     )}
                   </span>
                 </div>

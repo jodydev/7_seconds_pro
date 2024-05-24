@@ -6,20 +6,24 @@ import {
   ChevronDownIcon,
 } from "@heroicons/react/20/solid";
 import { useAppContext } from "../../context/AppContext";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import StarRatings from "react-star-ratings";
 import supabase from "../../supabase/client";
 import Loader from "../Loader";
+import ReadySpan from "../ReadySpan";
+import ProcessingSpan from "../ProcessingSpan";
 
 export default function FilterUsersForJob({ refresh, skeletron }) {
   const { t } = useTranslation();
   const jobId = useParams().id;
   const applicantsCountRef = useRef(0);
-  const { modalOpen, openModal, checkDeviceSizeApplicantsTable } =
-    useAppContext();
+  const {
+    modalOpen,
+    openModal,
+    checkDeviceSizeApplicantsTable,
+  } = useAppContext();
   const [loading, setLoading] = useState(false);
   const [applicants, setApplicants] = useState([]);
   const [totalApplicants, setTotalApplicants] = useState(0);
@@ -80,15 +84,22 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
     );
   };
 
-  //! Funzione per estrarre il nome del file dal path
+  //! Funzione per estrarre il nome del file
   const extractFileName = (url) => {
     let name = url || "";
     let parts = name.split("/");
     let lastPart = parts.pop();
     let index = lastPart.indexOf(".pdf") + 4;
-    return lastPart.substring(0, index).toLowerCase();
-  };
 
+    if (index > 3) {
+      let fileName = lastPart.substring(0, index);
+      fileName =
+        fileName.charAt(0).toUpperCase() + fileName.slice(1).toLowerCase();
+      return fileName;
+    } else {
+      return lastPart.charAt(0).toUpperCase() + lastPart.slice(1).toLowerCase();
+    }
+  };
   //! Funzione per ottenere i candidati per il lavoro selezionato
   useEffect(() => {
     const getApplicantsForJob = async (jobId) => {
@@ -178,16 +189,16 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
             <table className="w-full text-left rtl:text-right text-gray-500 dark:text-gray-400">
               <thead className="2xl:text-lg text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                  <th scope="col" className="px-6 py-3">
+                  <th scope="col" className="px-3 py-3">
                     {t("Full Name")}
                   </th>
-                  <th scope="col" className="px-6 py-3">
+                  <th scope="col" className="px-3 py-3">
                     {t("Age")}
                   </th>
-                  <th scope="col" className="px-6 py-3">
+                  <th scope="col" className="px-3 py-3">
                     {t("Email")}
                   </th>
-                  <th scope="col" className="px-6 py-3">
+                  <th scope="col" className="px-3 py-3">
                     {t("Created at")}
                   </th>
                   <th scope="col" className="px-3 py-3">
@@ -223,13 +234,13 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
             <table className="w-full text-left rtl:text-right text-gray-500 dark:text-gray-400">
               <thead className=" text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr className="2xl:text-xl">
-                  <th scope="col" className="px-6 py-3 ">
+                  <th scope="col" className="px-3 py-3 ">
                     {t("Status")}
                   </th>
-                  <th scope="col" className="px-6 py-3 ">
+                  <th scope="col" className="px-3 py-3 ">
                     {t("Candidate")}
                   </th>
-                  <th scope="col" className="px-6 py-3">
+                  <th scope="col" className="px-3 py-3">
                     <button
                       onClick={handleSortByCreatedAt}
                       className="flex items-center focus:outline-none hover:cursor-pointer"
@@ -242,11 +253,14 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
                       )}
                     </button>
                   </th>
-                  <th scope="col" className="px-6 py-3">
+                  <th scope="col" className="px-3 py-3">
                     {t("Age")}
                   </th>
-                  <th scope="col" className="px-6 py-3">
+                  <th scope="col" className="px-3 py-3">
                     {t("City")}
+                  </th>
+                  <th scope="col" className="px-3 py-3 ">
+                    {t("Score")}
                   </th>
                   <th scope="col" className="px-3 py-3">
                     {t("Ai Rating")}
@@ -265,57 +279,25 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
               </thead>
               <tbody className="hover:cursor-pointer ">
                 {currentApplicants.map((applicant) => (
+                  console.log(applicant),
                   <tr
                     key={applicant.thread_id}
-                    className="2xl:text-lg bg-white border-b"
+                    className="text-sm 2xl:text-lg bg-white border-b"
                   >
-                    <td className="px-6 py-4">
+                    <td className="px-3 py-4">
                       <Link to={`/user-details/${applicant.thread_id}`}>
                         <div className="w-full">
-                          {applicant.rating === null || 0 ? (
-                            <div className="flex flex-row items-center">
-                              <svg
-                                className="w-5 h-5 me-2 text-green-500 dark:text-green-400 flex-shrink-0"
-                                aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="currentColor"
-                                viewBox="0 0 20 20"
-                              >
-                                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                              </svg>
-                              <span className=" text-black flex text-xs">
-                                Ready
-                              </span>
-                            </div>
+                          {applicant.thread_status === null || 0 ? (
+                            <ProcessingSpan />
                           ) : (
-                            <div className="flex flex-row">
-                              <svg
-                                aria-hidden="true"
-                                class="w-4 h-4 me-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
-                                viewBox="0 0 100 101"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-                                  fill="currentColor"
-                                />
-                                <path
-                                  d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-                                  fill="currentFill"
-                                />
-                              </svg>
-                              <span class=" text-black flex text-xs">
-                                Loading...
-                              </span>
-                            </div>
+                            <ReadySpan />
                           )}
                         </div>
                       </Link>
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-3 py-4">
                       <Link to={`/user-details/${applicant.thread_id}`}>
-                        <div className="w-full">
+                        <div className="w-full truncate">
                           {applicant.fullname ||
                             extractFileName(applicant.file) || (
                               <div className="animate-pulse  h-6 bg-gray-200 rounded-lg"></div>
@@ -324,7 +306,7 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
                       </Link>
                     </td>
                     <td
-                      className="px-6 py-4"
+                      className="px-3 py-4"
                       title={
                         applicant.cv_created_at
                           ? new Date(applicant.cv_created_at).toLocaleString()
@@ -344,12 +326,12 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
                       </Link>
                     </td>
 
-                    <td className="px-6 py-4">
+                    <td className="px-3 py-4">
                       <Link to={`/user-details/${applicant.thread_id}`}>
                         <div className="w-full">
                           {applicant.age !== null ? (
                             applicant.age === 0 ? (
-                              <span>n/d</span>
+                              <span>N/D</span>
                             ) : (
                               <span>{applicant.age}</span>
                             )
@@ -359,7 +341,7 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
                         </div>
                       </Link>
                     </td>
-                    <td className="px-6 py-4">
+                    <td className="px-3 py-4">
                       <Link to={`/user-details/${applicant.thread_id}`}>
                         <div className="w-full">
                           {applicant.city || (
@@ -369,19 +351,50 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
                       </Link>
                     </td>
 
-                    <td className="px-6 py-4">
+                    <td className="px-3 py-4">
+                      <Link to={`/user-details/${applicant.thread_id}`}>
+                        <div className="w-full font-bold px-5">
+                          {applicant.rating !== null ? (
+                            applicant.rating === 0 ? (
+                              <p>
+                                <span className="text-indigo-500">0</span>
+                                {` / 5`}
+                              </p>
+                            ) : (
+                              <p>
+                                <span className="text-indigo-500">
+                                  {applicant.rating}
+                                </span>
+                                {` / 5`}
+                              </p>
+                            )
+                          ) : (
+                            <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
+                          )}
+                        </div>
+                      </Link>
+                    </td>
+
+                    <td className="px-3 py-4">
                       <Link to={`/user-details/${applicant.thread_id}`}>
                         <div className="w-full">
                           {applicant.rating !== null ? (
                             applicant.rating === 0 ? (
-                              <span>n/d</span>
+                              <StarRatings
+                                rating={0}
+                                starRatedColor="gold"
+                                numberOfStars={5}
+                                name="rating"
+                                starDimension="20px"
+                                starSpacing="2px"
+                              />
                             ) : (
                               <StarRatings
                                 rating={applicant.rating}
                                 starRatedColor="gold"
                                 numberOfStars={5}
                                 name="rating"
-                                starDimension="22px"
+                                starDimension="20px"
                                 starSpacing="2px"
                               />
                             )
