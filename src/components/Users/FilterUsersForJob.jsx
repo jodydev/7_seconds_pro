@@ -278,134 +278,137 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
                 </tr>
               </thead>
               <tbody className="hover:cursor-pointer ">
-                {currentApplicants.map((applicant) => (
-                  console.log(applicant),
-                  <tr
-                    key={applicant.thread_id}
-                    className="text-sm 2xl:text-lg bg-white border-b"
-                  >
-                    <td className="px-3 py-4">
-                      <Link to={`/user-details/${applicant.thread_id}`}>
-                        <div className="w-full">
-                          {applicant.thread_status === null || 0 ? (
-                            <ProcessingSpan />
-                          ) : (
-                            <ReadySpan />
-                          )}
-                        </div>
-                      </Link>
-                    </td>
-                    <td className="px-3 py-4">
-                      <Link to={`/user-details/${applicant.thread_id}`}>
-                        <div className="w-full truncate">
-                          {applicant.fullname ||
-                            extractFileName(applicant.file) || (
-                              <div className="animate-pulse  h-6 bg-gray-200 rounded-lg"></div>
-                            )}
-                        </div>
-                      </Link>
-                    </td>
-                    <td
-                      className="px-3 py-4"
-                      title={
-                        applicant.cv_created_at
-                          ? new Date(applicant.cv_created_at).toLocaleString()
-                          : ""
-                      }
-                    >
-                      <Link to={`/user-details/${applicant.thread_id}`}>
-                        <div className="w-full">
-                          {applicant.cv_created_at ? (
-                            new Date(
-                              applicant.cv_created_at
-                            ).toLocaleDateString()
-                          ) : (
-                            <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
-                          )}
-                        </div>
-                      </Link>
-                    </td>
+                {currentApplicants.map(
+                  (applicant) => (
+                    console.log(applicant),
+                    (
+                      <tr
+                        key={applicant.thread_id}
+                        className="text-sm 2xl:text-lg bg-white border-b"
+                      >
+                        <td className="px-3 py-4">
+                          <Link to={`/user-details/${applicant.thread_id}`}>
+                            <div className="w-full">
+                              {applicant.thread_status === null || 0 ? (
+                                <ProcessingSpan />
+                              ) : (
+                                <ReadySpan />
+                              )}
+                            </div>
+                          </Link>
+                        </td>
+                        <td className="px-3 py-4">
+                          <Link to={`/user-details/${applicant.thread_id}`}>
+                            <div className="w-full truncate">
+                              {applicant.fullname ||
+                                extractFileName(applicant.file) || (
+                                  <div className="animate-pulse  h-6 bg-gray-200 rounded-lg"></div>
+                                )}
+                            </div>
+                          </Link>
+                        </td>
+                        <td
+                          className="px-3 py-4"
+                          title={
+                            applicant.cv_created_at
+                              ? new Date(
+                                  applicant.cv_created_at
+                                ).toLocaleString()
+                              : ""
+                          }
+                        >
+                          <Link to={`/user-details/${applicant.thread_id}`}>
+                            <div className="w-full">
+                              {applicant.cv_created_at ? (
+                                new Date(
+                                  applicant.cv_created_at
+                                ).toLocaleDateString()
+                              ) : (
+                                <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
+                              )}
+                            </div>
+                          </Link>
+                        </td>
 
-                    <td className="px-3 py-4">
-                      <Link to={`/user-details/${applicant.thread_id}`}>
-                        <div className="w-full">
-                          {applicant.age !== null ? (
-                            applicant.age === 0 ? (
-                              <span>N/D</span>
-                            ) : (
-                              <span>{applicant.age}</span>
-                            )
-                          ) : (
-                            <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
-                          )}
-                        </div>
-                      </Link>
-                    </td>
-                    <td className="px-3 py-4">
-                      <Link to={`/user-details/${applicant.thread_id}`}>
-                        <div className="w-full">
-                          {applicant.city || (
-                            <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
-                          )}
-                        </div>
-                      </Link>
-                    </td>
+                        <td className="px-3 py-4">
+                          <Link to={`/user-details/${applicant.thread_id}`}>
+                            <div className="w-full">
+                              {applicant.age !== null ? (
+                                applicant.age === 0 ? (
+                                  <span>N/D</span>
+                                ) : (
+                                  <span>{applicant.age}</span>
+                                )
+                              ) : (
+                                <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
+                              )}
+                            </div>
+                          </Link>
+                        </td>
+                        <td className="px-3 py-4">
+                          <Link to={`/user-details/${applicant.thread_id}`}>
+                            <div className="w-full">
+                              {applicant.city || (
+                                <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
+                              )}
+                            </div>
+                          </Link>
+                        </td>
 
-                    <td className="px-3 py-4">
-                      <Link to={`/user-details/${applicant.thread_id}`}>
-                        <div className="w-full font-bold px-5">
-                          {applicant.rating !== null ? (
-                            applicant.rating === 0 ? (
-                              <p>
-                                <span className="text-indigo-500">0</span>
-                                {` / 5`}
-                              </p>
-                            ) : (
-                              <p>
-                                <span className="text-indigo-500">
-                                  {applicant.rating}
-                                </span>
-                                {` / 5`}
-                              </p>
-                            )
-                          ) : (
-                            <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
-                          )}
-                        </div>
-                      </Link>
-                    </td>
+                        <td className="px-3 py-4">
+                          <Link to={`/user-details/${applicant.thread_id}`}>
+                            <div className="w-full font-bold px-5">
+                              {applicant.rating !== null ? (
+                                applicant.rating === 0 ? (
+                                  <p>
+                                    <span className="text-indigo-500">0</span>
+                                    {` / 5`}
+                                  </p>
+                                ) : (
+                                  <p class="inline-flex items-center rounded-md bg-purple-50 px-2 py-1 text-xs font-medium text-purple-700 ring-1 ring-inset ring-purple-700/10">
+                                    {`${applicant.rating} / 5`}
+                                  </p>
+                                )
+                              ) : (
+                                <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
+                              )}
+                            </div>
+                          </Link>
+                        </td>
 
-                    <td className="px-3 py-4">
-                      <Link to={`/user-details/${applicant.thread_id}`}>
-                        <div className="w-full">
-                          {applicant.rating !== null ? (
-                            applicant.rating === 0 ? (
-                              <StarRatings
-                                rating={0}
-                                starRatedColor="gold"
-                                numberOfStars={5}
-                                name="rating"
-                                starDimension="20px"
-                                starSpacing="2px"
-                              />
-                            ) : (
-                              <StarRatings
-                                rating={applicant.rating}
-                                starRatedColor="gold"
-                                numberOfStars={5}
-                                name="rating"
-                                starDimension="20px"
-                                starSpacing="2px"
-                              />
-                            )
-                          ) : (
-                            <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
-                          )}
-                        </div>
-                      </Link>
-                    </td>
-                  </tr>
-                ))}
+                        <td className="px-3 py-4">
+                          <Link to={`/user-details/${applicant.thread_id}`}>
+                            <div className="w-full">
+                              {applicant.rating !== null ? (
+                                applicant.rating === 0 ? (
+                                  <StarRatings
+                                    rating={0}
+                                    starRatedColor="gold"
+                                    numberOfStars={5}
+                                    name="rating"
+                                    starDimension="20px"
+                                    starSpacing="2px"
+                                  />
+                                ) : (
+                                  <StarRatings
+                                    rating={applicant.rating}
+                                    starRatedColor="gold"
+                                    numberOfStars={5}
+                                    name="rating"
+                                    starDimension="20px"
+                                    starSpacing="2px"
+                                  />
+                                )
+                              ) : (
+                                <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
+                              )}
+                            </div>
+                          </Link>
+                        </td>
+                      </tr>
+                    )
+                  )
+                )}
               </tbody>
             </table>
           )}
