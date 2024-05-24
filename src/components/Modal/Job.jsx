@@ -251,7 +251,7 @@ export default function Job({ closeModal, onResult }) {
                     <Textarea
                       id="job-description"
                       name="job-description"
-                      placeholder="Enter your job description here..."
+                      placeholder={t("Enter your job description here...")}
                       required
                       rows={4}
                     />

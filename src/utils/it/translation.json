@@ -35,7 +35,7 @@
   "Phone": "Telefono",
   "Candidate": "Candidati",
   "No applications for this job yet...": "Ancora nessuna candidatura per questa offerta di lavoro...",
-  "upload your first" : "carica il tuo primo",
+  "Upload your first" : "Carica il tuo primo",
   "CV!": "CV!",
   "City": "Città",
   "Applied for:": "Candidato per:",
@@ -93,5 +93,8 @@
   "Status" : "Stato",
   "Processing..." : "In elaborazione...",
   "Ready" : "Pronto",
-  "Score" : "Punteggio"
+  "Score" : "Punteggio",
+  "Add a New Job" : "Aggiungi una Nuova Offerta di Lavoro",
+  "Enter your job description here..." : "Inserisci la tua descrizione dell'offerta di lavoro qui...",
+  "Selected files" : "File selezionati"
 }

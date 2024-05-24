@@ -150,12 +150,12 @@ export default function Ai({ closeModal, onResult, onUploadCv, refreshData }) {
             <div className="flex items-center justify-between my-2 border-b rounded-t dark:border-gray-600 ">
               <h3 className="text-2xl 2xl:text-3xl my-2 font-semibold text-gray-900 dark:text-white">
                 {files.length > 0
-                  ? t("Operation Completed")
+                  ? `${files.length} ${t("Selected files")}`
                   : t("Upload CVs to Analyze")}
               </h3>
 
               {files.length > 0 ? (
-                <FaMagic className="w-8 h-8 ml-2 text-indigo-500" />
+                ""
               ) : (
                 <BsStars className="w-8 h-8 ml-2 text-yellow-300" />
               )}
@@ -245,7 +245,7 @@ export default function Ai({ closeModal, onResult, onUploadCv, refreshData }) {
                           <>
                             {ready && (
                               <div className="my-10">
-                                <video
+                                {/* <video
                                   autoPlay
                                   src="/success.mp4"
                                   alt="Success Upload"
@@ -258,7 +258,7 @@ export default function Ai({ closeModal, onResult, onUploadCv, refreshData }) {
                                   </span>{" "}
                                   {files.length === 1 ? "File" : "Files"}{" "}
                                   {t("Inserted Successfully!")}
-                                </h3>
+                                </h3> */}
 
                                 {files.map((file, index) => (
                                   <div
@@ -310,12 +310,12 @@ export default function Ai({ closeModal, onResult, onUploadCv, refreshData }) {
                   </div>
                 </div>
                 {ready && (
-                  <div className="my-5 2xl:my-10 px-44 2xl:px-96">
+                  <div className="my-5 2xl:my-10 flex items-center justify-center">
                     <div className="flex justify-center items-center rounded-xl bg-indigo-500 px-4 py-3 text-xs 2xl:text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                       <button
                         id="confirm-upload"
                         type="button"
-                        className="flex items-center "
+                        className="flex items-center text-nowrap"
                         onClick={handleUpload}
                       >
                         {" "}

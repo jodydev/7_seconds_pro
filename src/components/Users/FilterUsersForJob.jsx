@@ -26,6 +26,7 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
   } = useAppContext();
   const [loading, setLoading] = useState(false);
   const [applicants, setApplicants] = useState([]);
+  const [threadStatus, setThreadStatus] = useState("");
   const [totalApplicants, setTotalApplicants] = useState(0);
   const [sortDirectionR, setSortDirectionR] = useState("desc");
   const [sortDirectionC, setSortDirectionC] = useState("desc");
@@ -100,6 +101,23 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
       return lastPart.charAt(0).toUpperCase() + lastPart.slice(1).toLowerCase();
     }
   };
+
+  //! Funzione per aggiornare il numero totale di candidati ogni volta che ne viene aggiunto uno in tempo reale
+  useEffect(() => {
+    applicantsCountRef.current = applicants.length;
+    setTotalApplicants(applicantsCountRef.current);
+  }, [applicants]);
+
+  //! Funzione per ordinare i candidati per data di creazione al caricamento iniziale della pagina
+  useEffect(() => {
+    setApplicants((prevApplicants) =>
+      prevApplicants.sort(
+        (a, b) => new Date(b.created_at) - new Date(a.created_at)
+      )
+    );
+  }, [applicants]);
+
+  
   //! Funzione per ottenere i candidati per il lavoro selezionato
   useEffect(() => {
     const getApplicantsForJob = async (jobId) => {
@@ -110,9 +128,12 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
           .select("*")
           .eq("jobid", jobId);
 
+          console.log(data)
+
         if (error) {
           throw error;
         } else {
+          setThreadStatus(data[0].thread_status);
           setApplicants(data);
           setTotalApplicants(data.length);
         }
@@ -129,7 +150,10 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
   //! Funzione per gestire i cambiamenti nel database e aggiungere i nuovi candidati in tempo reale
   useEffect(() => {
     const handleChanges = (payload) => {
-      if (payload.eventType === "INSERT" && payload.table === "cvs") {
+      console.log(payload);
+      if (payload.eventType === "INSERT" && payload.table === "threads") {
+        setThreadStatus(payload.new.thread_status);
+      } else if (payload.eventType === "INSERT" && payload.table === "cvs"){
         setApplicants((prevApplicants) => [...prevApplicants, payload.new]);
         setTotalApplicants((prevTotal) => prevTotal + 1);
       }
@@ -151,22 +175,7 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
     return () => {
       changeSubscription.unsubscribe();
     };
-  }, [jobId]);
-
-  //! Funzione per aggiornare il numero totale di candidati ogni volta che ne viene aggiunto uno in tempo reale
-  useEffect(() => {
-    applicantsCountRef.current = applicants.length;
-    setTotalApplicants(applicantsCountRef.current);
-  }, [applicants]);
-
-  //! Funzione per ordinare i candidati per data di creazione al caricamento iniziale della pagina
-  useEffect(() => {
-    setApplicants((prevApplicants) =>
-      prevApplicants.sort(
-        (a, b) => new Date(b.created_at) - new Date(a.created_at)
-      )
-    );
-  }, [applicants]);
+  }, [jobId, applicants]);
 
   return (
     <section data-aos="fade-up">
@@ -188,32 +197,41 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
           {totalApplicants === 0 && refresh === false ? (
             <table className="w-full text-left rtl:text-right text-gray-500 dark:text-gray-400">
               <thead className="2xl:text-lg text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
+              <tr className="2xl:text-xl">
+                  <th scope="col" className="px-3 py-3 ">
+                    {t("Status")}
+                  </th>
+                  <th scope="col" className="px-3 py-3 ">
+                    {t("Candidate")}
+                  </th>
                   <th scope="col" className="px-3 py-3">
-                    {t("Full Name")}
+                
+                      {t("Created at")}
+                  
                   </th>
                   <th scope="col" className="px-3 py-3">
                     {t("Age")}
                   </th>
                   <th scope="col" className="px-3 py-3">
-                    {t("Email")}
+                    {t("City")}
                   </th>
-                  <th scope="col" className="px-3 py-3">
-                    {t("Created at")}
+                  <th scope="col" className="px-3 py-3 ">
+                    {t("Score")}
                   </th>
                   <th scope="col" className="px-3 py-3">
                     {t("Ai Rating")}
+                 
                   </th>
                 </tr>
               </thead>
               <tbody>
                 <tr className="bg-white h-[380px] 2xl:h-[700px] border-b dark:bg-gray-800 dark:border-gray-700">
-                  <td className="text-center py-6" colSpan="5">
+                  <td className="text-center py-6" colSpan="8">
                     <p className="text-2xl 2xl:text-5xl  font-semibold">
                       {t("No applications for this job yet...")}
                     </p>
                     <p className="text-xl 2xl:text-4xl  font-semibold my-3">
-                      {t("upload your first")}
+                      {t("Upload your first")}
                       <span className="text-indigo-500 ms-2">{t("CV!")}</span>
                     </p>
                     <div className="flex items-center justify-center mt-20">
@@ -278,7 +296,8 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
                 </tr>
               </thead>
               <tbody className="hover:cursor-pointer ">
-                {currentApplicants.map(
+           
+                {applicants.map(
                   (applicant) => (
                     console.log(applicant),
                     (
@@ -289,11 +308,8 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
                         <td className="px-3 py-4">
                           <Link to={`/user-details/${applicant.thread_id}`}>
                             <div className="w-full">
-                              {applicant.thread_status === null || 0 ? (
-                                <ProcessingSpan />
-                              ) : (
-                                <ReadySpan />
-                              )}
+                              {applicant.thread_status === "new" || null || undefined ? ( <ProcessingSpan />) : ( <ReadySpan />)}
+                     
                             </div>
                           </Link>
                         </td>
