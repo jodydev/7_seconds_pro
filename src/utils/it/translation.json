@@ -89,5 +89,6 @@
   "Error sending confirmation mail, please try again." : "Errore nell'invio della mail di conferma, riprova.",
   "Invalid login credentials" : "Credenziali di accesso non valide",
   "Read less" : "Leggi di meno",
-  "Read more" : "Leggi di più"
+  "Read more" : "Leggi di più",
+  "Status" : "Stato"
 }
