@@ -96,5 +96,6 @@
   "Score" : "Punteggio",
   "Add a New Job" : "Aggiungi una Nuova Offerta di Lavoro",
   "Enter your job description here..." : "Inserisci la tua descrizione dell'offerta di lavoro qui...",
-  "Selected files" : "File selezionati"
+  "Selected files" : "File selezionati",
+  "City: " : "Città: "
 }

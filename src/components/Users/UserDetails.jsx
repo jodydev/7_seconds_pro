@@ -24,10 +24,10 @@ export default function UserDetails() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const {
-          data: applicantsData,
-          error: applicantsError,
-        } = await supabase.from("cvs_data").select("*").eq("thread_id", id);
+        const { data: applicantsData, error: applicantsError } = await supabase
+          .from("cvs_data")
+          .select("*")
+          .eq("thread_id", id);
         console.log(applicantsData);
         if (applicantsError) {
           console.error("Error fetching applicants:", applicantsError.message);
@@ -36,18 +36,6 @@ export default function UserDetails() {
           setJobId(applicantsData[0]?.jobid);
           setLoading(false);
         }
-
-        // const { data: jobData, error: jobError } = await supabase
-        //   .from("jobs")
-        //   .select("*")
-        //   .eq("id", jobId)
-        //   .single();
-
-        // if (jobError) {
-        //   return;
-        // } else {
-        //   setSelectedJob(jobData);
-        // }
       } catch (error) {
         return;
       }
@@ -86,28 +74,18 @@ export default function UserDetails() {
                       )}
                     </h2>
                     <div className="flex items-center ml-5">
-                      {applicant.rating !== null ? (
-                        applicant.rating === 0 ? (
-                          <StarRatings
-                            rating={0}
-                            starRatedColor="gold"
-                            numberOfStars={5}
-                            name="rating"
-                            starDimension="20px"
-                            starSpacing="2px"
-                          />
-                        ) : (
-                          <StarRatings
-                            rating={applicant.rating}
-                            starRatedColor="gold"
-                            numberOfStars={5}
-                            name="rating"
-                            starDimension="20px"
-                            starSpacing="2px"
-                          />
-                        )
-                      ) : (
+                      {applicant.rating === null ||
+                      applicant.rating === undefined ? (
                         <div className="animate-pulse h-7 w-40 bg-gray-200 rounded-lg mb-1"></div>
+                      ) : (
+                        <StarRatings
+                          rating={applicant.rating}
+                          starRatedColor="gold"
+                          numberOfStars={5}
+                          name="rating"
+                          starDimension="20px"
+                          starSpacing="2px"
+                        />
                       )}
                     </div>
                   </div>
@@ -133,18 +111,28 @@ export default function UserDetails() {
                           {t("Age: ")}
                         </p>
                         <dd className="mt-1 text-xs 2xl:text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                          {applicant.age || (
-                            <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
+                          {applicant.age === null ||
+                          applicant.age === undefined ? (
+                            <div className="animate-pulse w-1/6 h-5 bg-gray-200 rounded-lg"></div>
+                          ) : applicant.age === 0 ? (
+                            <span>N/D</span>
+                          ) : (
+                            <span>{applicant.age}</span>
                           )}
                         </dd>
                       </div>
                       <div className="px-4 py-3 2xl:py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                         <p className="text-xs 2xl:text-sm font-medium leading-6 text-gray-900">
-                          {t("Location: ")}
+                          {t("City: ")}
                         </p>
                         <dd className="mt-1 text-xs 2xl:text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                          {applicant.city || (
-                            <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
+                          {applicant.city === null ||
+                          applicant.city === undefined ? (
+                            <div className="animate-pulse h-5 w-1/6  bg-gray-200 rounded-lg"></div>
+                          ) : applicant.city === 0 ? (
+                            <span>N/D</span>
+                          ) : (
+                            <span>{applicant.city}</span>
                           )}
                         </dd>
                       </div>

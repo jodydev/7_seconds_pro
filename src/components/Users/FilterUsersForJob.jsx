@@ -14,19 +14,17 @@ import supabase from "../../supabase/client";
 import Loader from "../Loader";
 import ReadySpan from "../ReadySpan";
 import ProcessingSpan from "../ProcessingSpan";
+import { theme } from "flowbite-react";
 
 export default function FilterUsersForJob({ refresh, skeletron }) {
   const { t } = useTranslation();
   const jobId = useParams().id;
   const applicantsCountRef = useRef(0);
-  const {
-    modalOpen,
-    openModal,
-    checkDeviceSizeApplicantsTable,
-  } = useAppContext();
+  const { modalOpen, openModal, checkDeviceSizeApplicantsTable } =
+    useAppContext();
   const [loading, setLoading] = useState(false);
   const [applicants, setApplicants] = useState([]);
-  const [threadStatus, setThreadStatus] = useState("");
+  const [threadStatus, setThreadStatus] = useState(null);
   const [totalApplicants, setTotalApplicants] = useState(0);
   const [sortDirectionR, setSortDirectionR] = useState("desc");
   const [sortDirectionC, setSortDirectionC] = useState("desc");
@@ -117,8 +115,7 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
     );
   }, [applicants]);
 
-  
-  //! Funzione per ottenere i candidati per il lavoro selezionato
+  //! Funzione per gestire i cambiamenti nel database e aggiungere i nuovi candidati in tempo reale
   useEffect(() => {
     const getApplicantsForJob = async (jobId) => {
       try {
@@ -128,12 +125,9 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
           .select("*")
           .eq("jobid", jobId);
 
-          console.log(data)
-
         if (error) {
           throw error;
         } else {
-          setThreadStatus(data[0].thread_status);
           setApplicants(data);
           setTotalApplicants(data.length);
         }
@@ -144,22 +138,15 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
       }
     };
 
-    getApplicantsForJob(jobId);
-  }, [jobId]);
-
-  //! Funzione per gestire i cambiamenti nel database e aggiungere i nuovi candidati in tempo reale
-  useEffect(() => {
     const handleChanges = (payload) => {
-      console.log(payload);
       if (payload.eventType === "INSERT" && payload.table === "threads") {
-        setThreadStatus(payload.new.thread_status);
-      } else if (payload.eventType === "INSERT" && payload.table === "cvs"){
+        setThreadStatus(payload.new);
         setApplicants((prevApplicants) => [...prevApplicants, payload.new]);
         setTotalApplicants((prevTotal) => prevTotal + 1);
       }
     };
 
-    const changeSubscription = supabase
+    supabase
       .channel("schema-db-changes")
       .on(
         "postgres_changes",
@@ -172,10 +159,15 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
       )
       .subscribe();
 
-    return () => {
-      changeSubscription.unsubscribe();
-    };
-  }, [jobId, applicants]);
+    getApplicantsForJob(jobId);
+  }, [jobId]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  const rating = 1;
+  const city = "Milano";
 
   return (
     <section data-aos="fade-up">
@@ -197,7 +189,7 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
           {totalApplicants === 0 && refresh === false ? (
             <table className="w-full text-left rtl:text-right text-gray-500 dark:text-gray-400">
               <thead className="2xl:text-lg text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-              <tr className="2xl:text-xl">
+                <tr className="2xl:text-xl">
                   <th scope="col" className="px-3 py-3 ">
                     {t("Status")}
                   </th>
@@ -205,9 +197,7 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
                     {t("Candidate")}
                   </th>
                   <th scope="col" className="px-3 py-3">
-                
-                      {t("Created at")}
-                  
+                    {t("Created at")}
                   </th>
                   <th scope="col" className="px-3 py-3">
                     {t("Age")}
@@ -220,7 +210,6 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
                   </th>
                   <th scope="col" className="px-3 py-3">
                     {t("Ai Rating")}
-                 
                   </th>
                 </tr>
               </thead>
@@ -296,135 +285,119 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
                 </tr>
               </thead>
               <tbody className="hover:cursor-pointer ">
-           
-                {applicants.map(
-                  (applicant) => (
-                    console.log(applicant),
-                    (
-                      <tr
-                        key={applicant.thread_id}
-                        className="text-sm 2xl:text-lg bg-white border-b"
-                      >
-                        <td className="px-3 py-4">
-                          <Link to={`/user-details/${applicant.thread_id}`}>
-                            <div className="w-full">
-                              {applicant.thread_status === "new" || null || undefined ? ( <ProcessingSpan />) : ( <ReadySpan />)}
-                     
-                            </div>
-                          </Link>
-                        </td>
-                        <td className="px-3 py-4">
-                          <Link to={`/user-details/${applicant.thread_id}`}>
-                            <div className="w-full truncate">
-                              {applicant.fullname ||
-                                extractFileName(applicant.file) || (
-                                  <div className="animate-pulse  h-6 bg-gray-200 rounded-lg"></div>
-                                )}
-                            </div>
-                          </Link>
-                        </td>
-                        <td
-                          className="px-3 py-4"
-                          title={
-                            applicant.cv_created_at
-                              ? new Date(
-                                  applicant.cv_created_at
-                                ).toLocaleString()
-                              : ""
-                          }
-                        >
-                          <Link to={`/user-details/${applicant.thread_id}`}>
-                            <div className="w-full">
-                              {applicant.cv_created_at ? (
-                                new Date(
-                                  applicant.cv_created_at
-                                ).toLocaleDateString()
-                              ) : (
-                                <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
-                              )}
-                            </div>
-                          </Link>
-                        </td>
+                {applicants.map((applicant) => (
+                  <tr
+                    key={applicant.thread_id}
+                    className="text-sm 2xl:text-lg bg-white border-b"
+                  >
+                    <td className="px-3 py-4">
+                      <Link to={`/user-details/${applicant.thread_id}`}>
+                        <div className="w-full">
+                          {applicant.status === "new" ||
+                          applicant.thread_status === "new" ? (
+                            <ProcessingSpan />
+                          ) : (
+                            <ReadySpan />
+                          )}
+                        </div>
+                      </Link>
+                    </td>
+                    <td className="px-3 py-4">
+                      <Link to={`/user-details/${applicant.thread_id}`}>
+                        <div className="w-full truncate">
+                          {applicant.fullname ||
+                            extractFileName(applicant.file) || (
+                              <div className="animate-pulse  h-6 bg-gray-200 rounded-lg"></div>
+                            )}
+                        </div>
+                      </Link>
+                    </td>
+                    <td
+                      className="px-3 py-4"
+                      title={
+                        applicant.cv_created_at
+                          ? new Date(applicant.cv_created_at).toLocaleString()
+                          : ""
+                      }
+                    >
+                      <Link to={`/user-details/${applicant.thread_id}`}>
+                        <div className="w-full">
+                          {applicant.cv_created_at ? (
+                            new Date(
+                              applicant.cv_created_at
+                            ).toLocaleDateString()
+                          ) : (
+                            <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
+                          )}
+                        </div>
+                      </Link>
+                    </td>
 
-                        <td className="px-3 py-4">
-                          <Link to={`/user-details/${applicant.thread_id}`}>
-                            <div className="w-full">
-                              {applicant.age !== null ? (
-                                applicant.age === 0 ? (
-                                  <span>N/D</span>
-                                ) : (
-                                  <span>{applicant.age}</span>
-                                )
-                              ) : (
-                                <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
-                              )}
-                            </div>
-                          </Link>
-                        </td>
-                        <td className="px-3 py-4">
-                          <Link to={`/user-details/${applicant.thread_id}`}>
-                            <div className="w-full">
-                              {applicant.city || (
-                                <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
-                              )}
-                            </div>
-                          </Link>
-                        </td>
+                    <td className="px-3 py-4">
+                      <Link to={`/user-details/${applicant.thread_id}`}>
+                        <div className="w-full">
+                          {applicant.age === null ||
+                          applicant.age === undefined ? (
+                            <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
+                          ) : applicant.age === 0 ? (
+                            <span>N/D</span>
+                          ) : (
+                            <span>{applicant.age}</span>
+                          )}
+                        </div>
+                      </Link>
+                    </td>
 
-                        <td className="px-3 py-4">
-                          <Link to={`/user-details/${applicant.thread_id}`}>
-                            <div className="w-full font-bold px-5">
-                              {applicant.rating !== null ? (
-                                applicant.rating === 0 ? (
-                                  <p>
-                                    <span className="text-indigo-500">0</span>
-                                    {` / 5`}
-                                  </p>
-                                ) : (
-                                  <p class="inline-flex items-center rounded-md bg-purple-50 px-2 py-1 text-xs font-medium text-purple-700 ring-1 ring-inset ring-purple-700/10">
-                                    {`${applicant.rating} / 5`}
-                                  </p>
-                                )
-                              ) : (
-                                <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
-                              )}
-                            </div>
-                          </Link>
-                        </td>
+                    <td className="px-3 py-4">
+                      <Link to={`/user-details/${applicant.thread_id}`}>
+                        <div className="w-full">
+                          {applicant.city === null ||
+                          applicant.city === undefined ? (
+                            <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
+                          ) : applicant.city === 0 ? (
+                            <span>N/D</span>
+                          ) : (
+                            <span>{applicant.city}</span>
+                          )}
+                        </div>
+                      </Link>
+                    </td>
 
-                        <td className="px-3 py-4">
-                          <Link to={`/user-details/${applicant.thread_id}`}>
-                            <div className="w-full">
-                              {applicant.rating !== null ? (
-                                applicant.rating === 0 ? (
-                                  <StarRatings
-                                    rating={0}
-                                    starRatedColor="gold"
-                                    numberOfStars={5}
-                                    name="rating"
-                                    starDimension="20px"
-                                    starSpacing="2px"
-                                  />
-                                ) : (
-                                  <StarRatings
-                                    rating={applicant.rating}
-                                    starRatedColor="gold"
-                                    numberOfStars={5}
-                                    name="rating"
-                                    starDimension="20px"
-                                    starSpacing="2px"
-                                  />
-                                )
-                              ) : (
-                                <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
-                              )}
-                            </div>
-                          </Link>
-                        </td>
-                      </tr>
-                    )
-                  )
-                )}
+                    <td className="px-3 py-4">
+                      <Link to={`/user-details/${applicant.thread_id}`}>
+                        <div className="w-full font-bold px-5">
+                          {applicant.rating === null || applicant.rating === undefined ? (
+                            <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
+                          ) : (
+                            <p className="inline-flex items-center rounded-md bg-purple-50 px-2 py-1 text-xs 2xl:text-sm font-medium text-purple-700 ring-1 ring-inset ring-purple-700/10">
+                              {`${applicant.rating === 0 ? "0" : applicant.rating} / 5`}
+                            </p>
+                          )}
+                        </div>
+                      </Link>
+                    </td>
+
+                    <td className="px-3 py-4">
+                      <Link to={`/user-details/${applicant.thread_id}`}>
+                        <div className="w-full">
+                          {applicant.rating === null ||
+                          applicant.rating === undefined ? (
+                            <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
+                          ) : (
+                            <StarRatings
+                              rating={applicant.rating}
+                              starRatedColor="gold"
+                              numberOfStars={5}
+                              name="rating"
+                              starDimension="20px"
+                              starSpacing="2px"
+                            />
+                          )}
+                        </div>
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           )}

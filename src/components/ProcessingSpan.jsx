@@ -6,7 +6,7 @@ export default function ProcessingSpan() {
     <div className="flex flex-row">
       <svg
         aria-hidden="true"
-        className="w-4 h-4 me-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+        className="w-4 h-4 2xl:w-6 2xl:h-6 me-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -20,7 +20,7 @@ export default function ProcessingSpan() {
           fill="currentFill"
         />
       </svg>
-      <span className=" text-black flex text-xs">{t("Processing...")}</span>
+      <span className=" text-black flex text-xs 2xl:text-sm">{t("Processing...")}</span>
     </div>
   );
 }
