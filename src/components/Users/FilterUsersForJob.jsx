@@ -14,7 +14,6 @@ import supabase from "../../supabase/client";
 import Loader from "../Loader";
 import ReadySpan from "../ReadySpan";
 import ProcessingSpan from "../ProcessingSpan";
-import { theme } from "flowbite-react";
 
 export default function FilterUsersForJob({ refresh, skeletron }) {
   const { t } = useTranslation();
@@ -141,7 +140,7 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
     const handleChanges = (payload) => {
       if (payload.eventType === "INSERT" && payload.table === "threads") {
         setThreadStatus(payload.new);
-        setApplicants((prevApplicants) => [...prevApplicants, payload.new]);
+        setApplicants((prevApplicants) => [payload.new, ...prevApplicants]);
         setTotalApplicants((prevTotal) => prevTotal + 1);
       }
     };
@@ -166,8 +165,6 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
     return <div>Loading...</div>;
   }
 
-  const rating = 1;
-  const city = "Milano";
 
   return (
     <section data-aos="fade-up">

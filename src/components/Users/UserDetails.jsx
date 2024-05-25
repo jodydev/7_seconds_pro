@@ -28,7 +28,6 @@ export default function UserDetails() {
           .from("cvs_data")
           .select("*")
           .eq("thread_id", id);
-        console.log(applicantsData);
         if (applicantsError) {
           console.error("Error fetching applicants:", applicantsError.message);
         } else {

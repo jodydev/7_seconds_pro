@@ -2,12 +2,14 @@ import { CheckIcon } from "@heroicons/react/20/solid";
 import { loadStripe } from "@stripe/stripe-js";
 import { useEffect, useState } from "react";
 import supabase from "../supabase/client";
+import { useTranslation } from "react-i18next";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
 export default function UpgradePlan() {
+  const { t } = useTranslation();
   const [userEmail, setUserEmail] = useState("");
 
   //! Funzione per recuperare l'ID dell'utente attualmente loggato
@@ -31,14 +33,14 @@ export default function UpgradePlan() {
 
   const tiers = [
     {
-      name: "Free",
+      name: t("Free"),
       id: "tier-freelancer",
       href: "#",
       priceMonthly: "€0",
-      description: "The essentials to provide your best work for clients.",
-      features: ["Up to 10 CVs per month"],
+      description: t("The essentials to provide your best work for clients."),
+      features: [t("Up to 10 CVs per month")],
       mostPopular: false,
-      buyPlan: "Your current plan",
+      buyPlan: t("Your current plan"),
     },
     {
       id: 2,
@@ -46,20 +48,20 @@ export default function UpgradePlan() {
       priceId: "price_1PIBttFezQmx9aELpJr12Feq",
       href: `https://buy.stripe.com/7sI3cWaaack58Ok28c?prefilled_email=${userEmail}`,
       priceMonthly: "€47,58",
-      description: "A plan that scales with your rapidly growing business.",
-      features: ["Up to 100 CVs per month"],
+      description: t("A plan that scales with your rapidly growing business."),
+      features: [t("Up to 100 CVs per month")],
       mostPopular: true,
-      buyPlan: "Buy plan",
+      buyPlan: t("Buy plan"),
     },
     {
       name: "Premium",
       id: "tier-enterprise",
       href: `https://buy.stripe.com/eVabJsdmm83P2pW28d?prefilled_email=${userEmail}`,
       priceMonthly: "€120,78",
-      description: "Dedicated support and infrastructure for your company.",
-      features: ["Up to 300 CVs per month"],
+      description: t("Dedicated support and infrastructure for your company."),
+      features: [t("Up to 300 CVs per month")],
       mostPopular: false,
-      buyPlan: "Buy plan",
+      buyPlan: t("Buy plan"),
     },
   ];
 
@@ -69,15 +71,14 @@ export default function UpgradePlan() {
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
           <div className="mx-auto max-w-4xl text-center">
             <h2 className="text-3xl font-semibold leading-7 text-indigo-600">
-              Pricing
+              {t("Pricing")}
             </h2>
             <p className="mt-2 text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
-              Pricing plans for teams of&nbsp;all&nbsp;sizes
+              {t("Pricing plans for teams of all sizes")}
             </p>
           </div>
           <p className="mx-auto mt-6 max-w-2xl text-center text-lg leading-8 text-gray-600">
-            Distinctio et nulla eum soluta et neque labore quibusdam. Saepe et
-            quasi iusto modi velit ut non voluptas in. Explicabo id ut laborum.
+            {t("Whether you're a freelancer or a large enterprise, there's a plan that's right for you.")}
           </p>
           <div className="isolate mx-auto mt-16 grid max-w-md grid-cols-1 gap-y-8 sm:mt-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
             {tiers.map((tier, tierIdx) => (
