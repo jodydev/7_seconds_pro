@@ -141,15 +141,17 @@ export default function UserDetails() {
                         </p>
                         <ul>
                           <li className="mt-1 text-xs 2xl:text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 flex text-nowrap items-center gap-3">
-                            {/* <BsFillTelephoneFill className="w-4 h-4 2xl:w-5 2xl:h-5 text-gray-400 hidden 2xl:block" />{" "} */}
-                            {applicant.phone || (
-                              <div className="animate-pulse w-full h-4 bg-gray-200 rounded-lg my-1"></div>
+                            {applicant.phone ? (
+                              applicant.phone
+                            ) : (
+                              <span className="animate-pulse w-full h-4 bg-gray-200 rounded-lg my-1"></span>
                             )}
                           </li>
                           <li className="mt-1 text-xs 2xl:text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 flex items-center gap-3 text-nowrap">
-                            {/* <MdEmail className="w-4 h-4 2xl:w-5 2xl:h-5 text-gray-400 hidden 2xl:block" />{" "} */}
-                            {applicant.email || (
-                              <div className="animate-pulse w-full h-4 bg-gray-200 rounded-lg"></div>
+                            {applicant.email ? (
+                              applicant.email
+                            ) : (
+                              <span className="animate-pulse w-full h-4 bg-gray-200 rounded-lg"></span>
                             )}
                           </li>
                         </ul>
@@ -167,8 +169,10 @@ export default function UserDetails() {
 
                   <div className="mt-1 flex flex-col">
                     <div className="mt-1 2xl:mt-3 border-t border-gray-100 ">
-                      <p className="mt-1 2xl:mt-5 text-xs 2xl:text-sm max-w-2xl leading-7 text-gray-500 w-full">
-                        {applicant.feedback || (
+                      <div className="mt-1 2xl:mt-5 text-xs 2xl:text-sm max-w-2xl leading-7 text-gray-500 w-full">
+                        {applicant.feedback ? (
+                          <p>{applicant.feedback}</p>
+                        ) : (
                           <div className="flex-col">
                             <div className="animate-pulse w-3/4 h-6 bg-gray-200 rounded-lg"></div>
                             <div className="animate-pulse w-full h-6 bg-gray-200 rounded-lg mt-2"></div>
@@ -188,7 +192,7 @@ export default function UserDetails() {
                             <div className="animate-pulse w-3/4 h-6 bg-gray-200 rounded-lg mt-2"></div>
                           </div>
                         )}
-                      </p>
+                      </div>
                     </div>
                   </div>
                 </div>

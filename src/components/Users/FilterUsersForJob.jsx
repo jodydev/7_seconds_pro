@@ -14,10 +14,12 @@ import supabase from "../../supabase/client";
 import Loader from "../Loader";
 import ReadySpan from "../ReadySpan";
 import ProcessingSpan from "../ProcessingSpan";
+import { getUserData } from "../../hook/getUserData";
 
 export default function FilterUsersForJob({ refresh, skeletron }) {
   const { t } = useTranslation();
   const jobId = useParams().id;
+  const { accountCredits } = getUserData();
   const applicantsCountRef = useRef(0);
   const { modalOpen, openModal, checkDeviceSizeApplicantsTable } =
     useAppContext();
@@ -139,7 +141,6 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
 
     const handleChanges = (payload) => {
       if (payload.eventType === "INSERT" && payload.table === "threads") {
-        setThreadStatus(payload.new);
         setApplicants((prevApplicants) => [payload.new, ...prevApplicants]);
         setTotalApplicants((prevTotal) => prevTotal + 1);
       }
@@ -212,25 +213,38 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
               </thead>
               <tbody>
                 <tr className="bg-white h-[380px] 2xl:h-[700px] border-b dark:bg-gray-800 dark:border-gray-700">
-                  <td className="text-center py-6" colSpan="8">
-                    <p className="text-2xl 2xl:text-5xl  font-semibold">
-                      {t("No applications for this job yet...")}
-                    </p>
-                    <p className="text-xl 2xl:text-4xl  font-semibold my-3">
-                      {t("Upload your first")}
-                      <span className="text-indigo-500 ms-2">{t("CV!")}</span>
-                    </p>
-                    <div className="flex items-center justify-center mt-20">
-                      <button
-                        onClick={openModal}
-                        type="button"
-                        className="inline-flex items-center rounded-2xl bg-indigo-600 px-4 py-3 2xl:px-6 2xl:py-4 text-base 2xl:text-2xl font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                      >
-                        <BsStars className="me-2 w-6 h-6 2xl:w-8 2xl:h-8" />
-                        {t("Upload CVs")}
-                      </button>
-                    </div>
-                  </td>
+                  {accountCredits > 0 ? (
+                    <td className="text-center py-6" colSpan="8">
+                      <p className="text-2xl 2xl:text-5xl  font-semibold">
+                        {t("No applications for this job yet...")}
+                      </p>
+                      <p className="text-xl 2xl:text-4xl  font-semibold my-3">
+                        {t("Upload your first")}
+                        <span className="text-indigo-500 ms-2">{t("CV!")}</span>
+                      </p>
+                      <div className="flex items-center justify-center mt-20">
+                        <button
+                          onClick={openModal}
+                          type="button"
+                          className="inline-flex items-center rounded-2xl bg-indigo-600 px-4 py-3 2xl:px-6 2xl:py-4 text-base 2xl:text-2xl font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        >
+                          <BsStars className="me-2 w-6 h-6 2xl:w-8 2xl:h-8" />
+                          {t("Upload CVs")}
+                        </button>
+                      </div>
+                    </td>
+                  ) : (
+                    <td className="text-center py-6" colSpan="8">
+                      <p className="text-2xl 2xl:text-5xl  font-semibold">
+                        {t("No applications for this job yet...")}
+                      </p>
+                      <p className="text-xl 2xl:text-4xl  font-semibold my-3">
+                        {t(
+                          "Top up your credits to continue with the features."
+                        )}
+                      </p>
+                    </td>
+                  )}
                 </tr>
               </tbody>
             </table>
@@ -363,11 +377,14 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
                     <td className="px-3 py-4">
                       <Link to={`/user-details/${applicant.thread_id}`}>
                         <div className="w-full font-bold px-5">
-                          {applicant.rating === null || applicant.rating === undefined ? (
+                          {applicant.rating === null ||
+                          applicant.rating === undefined ? (
                             <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
                           ) : (
                             <p className="inline-flex items-center rounded-md bg-purple-50 px-2 py-1 text-xs 2xl:text-sm font-medium text-purple-700 ring-1 ring-inset ring-purple-700/10">
-                              {`${applicant.rating === 0 ? "0" : applicant.rating} / 5`}
+                              {`${
+                                applicant.rating === 0 ? "0" : applicant.rating
+                              } / 5`}
                             </p>
                           )}
                         </div>
