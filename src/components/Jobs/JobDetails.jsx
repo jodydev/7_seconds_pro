@@ -4,8 +4,9 @@ import { CalendarIcon } from "@heroicons/react/20/solid";
 import { BsStars } from "react-icons/bs";
 import { getUserData } from "../../hook/getUserData";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { FaCheckCircle } from "react-icons/fa";
+import { IoArrowUndo } from "react-icons/io5";
 import supabase from "../../supabase/client";
 import Loader from "../Loader";
 import FilterUsersForJob from "../Users/FilterUsersForJob";
@@ -16,6 +17,7 @@ export default function JobDetails() {
   const { modalOpen, openModal, closeModal } = useAppContext();
   const { accountCredits } = getUserData();
   const { id } = useParams();
+  const navigate = useNavigate();
   const [selectedJob, setSelectedJob] = useState(null);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
@@ -115,24 +117,25 @@ export default function JobDetails() {
     tooltip.style.display = "none";
   };
 
+  const goBack = () => {
+    navigate(-1);
+  };
+
   const style = {
-    /* Rimuove il padding predefinito e i punti dai list item */
     ol: {
       paddingLeft: 0,
       listStyle: "none",
     },
-    /* Aggiunge i punti personalizzati ai list item */
     li: {
-      marginLeft: "1.5em", /* Spazio per i punti */
+      marginLeft: "1.5em",
       position: "relative",
     },
     "li::before": {
-      content: "'\\2022'", /* Simbolo dei punti */
+      content: "'\\2022'",
       position: "absolute",
-      left: "-1.5em", /* Posiziona il simbolo a sinistra del list item */
+      left: "-1.5em",
     },
   };
-  
 
   return (
     <section>
@@ -154,6 +157,14 @@ export default function JobDetails() {
       >
         {selectedJob && (
           <div className={`${modalOpen ? "opacity-10" : "opacity-100"}`}>
+            <div className="absolute left-[-20px] 2xl:left-[-25px] 2xl:top-[-30px] top-[-10px] rounded-full">
+              <button
+                onClick={goBack}
+                className="bg-indigo-500 hover:bg-indigo-600 text-white font-bold p-2 rounded-full focus:outline-none focus:shadow-outline"
+              >
+                <IoArrowUndo className="2xl:w-6 2xl:h-6 w-4 h-4" />
+              </button>
+            </div>
             <div className="lg:flex lg:items-center lg:justify-betwee ">
               <div className="min-w-0 flex-1 relative">
                 <h2
@@ -207,10 +218,10 @@ export default function JobDetails() {
                         isExpanded ? "" : "line-clamp-3"
                       }`}
                       dangerouslySetInnerHTML={{
-                        __html: `<style>${style}</style>` + selectedJob.description,
+                        __html:
+                          `<style>${style}</style>` + selectedJob.description,
                       }}
-                    >
-                     </div>
+                    ></div>
                     {selectedJob.description.length >
                       contentLengthThreshold && (
                       <div className="flex items-center justify-center">
@@ -218,7 +229,7 @@ export default function JobDetails() {
                           onClick={toggleExpansion}
                           className="text-blue-500 text-xs hover:underline mt-3 "
                         >
-                          {isExpanded ? t("Read less" ): t("Read more")}
+                          {isExpanded ? t("Read less") : t("Read more")}
                         </button>
                       </div>
                     )}

@@ -51,15 +51,15 @@ export default function UserDetails() {
         <section
           key={applicant.thread_id}
           id="detailsjob"
-          className="grid lg:grid-cols-2 gap-10 p-10"
+          className="grid lg:grid-cols-2 gap-10 p-3 2xl:p-10"
         >
           <div data-aos="fade-right" className="flex justify-between">
-            <div className="absolute left-[-20px] 2xl:left-[-25px] rounded-full">
+            <div className="absolute left-[-20px] 2xl:left-[-25px] 2xl:top-[-30px] top-[-10px] rounded-full">
               <button
                 onClick={goBack}
                 className="bg-indigo-500 hover:bg-indigo-600 text-white font-bold p-2 rounded-full focus:outline-none focus:shadow-outline"
               >
-                <IoArrowUndo className="w-6 h-6" />
+                <IoArrowUndo className="2xl:w-6 2xl:h-6 w-4 h-4" />
               </button>
             </div>
 

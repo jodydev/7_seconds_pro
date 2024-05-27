@@ -14,6 +14,7 @@ import supabase from "../../supabase/client";
 import Loader from "../Loader";
 import ReadySpan from "../ReadySpan";
 import ProcessingSpan from "../ProcessingSpan";
+import ErrorSpan from "../ErrorSpan";
 import { getUserData } from "../../hook/getUserData";
 
 export default function FilterUsersForJob({ refresh, skeletron }) {
@@ -298,9 +299,11 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
                     <td className="px-3 py-4">
                       <Link to={`/user-details/${applicant.thread_id}`}>
                         <div className="w-full">
-                          {applicant.status === "new" ||
+                          {applicant.status === "new" || applicant.status === "queued" ||
                           applicant.thread_status === "new" ? (
                             <ProcessingSpan />
+                          ) : applicant.thread_status === "failed" ? (
+                            <ErrorSpan />   
                           ) : (
                             <ReadySpan />
                           )}

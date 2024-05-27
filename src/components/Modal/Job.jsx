@@ -14,8 +14,6 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-
-
 const senioritys = [
   { id: 1, name: "Junior" },
   { id: 2, name: "Mid" },
@@ -34,9 +32,20 @@ export default function Job({ closeModal, onResult }) {
   };
 
   const editorConfiguration = {
-    toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|', 'undo', 'redo'],
-    placeholder: t("Enter your job description here...")
-  };
+    toolbar: {
+      items: [
+          'undo', 'redo',
+          '|', 'heading',
+          '|', 'fontfamily', 'fontsize', 'fontColor', 'fontBackgroundColor',
+          '|', 'bold', 'italic', 'strikethrough', 'subscript', 'superscript', 'code',
+          '|', 'link', 'uploadImage', 'blockQuote', 'codeBlock',
+          '|', 'bulletedList', 'numberedList', 'todoList', 'outdent', 'indent'
+      ],
+      shouldNotGroupWhenFull: false
+  },  
+    placeholder: t("Enter your job description here..."),
+};
+
 
 
   const sendJob = async (e) => {
