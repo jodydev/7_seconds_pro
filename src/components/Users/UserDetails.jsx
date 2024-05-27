@@ -169,30 +169,31 @@ export default function UserDetails() {
 
                   <div className="mt-1 flex flex-col">
                     <div className="mt-1 2xl:mt-3 border-t border-gray-100 ">
-                      <div className="mt-1 2xl:mt-5 text-xs 2xl:text-sm max-w-2xl leading-7 text-gray-500 w-full">
-                        {applicant.feedback ? (
-                          <p>{applicant.feedback}</p>
-                        ) : (
-                          <div className="flex-col">
-                            <div className="animate-pulse w-3/4 h-6 bg-gray-200 rounded-lg"></div>
-                            <div className="animate-pulse w-full h-6 bg-gray-200 rounded-lg mt-2"></div>
-                            <div className="animate-pulse w-3/5 h-6 bg-gray-200 rounded-lg mt-2"></div>
-                            <div className="animate-pulse w-3/4 h-6 bg-gray-200 rounded-lg mt-2"></div>
-                            <div className="animate-pulse w-full h-6 bg-gray-200 rounded-lg mt-2"></div>
-                            <div className="animate-pulse w-3/4 h-6 bg-gray-200 rounded-lg mt-2"></div>
-                            <div className="animate-pulse w-full h-6 bg-gray-200 rounded-lg mt-2"></div>
-                            <div className="animate-pulse w-3/6 h-6 bg-gray-200 rounded-lg mt-2"></div>
-                            <div className="animate-pulse w-3/4 h-6 bg-gray-200 rounded-lg mt-2"></div>
-                            <div className="animate-pulse w-2/3 h-6 bg-gray-200 rounded-lg mt-2"></div>
-                            <div className="animate-pulse w-3/3 h-6 bg-gray-200 rounded-lg mt-2"></div>
-                            <div className="animate-pulse w-2/3 h-6 bg-gray-200 rounded-lg mt-2"></div>
-                            <div className="animate-pulse w-3/6 h-6 bg-gray-200 rounded-lg mt-2"></div>
-                            <div className="animate-pulse w-full h-6 bg-gray-200 rounded-lg mt-2"></div>
-                            <div className="animate-pulse w-3/5 h-6 bg-gray-200 rounded-lg mt-2"></div>
-                            <div className="animate-pulse w-3/4 h-6 bg-gray-200 rounded-lg mt-2"></div>
-                          </div>
-                        )}
-                      </div>
+                    <div className="mt-1 2xl:mt-5 text-xs 2xl:text-sm max-w-2xl leading-7 text-gray-500 w-full">
+  {applicant.feedback ? (
+    <p>{applicant.feedback}</p>
+  ) : (
+    <div className="flex-col">
+      <div className="animate-pulse w-3/4 h-6 bg-gray-200 rounded-lg"></div>
+      <div className="animate-pulse w-full h-6 bg-gray-200 rounded-lg mt-2"></div>
+      <div className="animate-pulse w-3/5 h-6 bg-gray-200 rounded-lg mt-2"></div>
+      <div className="animate-pulse w-3/4 h-6 bg-gray-200 rounded-lg mt-2"></div>
+      <div className="animate-pulse w-full h-6 bg-gray-200 rounded-lg mt-2"></div>
+      <div className="animate-pulse w-3/4 h-6 bg-gray-200 rounded-lg mt-2"></div>
+      <div className="animate-pulse w-full h-6 bg-gray-200 rounded-lg mt-2"></div>
+      <div className="animate-pulse w-3/6 h-6 bg-gray-200 rounded-lg mt-2"></div>
+      <div className="animate-pulse w-3/4 h-6 bg-gray-200 rounded-lg mt-2"></div>
+      <div className="animate-pulse w-2/3 h-6 bg-gray-200 rounded-lg mt-2"></div>
+      <div className="animate-pulse w-3/3 h-6 bg-gray-200 rounded-lg mt-2"></div>
+      <div className="animate-pulse w-2/3 h-6 bg-gray-200 rounded-lg mt-2"></div>
+      <div className="animate-pulse w-3/6 h-6 bg-gray-200 rounded-lg mt-2"></div>
+      <div className="animate-pulse w-full h-6 bg-gray-200 rounded-lg mt-2"></div>
+      <div className="animate-pulse w-3/5 h-6 bg-gray-200 rounded-lg mt-2"></div>
+      <div className="animate-pulse w-3/4 h-6 bg-gray-200 rounded-lg mt-2"></div>
+    </div>
+  )}
+</div>
+
                     </div>
                   </div>
                 </div>

@@ -7,6 +7,8 @@ import { FaPencil } from "react-icons/fa6";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import supabase from "../../supabase/client";
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -18,34 +20,41 @@ const senioritys = [
   { id: 3, name: "Senior" },
 ];
 
+
 export default function Job({ closeModal, onResult }) {
   const { t } = useTranslation();
   const [selected, setSelected] = useState(senioritys[0]);
   const navigate = useNavigate();
+  const [jobDescription, setJobDescription] = useState("");
 
   const resetForm = () => {
     document.getElementById("job-form").reset();
   };
 
+  const editorConfiguration = {
+    toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', '|', 'undo', 'redo'],
+    placeholder: t("Enter your job description here...")
+  };
+
+
   const sendJob = async (e) => {
     e.preventDefault();
-
-    const companyName = e.target.elements["company-name"].value;
-    const jobDescription = e.target.elements["job-description"].value;
-    const role = e.target.elements["role"].value;
-    const seniority = selected.name;
-
-    const jobData = {
-      company_name: companyName,
-      description: jobDescription,
-      role: role,
-      seniority: seniority,
-    };
-
     try {
-      const { data, error } = await supabase.from("jobs")
-      .insert([jobData])
-      .select();      
+      const companyName = e.target.elements["company-name"].value;
+      const role = e.target.elements["role"].value;
+      const seniority = selected.name;
+  
+      const jobData = {
+        company_name: companyName,
+        description: jobDescription,
+        role: role,
+        seniority: seniority,
+      };
+      
+      const { data, error } = await supabase
+        .from("jobs")
+        .insert([jobData])
+        .select();
       if (error) {
         throw error;
       } else {
@@ -248,12 +257,13 @@ export default function Job({ closeModal, onResult }) {
                     >
                       {t("Job Description")}
                     </label>
-                    <Textarea
-                      id="job-description"
-                      name="job-description"
-                      placeholder={t("Enter your job description here...")}
-                      required
-                      rows={4}
+                    <CKEditor
+                      editor={ClassicEditor}
+                      config={editorConfiguration}
+                      onChange={(event, editor) => {
+                        const data = editor.getData();
+                        setJobDescription(data);
+                    }}
                     />
                   </div>
                 </div>

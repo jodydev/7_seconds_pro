@@ -203,11 +203,11 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
                   <th scope="col" className="px-3 py-3">
                     {t("City")}
                   </th>
-                  <th scope="col" className="px-3 py-3 ">
+                  {/* <th scope="col" className="px-3 py-3 ">
                     {t("Score")}
-                  </th>
+                  </th> */}
                   <th scope="col" className="px-3 py-3">
-                    {t("Ai Rating")}
+                    {t("AI Score")}
                   </th>
                 </tr>
               </thead>
@@ -243,6 +243,15 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
                           "Top up your credits to continue with the features."
                         )}
                       </p>
+                      <a
+                          href="/upgrade-plan"
+                          type="button"
+
+                          className="mt-10 inline-flex items-center rounded-2xl bg-indigo-600 px-4 py-3 2xl:px-6 2xl:py-4 text-base 2xl:text-2xl font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        >
+                          <BsStars className="me-2 w-6 h-6 2xl:w-8 2xl:h-8" />
+                          {t("Upgrade Plan")}
+                        </a>
                     </td>
                   )}
                 </tr>
@@ -277,11 +286,11 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
                   <th scope="col" className="px-3 py-3">
                     {t("City")}
                   </th>
-                  <th scope="col" className="px-3 py-3 ">
+                  {/* <th scope="col" className="px-3 py-3 ">
                     {t("Score")}
-                  </th>
+                  </th> */}
                   <th scope="col" className="px-3 py-3">
-                    {t("Ai Rating")}
+                    {t("AI Score")}
                     <button
                       onClick={handleSortByRating}
                       className="flex-row items-center focus:outline-none hover:cursor-pointer"
@@ -297,6 +306,7 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
               </thead>
               <tbody className="hover:cursor-pointer ">
                 {applicants.map((applicant) => (
+                  console.log(applicant),
                   <tr
                     key={applicant.thread_id}
                     className="text-sm 2xl:text-lg bg-white border-b"
@@ -374,7 +384,7 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
                       </Link>
                     </td>
 
-                    <td className="px-3 py-4">
+                    {/* <td className="px-3 py-4">
                       <Link to={`/user-details/${applicant.thread_id}`}>
                         <div className="w-full font-bold px-5">
                           {applicant.rating === null ||
@@ -389,7 +399,7 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
                           )}
                         </div>
                       </Link>
-                    </td>
+                    </td> */}
 
                     <td className="px-3 py-4">
                       <Link to={`/user-details/${applicant.thread_id}`}>
@@ -398,6 +408,8 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
                           applicant.rating === undefined ? (
                             <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
                           ) : (
+                            <>
+                           
                             <StarRatings
                               rating={applicant.rating}
                               starRatedColor="gold"
@@ -406,6 +418,13 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
                               starDimension="20px"
                               starSpacing="2px"
                             />
+                               <p className="ms-2 inline-flex items-center rounded-md bg-purple-50 px-2 py-1 text-xs 2xl:text-sm font-medium text-purple-700 ring-1 ring-inset ring-purple-700/10">
+                            {`${
+                              applicant.rating === 0 ? "0" : applicant.rating
+                            }`}
+                          </p>
+                            </>
+                          
                           )}
                         </div>
                       </Link>

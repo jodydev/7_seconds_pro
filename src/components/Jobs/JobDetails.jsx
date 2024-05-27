@@ -23,7 +23,7 @@ export default function JobDetails() {
   const [refresh, setRefresh] = useState(false);
   const [applicants, setApplicants] = useState([]);
   const [isExpanded, setIsExpanded] = useState(false);
-  const contentLengthThreshold = 200;
+  const contentLengthThreshold = 100;
 
   //! funzione per espandere la sezione della job description
   const toggleExpansion = () => {
@@ -115,14 +115,24 @@ export default function JobDetails() {
     tooltip.style.display = "none";
   };
 
-  //! Funzione per formattare la descrizione come HTML
-  const formatDescription = (description) => {
-    if (/<[a-z][\s\S]*>/i.test(description)) {
-      return { __html: description };
-    } else {
-      return { __html: description.replace(/\n/g, "<br>") };
-    }
+  const style = {
+    /* Rimuove il padding predefinito e i punti dai list item */
+    ol: {
+      paddingLeft: 0,
+      listStyle: "none",
+    },
+    /* Aggiunge i punti personalizzati ai list item */
+    li: {
+      marginLeft: "1.5em", /* Spazio per i punti */
+      position: "relative",
+    },
+    "li::before": {
+      content: "'\\2022'", /* Simbolo dei punti */
+      position: "absolute",
+      left: "-1.5em", /* Posiziona il simbolo a sinistra del list item */
+    },
   };
+  
 
   return (
     <section>
@@ -196,10 +206,11 @@ export default function JobDetails() {
                       className={`text-sm 2xl:text-base font-light mt-2 leading-8 text-gray-900 w-full italic ${
                         isExpanded ? "" : "line-clamp-3"
                       }`}
-                      dangerouslySetInnerHTML={formatDescription(
-                        selectedJob.description
-                      )}
-                    ></div>
+                      dangerouslySetInnerHTML={{
+                        __html: `<style>${style}</style>` + selectedJob.description,
+                      }}
+                    >
+                     </div>
                     {selectedJob.description.length >
                       contentLengthThreshold && (
                       <div className="flex items-center justify-center">
@@ -207,7 +218,7 @@ export default function JobDetails() {
                           onClick={toggleExpansion}
                           className="text-blue-500 text-xs hover:underline mt-3 "
                         >
-                          {isExpanded ? "Read less" : "Read more"}
+                          {isExpanded ? t("Read less" ): t("Read more")}
                         </button>
                       </div>
                     )}

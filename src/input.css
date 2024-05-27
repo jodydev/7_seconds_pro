@@ -169,6 +169,17 @@
   background: #555; /* Colore della barra di scorrimento al passaggio del mouse */
 }
 
+.ck-editor__editable_inline {
+  min-height: 150px;
+}
+
+strong {
+  font-weight: bold;
+}
+
+
+
+
 
 /* GLOBAL STYLES */
 
