@@ -11,11 +11,11 @@ import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import StarRatings from "react-star-ratings";
 import supabase from "../../supabase/client";
-import Loader from "../Loader";
 import ReadySpan from "../ReadySpan";
 import ProcessingSpan from "../ProcessingSpan";
 import ErrorSpan from "../ErrorSpan";
 import { getUserData } from "../../hook/getUserData";
+import extractFileName from "../../hook/extractFileName";
 
 export default function FilterUsersForJob({ refresh, skeletron }) {
   const { t } = useTranslation();
@@ -24,9 +24,7 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
   const applicantsCountRef = useRef(0);
   const { modalOpen, openModal, checkDeviceSizeApplicantsTable } =
     useAppContext();
-  const [loading, setLoading] = useState(false);
   const [applicants, setApplicants] = useState([]);
-  const [threadStatus, setThreadStatus] = useState(null);
   const [totalApplicants, setTotalApplicants] = useState(0);
   const [sortDirectionR, setSortDirectionR] = useState("desc");
   const [sortDirectionC, setSortDirectionC] = useState("desc");
@@ -44,7 +42,8 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
 
   //! Funzione per cambiare il numero di candidati per pagina
   const handleApplicantsPerPageChange = (event) => {
-    setApplicantsPerPage(parseInt(event.target.value));
+    console.log(event.target.value);
+    setApplicantsPerPage(event.target.value);
     setCurrentPage(1);
   };
 
@@ -78,23 +77,6 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
     );
   };
 
-  //! Funzione per estrarre il nome del file
-  const extractFileName = (url) => {
-    let name = url || "";
-    let parts = name.split("/");
-    let lastPart = parts.pop();
-    let index = lastPart.indexOf(".pdf") + 4;
-
-    if (index > 3) {
-      let fileName = lastPart.substring(0, index);
-      fileName =
-        fileName.charAt(0).toUpperCase() + fileName.slice(1).toLowerCase();
-      return fileName;
-    } else {
-      return lastPart.charAt(0).toUpperCase() + lastPart.slice(1).toLowerCase();
-    }
-  };
-
   //! Funzione per aggiornare il numero totale di candidati ogni volta che ne viene aggiunto uno in tempo reale
   useEffect(() => {
     applicantsCountRef.current = applicants.length;
@@ -114,7 +96,6 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
   useEffect(() => {
     const getApplicantsForJob = async (jobId) => {
       try {
-        setLoading(true);
         const { data, error } = await supabase
           .from("cvs_data")
           .select("*")
@@ -128,8 +109,6 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
         }
       } catch (error) {
         console.error("Errore durante il caricamento dei jobs:", error.message);
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -139,6 +118,10 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
         setTotalApplicants((prevTotal) => prevTotal + 1);
       }
     };
+
+    const intervalId = setInterval(() => {
+      getApplicantsForJob(jobId);
+    }, 10000);
 
     supabase
       .channel("schema-db-changes")
@@ -154,15 +137,11 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
       .subscribe();
 
     getApplicantsForJob(jobId);
+    return () => clearInterval(intervalId);
   }, [jobId]);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <section data-aos="fade-up">
-      {loading && <Loader />}
       <div
         className={`${
           modalOpen ? "opacity-10" : "opacity-100"
@@ -299,11 +278,12 @@ export default function FilterUsersForJob({ refresh, skeletron }) {
                     <td className="px-3 py-4">
                       <Link to={`/user-details/${applicant.thread_id}`}>
                         <div className="w-full">
-                          {applicant.status === "new" || applicant.status === "queued" ||
+                          {applicant.status === "new" ||
+                          applicant.status === "queued" ||
                           applicant.thread_status === "new" ? (
                             <ProcessingSpan />
                           ) : applicant.thread_status === "failed" ? (
-                            <ErrorSpan />   
+                            <ErrorSpan />
                           ) : (
                             <ReadySpan />
                           )}
