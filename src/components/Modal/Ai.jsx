@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 import { BsStars } from "react-icons/bs";
-import { FaMagic } from "react-icons/fa";
+import { v4 as uuidv4 } from "uuid";
 import { GrDocumentPdf } from "react-icons/gr";
 import { TbSquareRoundedPlusFilled } from "react-icons/tb";
 import { FaCheckCircle } from "react-icons/fa";
@@ -46,7 +46,7 @@ export default function Ai({ closeModal, onResult, onUploadCv, refreshData }) {
   const getFiles = (event) => {
     const selectedFiles = event.target.files;
     const filesArray = Array.from(selectedFiles);
-    setFiles(filesArray);
+    setFiles(prevFiles => [...prevFiles, ...filesArray]);
     setReady(true);
   };
 
@@ -190,7 +190,7 @@ export default function Ai({ closeModal, onResult, onUploadCv, refreshData }) {
                 <div className="flex-col items-center justify-center w-full px-6 overflow-y-auto">
                   <div className="text-center max-h-[400px] ">
                     {loading ? (
-                      <div className="loader my-40 px-0 2xl:px-60">
+                      <div className="loader my-40 px-10 2xl:px-60">
                         <p className="text-lg 2xl:text-2xl text-nowrap">
                           {t("Please wait, loading...")}
                         </p>
@@ -220,13 +220,13 @@ export default function Ai({ closeModal, onResult, onUploadCv, refreshData }) {
                               {t("*only accepts pdf files")}
                             </p>
 
-                            <div className="my-10">
+                            <div className="my-5">
                               <div className="inline-flex items-center rounded-xl bg-indigo-500 px-4 py-3 2xl:px-5  text-base font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                                 <label
                                   htmlFor="file-upload"
-                                  className="cursor-pointer flex items-center"
+                                  className="cursor-pointer flex items-center text-xs 2xl:text-lg"
                                 >
-                                  <TbSquareRoundedPlusFilled className="me-2 h-6 w-6" />
+                                  <TbSquareRoundedPlusFilled className="me-2 h-5 w-5 2xl:h-6 2xl:w-6" />
                                   {t("Upload Files")}
                                 </label>
 
@@ -234,7 +234,7 @@ export default function Ai({ closeModal, onResult, onUploadCv, refreshData }) {
                                   id="file-upload"
                                   type="file"
                                   className="hidden"
-                                  accept=".pdf,.doc,.docx"
+                                  accept=".pdf"
                                   multiple
                                   onChange={getFiles}
                                 />
@@ -245,25 +245,10 @@ export default function Ai({ closeModal, onResult, onUploadCv, refreshData }) {
                           <>
                             {ready && (
                               <div className="my-10">
-                                {/* <video
-                                  autoPlay
-                                  src="/success.mp4"
-                                  alt="Success Upload"
-                                  className="mx-auto h-[150px] w-[150px] 2xl:h-[180px] 2xl:w-[180px] text-gray-400"
-                                />
-
-                                <h3 className="mt-2 mb-5 2xl:my-5 text-sm 2xl:text-base font-semibold text-gray-900">
-                                  <span className="text-sm 2xl:text-base font-semibold text-indigo-500">
-                                    +{files.length}
-                                  </span>{" "}
-                                  {files.length === 1 ? "File" : "Files"}{" "}
-                                  {t("Inserted Successfully!")}
-                                </h3> */}
-
                                 {files.map((file, index) => (
                                   <div
                                     className="flex items-center justify-center"
-                                    key={`${file.name}-${Date.now()}`}
+                                    key={`${file.name}-${uuidv4()}}`}
                                   >
                                     <div className="bg-gray-50 my-1 px-2 py-2 2xl:px-4 2xl:py-3 2xl:my-2 rounded-xl hover:cursor-pointer w-full 2xl:w-1/2">
                                       <div className="lg:flex lg:items-center lg:justify-between">
@@ -310,8 +295,25 @@ export default function Ai({ closeModal, onResult, onUploadCv, refreshData }) {
                   </div>
                 </div>
                 {ready && (
-                  <div className="my-5 2xl:my-10 flex items-center justify-center">
-                    <div className="flex justify-center items-center rounded-xl bg-indigo-500 px-4 py-3 text-xs 2xl:text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                  <div className="my-5 2xl:my-10 flex items-center justify-center gap-5">
+                    <div className="flex gap-3 justify-center items-center rounded-xl bg-gray-50 px-4 py-3 text-xs 2xl:text-lg font-semibold text-black shadow-sm hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                      <label
+                        htmlFor="file-upload"
+                        className="cursor-pointer flex items-center text-xs 2xl:text-lg"
+                      >
+                        <TbSquareRoundedPlusFilled className="me-2 h-5 w-5 2xl:h-6 2xl:w-6" />
+                        {t("Upload More")}
+                      </label>
+                      <input
+                        id="file-upload"
+                        type="file"
+                        className="hidden"
+                        accept=".pdf"
+                        multiple
+                        onChange={getFiles}
+                      />
+                    </div>
+                    <div className="flex gap-3 justify-center items-center rounded-xl bg-indigo-500 px-4 py-3 text-xs 2xl:text-lg font-semibold text-white shadow-sm hover:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                       <button
                         id="confirm-upload"
                         type="button"
@@ -320,7 +322,7 @@ export default function Ai({ closeModal, onResult, onUploadCv, refreshData }) {
                       >
                         {" "}
                         <FaCheckCircle className="me-2 h-5 w-5 2xl:h-6 2xl:w-6" />
-                        {t("Confirm Upload")}
+                        {t("Confirm")}
                       </button>
                     </div>
                   </div>

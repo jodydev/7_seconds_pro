@@ -17,6 +17,7 @@ import PageNotFound from "./pages/PageNotFound";
 import JobDetails from "./components/Jobs/JobDetails";
 import UserDetails from "./components/Users/UserDetails";
 import UpgradePlan from "./pages/UpgradePlan";
+import Loader from "./components/Loader";
 import { I18nextProvider } from "react-i18next";
 import i18n from "./i18n";
 
@@ -28,11 +29,7 @@ export function App() {
   const { session, user, loading } = useAuth();
 
   if (loading) {
-    return (
-      <div className="text-center flex items-center justify-center">
-        <img src="/public/7secondspro-logo" className="w-full " />
-      </div>
-    );
+    return <Loader />;
   }
 
   return (

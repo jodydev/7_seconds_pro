@@ -7,8 +7,8 @@ import { FaPencil } from "react-icons/fa6";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import supabase from "../../supabase/client";
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -19,7 +19,6 @@ const senioritys = [
   { id: 2, name: "Mid" },
   { id: 3, name: "Senior" },
 ];
-
 
 export default function Job({ closeModal, onResult }) {
   const { t } = useTranslation();
@@ -34,19 +33,26 @@ export default function Job({ closeModal, onResult }) {
   const editorConfiguration = {
     toolbar: {
       items: [
-          'undo', 'redo',
-          '|', 'heading',
-          '|', 'fontfamily', 'fontsize', 'fontColor', 'fontBackgroundColor',
-          '|', 'bold', 'italic', 'strikethrough', 'subscript', 'superscript', 'code',
-          '|', 'link', 'uploadImage', 'blockQuote', 'codeBlock',
-          '|', 'bulletedList', 'numberedList', 'todoList', 'outdent', 'indent'
+        "undo",
+        "redo",
+        "|",
+        "heading",
+        "|",
+        "fontfamily",
+        "fontsize",
+        "fontColor",
+        "fontBackgroundColor",
+        "|",
+        "bold",
+        "italic",
+        "strikethrough",
+        "subscript",
+        "superscript",
+        "code",
       ],
-      shouldNotGroupWhenFull: false
-  },  
+    },
     placeholder: t("Enter your job description here..."),
-};
-
-
+  };
 
   const sendJob = async (e) => {
     e.preventDefault();
@@ -54,14 +60,14 @@ export default function Job({ closeModal, onResult }) {
       const companyName = e.target.elements["company-name"].value;
       const role = e.target.elements["role"].value;
       const seniority = selected.name;
-  
+
       const jobData = {
         company_name: companyName,
         description: jobDescription,
         role: role,
         seniority: seniority,
       };
-      
+
       const { data, error } = await supabase
         .from("jobs")
         .insert([jobData])
@@ -274,7 +280,7 @@ export default function Job({ closeModal, onResult }) {
                       onChange={(event, editor) => {
                         const data = editor.getData();
                         setJobDescription(data);
-                    }}
+                      }}
                     />
                   </div>
                 </div>
