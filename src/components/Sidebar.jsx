@@ -1,24 +1,15 @@
 import { useLocation, Link, useNavigate } from "react-router-dom";
-import supabase from "../supabase/client";
 import { useAppContext } from "../context/AppContext";
 import { BsStars } from "react-icons/bs";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import {
-  Bars3Icon,
-  DocumentDuplicateIcon,
-  HomeIcon,
-  XMarkIcon,
-  BriefcaseIcon,
-} from "@heroicons/react/24/outline";
+import { BiSupport } from "react-icons/bi";
+import { Bars3Icon, HomeIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { TbLogout2 } from "react-icons/tb";
 import { getUserData } from "../hook/getUserData";
 import { LuUser2 } from "react-icons/lu";
 import { useTranslation } from "react-i18next";
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
+import supabase from "../supabase/client";
 
 export default function Sidebar() {
   const { t } = useTranslation();
@@ -41,6 +32,7 @@ export default function Sidebar() {
       icon: trial || expired ? BsStars : LuUser2,
       current: false,
     },
+    { name: t("Support"), to: "/support", icon: BiSupport, current: false },
   ];
 
   const signOut = async () =>
@@ -48,7 +40,7 @@ export default function Sidebar() {
 
   return (
     <header className={`${modalOpen ? "opacity-10" : "opacity-100"}`}>
-      {/* Mobile sidebar */}
+      {/* MOBILE SIDEBAR */}
       <Transition.Root show={sidebarOpen} as={Fragment}>
         <Dialog
           as="div"
@@ -116,20 +108,18 @@ export default function Sidebar() {
                             <li key={item.name}>
                               <Link
                                 to={item.to}
-                                className={classNames(
+                                className={`${
                                   item.current
                                     ? "bg-gray-50 text-indigo-600"
-                                    : "text-gray-700 hover:text-indigo-600 hover:bg-gray-50",
-                                  "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
-                                )}
+                                    : "text-gray-700 hover:text-indigo-600 hover:bg-gray-50"
+                                } group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold`}
                               >
                                 <item.icon
-                                  className={classNames(
+                                  className={`${
                                     item.current
                                       ? "text-indigo-600"
-                                      : "text-gray-400 group-hover:text-indigo-600",
-                                    "h-6 w-6 shrink-0"
-                                  )}
+                                      : "text-gray-400 group-hover:text-indigo-600"
+                                  } h-6 w-6 shrink-0`}
                                   aria-hidden="true"
                                 />
                                 {item.name}
@@ -156,33 +146,30 @@ export default function Sidebar() {
         </Dialog>
       </Transition.Root>
 
-      {/* Static sidebar for desktop */}
+      {/* DESKTOP SIDEBAR */}
       <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
         <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6">
           <h3 className="text-2xl font-semibold leading-6 text-gray-900 mt-10 ">
             {t("Menu")}
           </h3>
-
           <nav className="flex flex-1 flex-col border-t text-gray-900 ">
             <ul role="list" className="flex flex-1 flex-col gap-y-2 mt-3">
               {navigation.map((item) => (
                 <li key={item.name}>
                   <Link
                     to={item.to}
-                    className={classNames(
+                    className={`${
                       location.pathname === item.to
                         ? "bg-gray-50 text-indigo-600"
-                        : "text-gray-700 hover:text-indigo-600 hover:bg-gray-50",
-                      "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
-                    )}
+                        : "text-gray-700 hover:text-indigo-600 hover:bg-gray-50"
+                    } group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold`}
                   >
                     <item.icon
-                      className={classNames(
+                      className={`${
                         location.pathname === item.to
                           ? "text-indigo-600"
-                          : "text-gray-400 group-hover:text-indigo-600",
-                        "h-6 w-6 shrink-0"
-                      )}
+                          : "text-gray-400 group-hover:text-indigo-600"
+                      } h-6 w-6 shrink-0`}
                       aria-hidden="true"
                     />
                     {item.name}
@@ -204,7 +191,6 @@ export default function Sidebar() {
           </nav>
         </div>
       </div>
-
       <div className="sticky top-0 z-40 flex items-center gap-x-6 bg-white px-4 py-4 shadow-sm sm:px-6 lg:hidden">
         <button
           type="button"

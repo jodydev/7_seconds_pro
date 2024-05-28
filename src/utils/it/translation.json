@@ -114,5 +114,13 @@
   "Top up your credits to continue with the features.": "Ricarica i tuoi crediti per continuare con le funzionalità.",
   "Failed" : "Fallito",
   "Upload More" : "Carica di più",
-  "Confirm" : "Conferma"
+  "Confirm" : "Conferma",
+  "Support" : "Supporto",
+  "Forgot your password?" : "Hai dimenticato la tua password?",
+  "Reset Password" : "Reimposta Password",
+  "Success" : "Successo",
+  "Reset email sent, please check your inbox" : "Email di reset password inviata, controlla la tua casella di posta",
+  "Reset your password" : "Reimposta la tua password",
+  "Send reset email" : "Invia email di reset",
+  "Click here" : "Clicca qui"
 }

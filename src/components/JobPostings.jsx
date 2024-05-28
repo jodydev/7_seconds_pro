@@ -174,9 +174,7 @@ export default function JobPostings() {
                   <span>
                     <TbSquareRoundedPlusFilled className="w-6 h-6 me-0 sm:me-2" />
                   </span>
-                  <span className="hidden sm:block">
-                     {t("New Job")}
-                  </span>
+                  <span className="hidden sm:block">{t("New Job")}</span>
                 </button>
               </div>
             )}
@@ -254,20 +252,22 @@ export default function JobPostings() {
                 <tbody>
                   <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                     <td className="text-center py-6" colSpan="4">
-                      <p className="text-3xl 2xl:text-5xl font-semibold">
+                      <p className="text-base sm:text-2xl 2xl:text-5xl  font-semibold">
                         {t("No Jobs Found...")}
                       </p>
-                      <p className="text-xl 2xl:text-4xl font-semibold my-3">
+                      <p className="text-base sm:text-xl  2xl:text-4xl  font-semibold my-0 sm:my-3">
                         {t("Insert your first")}{" "}
                         <span className="text-indigo-500"> {t("Job!")}</span>
                       </p>
                       <button
                         onClick={openModal}
                         type="button"
-                        className="my-3 inline-flex items-center rounded-xl bg-indigo-600 px-3 py-2 2xl:px-6 2xl:py-4 text-lg 2xl:text-2xl font-semibold text-white shadow-sm hover:cursor-pointer hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        className="mt-5 relative inline-flex items-center rounded-xl bg-indigo-600 px-2 sm:px-3 py-2 text-lg 2xl:text-xl hover:cursor-pointer font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                       >
-                        <TbSquareRoundedPlusFilled className="w-6 h-6 me-2" />
-                        {t("New Job")}
+                        <span>
+                          <TbSquareRoundedPlusFilled className="w-6 h-6 me-0 sm:me-2" />
+                        </span>
+                        <span className="hidden sm:block">{t("New Job")}</span>
                       </button>
                     </td>
                   </tr>

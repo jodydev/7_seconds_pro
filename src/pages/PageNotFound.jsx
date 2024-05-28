@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 
 export default function PageNotFound() {
   const { t } = useTranslation();
+  
   return (
     <div className="flex items-center justify-center h-screen">
       <div className="text-center">

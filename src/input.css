@@ -171,6 +171,7 @@
 
 .ck-editor__editable_inline {
   min-height: 150px;
+  max-height: 150px;
 }
 
 strong {

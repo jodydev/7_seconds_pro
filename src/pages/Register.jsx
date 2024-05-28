@@ -63,7 +63,7 @@ export default function Register() {
   return (
     <section className="bg-gradient-to-r from-violet-600 to-indigo-600">
       {error && (
-        <div className="text-center pt-10">
+        <div className="text-center absolute right-0 left-0 top-10">
           <div
             className="p-3 bg-red-500 items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex"
             role="alert"
@@ -109,7 +109,7 @@ export default function Register() {
       )}
 
       {registerStep && (
-        <div className="flex min-h-full flex-1 flex-col items-center justify-center h-screen px-6 2xl:px-0">
+        <div className="flex min-h-full flex-1 flex-col py-40 h-screen px-6 2xl:px-0">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <h2 className="text-center text-2xl 2xl:text-4xl text-nowrap font-bold leading-9 tracking-tight text-white">
               {t("Register your account")}
