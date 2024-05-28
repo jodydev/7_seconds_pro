@@ -194,14 +194,14 @@ export default function FilterUsersForJob({ refresh }) {
           ) : (
             <table className="w-full text-left rtl:text-right text-gray-500 dark:text-gray-400">
               <thead className=" text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr className="2xl:text-xl">
-                  <th scope="col" className="px-3 py-3 ">
+                <tr className="text-sm md:text-base 2xl:text-xl">
+                  <th scope="col" className="px-2 md:px-3 md:py-3 ">
                     {t("Status")}
                   </th>
-                  <th scope="col" className="px-3 py-3 ">
+                  <th scope="col" className="px-2 md:px-3 md:py-3 ">
                     {t("Candidate")}
                   </th>
-                  <th scope="col" className="px-3 py-3">
+                  <th scope="col" className="px-2 md:px-3 md:py-3">
                     <button
                       onClick={handleSortByCreatedAt}
                       className="flex items-center focus:outline-none hover:cursor-pointer"
@@ -214,13 +214,13 @@ export default function FilterUsersForJob({ refresh }) {
                       )}
                     </button>
                   </th>
-                  <th scope="col" className="px-3 py-3">
+                  <th scope="col" className="px-2 md:px-3 md:py-3">
                     {t("Age")}
                   </th>
-                  <th scope="col" className="px-3 py-3">
+                  <th scope="col" className="px-2 md:px-3 md:py-3">
                     {t("City")}
                   </th>
-                  <th scope="col" className="px-3 py-3">
+                  <th scope="col" className="px-2 md:px-3 md:py-3">
                     {t("AI Score")}
                     <button
                       onClick={handleSortByRating}

@@ -47,6 +47,8 @@ export default function HeaderCard() {
   const totalJobs = useGetTotalJobs();
   const fileCount = useFileCount();
   const { t } = useTranslation();
+  const isMobile = window.matchMedia("(max-width: 768px)").matches;
+
 
   const config = {
     home: [
@@ -54,28 +56,28 @@ export default function HeaderCard() {
         name: t("Jobs"),
         stat: totalJobs,
         icon: WorkIcon,
-        aos: "fade-down",
+        aos: isMobile ? "fade-left" : "fade-down",
         bgCard: "indigo-700",
       },
       {
         name: "CVs",
         stat: fileCount,
         icon: FileIcon,
-        aos: "fade-down",
+        aos: isMobile ? "fade-right" : "fade-down",
         bgCard: "indigo-700",
       },
       {
         name: t("Credits"),
         stat: accountCredits,
         icon: BsStars,
-        aos: "fade-down",
+        aos: isMobile ? "fade-left" : "fade-down",
         bgCard: "indigo-700",
       },
       {
         name: t("Subscription"),
         stat: subscription,
         icon: FaUsers,
-        aos: "fade-down",
+        aos: isMobile ? "fade-right" : "fade-down",
         bgCard: "white",
         colorText: "gray-900",
       },

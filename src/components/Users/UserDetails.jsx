@@ -67,15 +67,15 @@ export default function UserDetails() {
               <div className="px-0 2xl:px-4 py-6 2xl:py-8 w-full mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6 bg-white shadow-lg rounded-2xl">
                 <div className="flex justify-between items-center gap-0 2xl:gap-60">
                   <div className="flex">
-                    <h2 className="text-xl ms-6 font-bold leading-7 text-gray-900 sm:truncate 2xl:text-4xl sm:tracking-tight">
+                    <h2 className="text-xl ms-4 sm:ms-6 font-bold leading-7 text-gray-900 sm:truncate 2xl:text-4xl sm:tracking-tight">
                       {applicant.fullname || (
-                        <div className="animate-pulse h-7 w-60 bg-gray-200 rounded-lg mb-1"></div>
+                        <div className="animate-pulse h-7 w-20 sm:w-60 bg-gray-200 rounded-lg mb-1"></div>
                       )}
                     </h2>
                     <div className="flex items-center ml-5">
                       {applicant.rating === null ||
                       applicant.rating === undefined ? (
-                        <div className="animate-pulse h-7 w-40 bg-gray-200 rounded-lg mb-1"></div>
+                        <div className="animate-pulse h-7 w-32 sm:w-40 bg-gray-200 rounded-lg mb-1"></div>
                       ) : (
                         <StarRatings
                           rating={applicant.rating}
@@ -89,8 +89,9 @@ export default function UserDetails() {
                     </div>
                   </div>
                 </div>
+
                 <div className="mt-1 w-full">
-                  <h3 className="text-sm 2xl:text-lg font-semibold leading-7 text-gray-900">
+                  <h3 className="ms-4 sm:ms-0 text-sm 2xl:text-lg font-semibold leading-7 text-gray-900">
                     {t("Applied for:")}{" "}
                     <a
                       href={`/job-details/${applicant.jobid}`}
@@ -169,31 +170,30 @@ export default function UserDetails() {
 
                   <div className="mt-1 flex flex-col">
                     <div className="mt-1 2xl:mt-3 border-t border-gray-100 ">
-                    <div className="mt-1 2xl:mt-5 text-xs 2xl:text-sm max-w-2xl leading-7 text-gray-500 w-full">
-  {applicant.feedback ? (
-    <p>{applicant.feedback}</p>
-  ) : (
-    <div className="flex-col">
-      <div className="animate-pulse w-3/4 h-6 bg-gray-200 rounded-lg"></div>
-      <div className="animate-pulse w-full h-6 bg-gray-200 rounded-lg mt-2"></div>
-      <div className="animate-pulse w-3/5 h-6 bg-gray-200 rounded-lg mt-2"></div>
-      <div className="animate-pulse w-3/4 h-6 bg-gray-200 rounded-lg mt-2"></div>
-      <div className="animate-pulse w-full h-6 bg-gray-200 rounded-lg mt-2"></div>
-      <div className="animate-pulse w-3/4 h-6 bg-gray-200 rounded-lg mt-2"></div>
-      <div className="animate-pulse w-full h-6 bg-gray-200 rounded-lg mt-2"></div>
-      <div className="animate-pulse w-3/6 h-6 bg-gray-200 rounded-lg mt-2"></div>
-      <div className="animate-pulse w-3/4 h-6 bg-gray-200 rounded-lg mt-2"></div>
-      <div className="animate-pulse w-2/3 h-6 bg-gray-200 rounded-lg mt-2"></div>
-      <div className="animate-pulse w-3/3 h-6 bg-gray-200 rounded-lg mt-2"></div>
-      <div className="animate-pulse w-2/3 h-6 bg-gray-200 rounded-lg mt-2"></div>
-      <div className="animate-pulse w-3/6 h-6 bg-gray-200 rounded-lg mt-2"></div>
-      <div className="animate-pulse w-full h-6 bg-gray-200 rounded-lg mt-2"></div>
-      <div className="animate-pulse w-3/5 h-6 bg-gray-200 rounded-lg mt-2"></div>
-      <div className="animate-pulse w-3/4 h-6 bg-gray-200 rounded-lg mt-2"></div>
-    </div>
-  )}
-</div>
-
+                      <div className="mt-1 2xl:mt-5 text-xs 2xl:text-sm max-w-2xl leading-7 text-gray-500 w-full">
+                        {applicant.feedback ? (
+                          <p>{applicant.feedback}</p>
+                        ) : (
+                          <div className="flex-col mt-4 sm:mt-0">
+                            <div className="animate-pulse w-3/4 h-6 bg-gray-200 rounded-lg"></div>
+                            <div className="animate-pulse w-full h-6 bg-gray-200 rounded-lg mt-2"></div>
+                            <div className="animate-pulse w-3/5 h-6 bg-gray-200 rounded-lg mt-2"></div>
+                            <div className="animate-pulse w-3/4 h-6 bg-gray-200 rounded-lg mt-2"></div>
+                            <div className="animate-pulse w-full h-6 bg-gray-200 rounded-lg mt-2"></div>
+                            <div className="animate-pulse w-3/4 h-6 bg-gray-200 rounded-lg mt-2"></div>
+                            <div className="animate-pulse w-full h-6 bg-gray-200 rounded-lg mt-2"></div>
+                            <div className="animate-pulse w-3/6 h-6 bg-gray-200 rounded-lg mt-2"></div>
+                            <div className="animate-pulse w-3/4 h-6 bg-gray-200 rounded-lg mt-2"></div>
+                            <div className="hidden sm_block animate-pulse w-2/3 h-6 bg-gray-200 rounded-lg mt-2"></div>
+                            <div className="hidden sm_block animate-pulse w-3/3 h-6 bg-gray-200 rounded-lg mt-2"></div>
+                            <div className="hidden sm_block animate-pulse w-2/3 h-6 bg-gray-200 rounded-lg mt-2"></div>
+                            <div className="hidden sm_block animate-pulse w-3/6 h-6 bg-gray-200 rounded-lg mt-2"></div>
+                            <div className="hidden sm_block animate-pulse w-full h-6 bg-gray-200 rounded-lg mt-2"></div>
+                            <div className="hidden sm_block animate-pulse w-3/5 h-6 bg-gray-200 rounded-lg mt-2"></div>
+                            <div className="hidden sm_block animate-pulse w-3/4 h-6 bg-gray-200 rounded-lg mt-2"></div>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>

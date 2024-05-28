@@ -138,6 +138,15 @@ export default function Sidebar() {
                           ))}
                         </ul>
                       </li>
+                      <li className="mt-auto">
+                        <button
+                          onClick={() => signOut()}
+                          className="flex items-center py-2 px-4 text-sm font-semibold bg-red-500 hover:bg-red-600 rounded-lg transition duration-300 ease-in-out"
+                        >
+                          <TbLogout2 className="h-6 w-6 mr-2 text-white" />
+                          <span className="text-white"> {t("Sign out")}</span>
+                        </button>
+                      </li>
                     </ul>
                   </nav>
                 </div>
@@ -206,11 +215,13 @@ export default function Sidebar() {
           <Bars3Icon className="h-6 w-6" aria-hidden="true" />
         </button>
         <div className="flex-1 text-sm font-semibold leading-6 text-gray-900">
-          <img
-            className="w-auto h-[30px]"
-            src="/7secondspro-logo/1.png"
-            alt="7Seconds Pro"
-          />
+          <a href="/home">
+            <img
+              className="w-auto h-[30px]"
+              src="/7secondspro-logo/1.png"
+              alt="7Seconds Pro"
+            />
+          </a>
         </div>
       </div>
     </header>

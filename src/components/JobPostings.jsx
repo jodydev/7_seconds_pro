@@ -169,10 +169,14 @@ export default function JobPostings() {
                 <button
                   onClick={openModal}
                   type="button"
-                  className="relative inline-flex items-center rounded-xl bg-indigo-600 px-3 py-2 text-lg 2xl:text-xl hover:cursor-pointer font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  className="relative inline-flex items-center rounded-xl bg-indigo-600 px-2 sm:px-3 py-2 text-lg 2xl:text-xl hover:cursor-pointer font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
-                  <TbSquareRoundedPlusFilled className="w-6 h-6 me-2" />
-                  {t("New Job")}
+                  <span>
+                    <TbSquareRoundedPlusFilled className="w-6 h-6 me-0 sm:me-2" />
+                  </span>
+                  <span className="hidden sm:block">
+                     {t("New Job")}
+                  </span>
                 </button>
               </div>
             )}
@@ -299,7 +303,8 @@ export default function JobPostings() {
                 <div>
                   <p className="text-sm 2xl:text-base text-gray-700">
                     {t("Showing")}{" "}
-                    <span className="font-semibold text-indigo-500">1</span> {t("to")}{" "}
+                    <span className="font-semibold text-indigo-500">1</span>{" "}
+                    {t("to")}{" "}
                     <span className="font-semibold text-indigo-500">
                       {currentJobs.length}
                     </span>{" "}

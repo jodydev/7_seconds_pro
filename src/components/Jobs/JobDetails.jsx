@@ -157,7 +157,7 @@ export default function JobDetails() {
       >
         {selectedJob && (
           <div className={`${modalOpen ? "opacity-10" : "opacity-100"}`}>
-            <div className="absolute left-[-20px] 2xl:left-[-25px] 2xl:top-[-30px] top-[-10px] rounded-full">
+            <div className="absolute left-[-10px] md:left-[-20px] 2xl:left-[-25px] 2xl:top-[-30px] top-[-10px] rounded-full">
               <button
                 onClick={goBack}
                 className="bg-indigo-500 hover:bg-indigo-600 text-white font-bold p-2 rounded-full focus:outline-none focus:shadow-outline"
@@ -165,7 +165,7 @@ export default function JobDetails() {
                 <IoArrowUndo className="2xl:w-6 2xl:h-6 w-4 h-4" />
               </button>
             </div>
-            <div className="lg:flex lg:items-center lg:justify-betwee ">
+            <div className="lg:flex lg:items-center lg:justify-between">
               <div className="min-w-0 flex-1 relative">
                 <h2
                   className="text-xl 2xl:text-4xl font-bold leading-7 text-gray-900 truncate tracking-tight cursor-pointer"
@@ -179,7 +179,7 @@ export default function JobDetails() {
                 </div>
 
                 <div className="my-1 2xl:my-3 flex flex-col sm:flex-row sm:flex-wrap sm:space-x-6">
-                  <div className=" flex items-center text-sm 2xl:text-base text-gray-500">
+                  <div className="flex items-center text-sm 2xl:text-base text-gray-500">
                     <CalendarIcon
                       className="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400"
                       aria-hidden="true"
@@ -194,20 +194,23 @@ export default function JobDetails() {
                 </div>
               </div>
               {accountCredits > 0 || applicants.length >= 1 ? (
-                <div className="flex">
+                <div className="relative md:static md:flex">
                   <button
                     onClick={openModal}
                     type="button"
-                    className="inline-flex items-center rounded-2xl bg-indigo-600 px-4 py-3 2xl:px-5  text-base 2xl:text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    className="absolute md:relative right-0 bottom-[-25px] sm:bottom-0 inline-flex items-center rounded-2xl bg-indigo-600 px-2 py-2 md:px-4 md:py-3 2xl:px-5 text-base 2xl:text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   >
-                    <BsStars className="me-2 w-6 h-6" />
-                    {t("Upload CVs")}
+                    <span>
+                      <BsStars className="me-0 md:me-2 md:w-6 md:h-6" />
+                    </span>
+                    <span className="hidden md:block">{t("Upload CVs")}</span>
                   </button>
                 </div>
               ) : (
                 ""
               )}
             </div>
+
             <div className="mt-3 border-t border-gray-100">
               <dl className="divide-y divide-gray-100">
                 <div className="mt-2 w-full">

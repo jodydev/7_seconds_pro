@@ -83,7 +83,7 @@ export default function Register() {
       )}
 
       {confirmEmail && (
-        <div className="py-40 2xl:py-96 flex-col items-center justify-center h-screen text-center bg-white">
+        <div className="py-20 2xl:py-96 flex-col items-center justify-center h-screen text-center bg-white">
           <img
             src="/email.gif"
             alt="Email"
@@ -109,7 +109,7 @@ export default function Register() {
       )}
 
       {registerStep && (
-        <div className="flex min-h-full flex-1 flex-col items-center justify-center  h-screen ">
+        <div className="flex min-h-full flex-1 flex-col items-center justify-center h-screen px-6 2xl:px-0">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <h2 className="text-center text-2xl 2xl:text-4xl text-nowrap font-bold leading-9 tracking-tight text-white">
               {t("Register your account")}

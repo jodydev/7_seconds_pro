@@ -46,7 +46,7 @@ export default function Ai({ closeModal, onResult, onUploadCv, refreshData }) {
   const getFiles = (event) => {
     const selectedFiles = event.target.files;
     const filesArray = Array.from(selectedFiles);
-    setFiles(prevFiles => [...prevFiles, ...filesArray]);
+    setFiles((prevFiles) => [...prevFiles, ...filesArray]);
     setReady(true);
   };
 
@@ -143,12 +143,12 @@ export default function Ai({ closeModal, onResult, onUploadCv, refreshData }) {
         id="crud-modal"
         tabIndex="-1"
         aria-hidden="true"
-        className="flex overflow-hidden overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+        className="flex overflow-hidden overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full h-[calc(100%-1rem)] max-h-full"
       >
-        <div className="relative p-10 w-full md:max-w-[50%]">
-          <div className="relative bg-white rounded-lg dark:bg-gray-700 py-6 px-12 border border-indigo-50 shadow-lg shadow-indigo-500/50">
+        <div className="relative p-4 w-full md:max-w-[50%]">
+          <div className="relative bg-white rounded-lg dark:bg-gray-700 py-4 px-6 md:py-6 md:px-12 border border-indigo-50 shadow-lg shadow-indigo-500/50">
             <div className="flex items-center justify-between my-2 border-b rounded-t dark:border-gray-600 ">
-              <h3 className="text-2xl 2xl:text-3xl my-2 font-semibold text-gray-900 dark:text-white">
+              <h3 className="text-xl md:text-2xl 2xl:text-3xl my-2 font-semibold text-gray-900 dark:text-white">
                 {files.length > 0
                   ? `${files.length} ${t("Selected files")}`
                   : t("Upload CVs to Analyze")}
@@ -157,13 +157,13 @@ export default function Ai({ closeModal, onResult, onUploadCv, refreshData }) {
               {files.length > 0 ? (
                 ""
               ) : (
-                <BsStars className="w-8 h-8 ml-2 text-yellow-300" />
+                <BsStars className="w-6 h-6 md:w-8 md:h-8 ml-2 text-yellow-300" />
               )}
 
               <button
                 onClick={closeModal}
                 type="button"
-                className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-6 h-6 md:w-8 md:h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
                 data-modal-toggle="crud-modal"
               >
                 <svg
@@ -186,15 +186,15 @@ export default function Ai({ closeModal, onResult, onUploadCv, refreshData }) {
             </div>
 
             <form>
-              <div className="w-full h-full my-0 2xl:my-10">
-                <div className="flex-col items-center justify-center w-full px-6 overflow-y-auto">
+              <div className="w-full h-full my-0 md:my-10">
+                <div className="flex-col items-center justify-center w-full px-4 md:px-6 overflow-y-auto">
                   <div className="text-center max-h-[400px] ">
                     {loading ? (
-                      <div className="loader my-40 px-10 2xl:px-60">
-                        <p className="text-lg 2xl:text-2xl text-nowrap">
+                      <div className="loader py-10 sm:my-20 px-0 sm:px-10 2xl:px-60">
+                        <p className="text-lg md:text-xl 2xl:text-2xl text-nowrap">
                           {t("Please wait, loading...")}
                         </p>
-                        <span className="words text-lg 2xl:text-2xl text-indigo-500">
+                        <span className="hidden sm:block words text-lg md:text-xl 2xl:text-2xl text-indigo-500">
                           <p className="word">{t("curriculum")}</p>
                           <p className="word">{t("skills")}</p>
                           <p className="word">{t("experiences")}</p>
@@ -209,24 +209,24 @@ export default function Ai({ closeModal, onResult, onUploadCv, refreshData }) {
                             <img
                               src="/upload.gif"
                               alt="Upload File"
-                              className="mx-auto h-[220px] w-[220px] 2xl:h-[260px] 2xl:w-[260px] text-gray-400"
+                              className="mx-auto h-[180px] w-[180px] md:h-[220px] md:w-[220px] 2xl:h-[260px] 2xl:w-[260px] text-gray-400"
                             />
-                            <h3 className="text-sm 2xl:text-lg font-semibold text-gray-900">
+                            <h3 className="text-sm md:text-lg font-semibold text-gray-900">
                               {t(
                                 "Upload one or more files to start processing..."
                               )}
                             </h3>
-                            <p className="text-xs 2xl:text-sm italic my-1">
+                            <p className="text-xs md:text-sm italic my-1">
                               {t("*only accepts pdf files")}
                             </p>
 
                             <div className="my-5">
-                              <div className="inline-flex items-center rounded-xl bg-indigo-500 px-4 py-3 2xl:px-5  text-base font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                              <div className="inline-flex items-center rounded-xl bg-indigo-500 px-3 py-2 md:px-4 md:py-3 2xl:px-5 text-base font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                                 <label
                                   htmlFor="file-upload"
-                                  className="cursor-pointer flex items-center text-xs 2xl:text-lg"
+                                  className="cursor-pointer flex items-center text-xs md:text-sm 2xl:text-lg"
                                 >
-                                  <TbSquareRoundedPlusFilled className="me-2 h-5 w-5 2xl:h-6 2xl:w-6" />
+                                  <TbSquareRoundedPlusFilled className="me-2 h-5 w-5 md:h-6 md:w-6" />
                                   {t("Upload Files")}
                                 </label>
 
@@ -250,23 +250,23 @@ export default function Ai({ closeModal, onResult, onUploadCv, refreshData }) {
                                     className="flex items-center justify-center"
                                     key={`${file.name}-${uuidv4()}}`}
                                   >
-                                    <div className="bg-gray-50 my-1 px-2 py-2 2xl:px-4 2xl:py-3 2xl:my-2 rounded-xl hover:cursor-pointer w-full 2xl:w-1/2">
+                                    <div className="bg-gray-50 my-1 px-2 py-2 md:px-4 md:py-3 md:my-2 rounded-xl hover:cursor-pointer w-full md:w-3/4 2xl:w-1/2">
                                       <div className="lg:flex lg:items-center lg:justify-between">
-                                        <div className="min-w-0 flex ">
-                                          <GrDocumentPdf className="mx-3 h-5 w-5 2xl:h-6 2xl:w-6" />
-                                          <p className="text-sm 2xl:text-base font-semibold leading-7 text-gray-900 sm:truncate sm:tracking-tight">
+                                        <div className="min-w-0 flex">
+                                          <GrDocumentPdf className="mx-3 h-5 w-5 md:h-6 md:w-6" />
+                                          <p className="truncate text-sm md:text-base font-semibold leading-7 text-gray-900 sm:truncate sm:tracking-tight">
                                             {file.name}
                                           </p>
                                         </div>
                                         <div className="mt-5 flex lg:ml-4 lg:mt-0">
-                                          <span className="hidden sm:block">
+                                          <span className="flex-row w-full">
                                             <button
                                               onClick={() => deleteFiles(index)}
                                               type="button"
-                                              className="inline-flex items-center rounded-md bg-red-500 px-3 py-2 text-xs font-semibold text-white shadow-sm hover:bg-red-600 hover:cursor-pointer"
+                                              className="inline-flex items-center rounded-md bg-red-500 px-3 py-2 text-xs md:text-sm font-semibold text-white shadow-sm hover:bg-red-600 hover:cursor-pointer"
                                             >
                                               <svg
-                                                className="-ml-0.5 mr-1.5 w-4 h-4 2xl:h-5 2xl:w-5 text-white"
+                                                className="-ml-0.5 sm:mr-1.5 w-4 h-4 md:h-5 md:w-5 text-white"
                                                 fill="currentColor"
                                                 viewBox="0 0 20 20"
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -278,7 +278,10 @@ export default function Ai({ closeModal, onResult, onUploadCv, refreshData }) {
                                                   d="M8.75 1A2.75 2.75 0 0 0 6 3.75v.443c-.795.077-1.584.176-2.365.298a.75.75 0 1 0 .23 1.482l.149-.022.841 10.518A2.75 2.75 0 0 0 7.596 19h4.807a2.75 2.75 0 0 0 2.742-2.53l.841-10.52.149.023a.75.75 0 0 0 .23-1.482A41.03 41.03 0 0 0 14 4.193V3.75A2.75 2.75 0 0 0 11.25 1h-2.5ZM10 4c.84 0 1.673.025 2.5.075V3.75c0-.69-.56-1.25-1.25-1.25h-2.5c-.69 0-1.25.56-1.25 1.25v.325C8.327 4.025 9.16 4 10 4ZM8.58 7.72a.75.75 0 0 0-1.5.06l.3 7.5a.75.75 0 1 0 1.5-.06l-.3-7.5Zm4.34.06a.75.75 0 1 0-1.5-.06l-.3 7.5a.75.75 0 1 0 1.5.06l.3-7.5Z"
                                                 />
                                               </svg>
+                                              <p className="hidden sm:block">
                                               {t("Delete")}
+
+                                              </p>
                                             </button>
                                           </span>
                                         </div>
@@ -295,13 +298,13 @@ export default function Ai({ closeModal, onResult, onUploadCv, refreshData }) {
                   </div>
                 </div>
                 {ready && (
-                  <div className="my-5 2xl:my-10 flex items-center justify-center gap-5">
-                    <div className="flex gap-3 justify-center items-center rounded-xl bg-gray-50 px-4 py-3 text-xs 2xl:text-lg font-semibold text-black shadow-sm hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                  <div className="my-5 2xl:my-10 flex items-center justify-center gap-3 md:gap-5">
+                    <div className="flex gap-2 md:gap-3 justify-center items-center rounded-xl bg-gray-50 px-3 py-2 md:px-4 md:py-3 text-xs md:text-base 2xl:text-lg font-semibold text-black shadow-sm hover:bg-gray-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                       <label
                         htmlFor="file-upload"
-                        className="cursor-pointer flex items-center text-xs 2xl:text-lg"
+                        className="cursor-pointer flex items-center text-xs md:text-base 2xl:text-lg"
                       >
-                        <TbSquareRoundedPlusFilled className="me-2 h-5 w-5 2xl:h-6 2xl:w-6" />
+                        <TbSquareRoundedPlusFilled className="me-2 h-5 w-5 md:h-6 md:w-6" />
                         {t("Upload More")}
                       </label>
                       <input
@@ -313,15 +316,14 @@ export default function Ai({ closeModal, onResult, onUploadCv, refreshData }) {
                         onChange={getFiles}
                       />
                     </div>
-                    <div className="flex gap-3 justify-center items-center rounded-xl bg-indigo-500 px-4 py-3 text-xs 2xl:text-lg font-semibold text-white shadow-sm hover:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                    <div className="flex gap-2 md:gap-3 justify-center items-center rounded-xl bg-indigo-500 px-3 py-2 md:px-4 md:py-3 text-xs md:text-base 2xl:text-lg font-semibold text-white shadow-sm hover:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                       <button
                         id="confirm-upload"
                         type="button"
                         className="flex items-center text-nowrap"
                         onClick={handleUpload}
                       >
-                        {" "}
-                        <FaCheckCircle className="me-2 h-5 w-5 2xl:h-6 2xl:w-6" />
+                        <FaCheckCircle className="me-2 h-5 w-5 md:h-6 md:w-6" />
                         {t("Confirm")}
                       </button>
                     </div>
