@@ -111,7 +111,7 @@ export default function FilterUsersForJob({ refresh }) {
       <div
         className={`${
           modalOpen ? "opacity-10" : "opacity-100"
-        } bg-white px-6 py-6 shadow-lg rounded-2xl mt-8 2xl:mt-10 `}
+        } bg-white px-6 py-6 shadow-lg rounded-2xl mt-4 sm:mt-8 2xl:mt-10 `}
       >
         <div className="flex flex-wrap items-center justify-between sm:flex-nowrap border-b border-gray-200">
           <div className="ml-0 2xl:ml-4 mb-4 2xl:mb-6">
@@ -149,24 +149,30 @@ export default function FilterUsersForJob({ refresh }) {
               <tbody>
                 <tr className="bg-white h-[380px] 2xl:h-[700px] border-b dark:bg-gray-800 dark:border-gray-700">
                   {accountCredits > 0 ? (
-                    <td className="text-center py-6" colSpan="8">
-                      <p className="text-2xl 2xl:text-5xl  font-semibold">
+                    <td className="text-center py-6 px-32 sm:px-0" colSpan="8">
+                     
+                      <p className="text-sm sm:text-2xl 2xl:text-5xl  font-semibold">
                         {t("No applications for this job yet...")}
                       </p>
-                      <p className="text-xl 2xl:text-4xl  font-semibold my-3">
+                      <p className="text-sm sm:text-xl  2xl:text-4xl  font-semibold my-0 sm:my-3">
                         {t("Upload your first")}
                         <span className="text-indigo-500 ms-2">{t("CV!")}</span>
                       </p>
-                      <div className="flex items-center justify-center mt-20">
-                        <button
-                          onClick={openModal}
-                          type="button"
-                          className="inline-flex items-center rounded-2xl bg-indigo-600 px-4 py-3 2xl:px-6 2xl:py-4 text-base 2xl:text-2xl font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                        >
-                          <BsStars className="me-2 w-6 h-6 2xl:w-8 2xl:h-8" />
-                          {t("Upload CVs")}
-                        </button>
+                      <div className="flex items-center justify-center mt-5 sm:mt-20">
+                      <button
+                    onClick={openModal}
+                    type="button"
+                    className="inline-flex items-center rounded-2xl bg-indigo-600 px-2 py-2 md:px-4 md:py-3 2xl:px-5 text-base 2xl:text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  >
+                    <span>
+                      <BsStars className="me-0 md:me-2 md:w-6 md:h-6" />
+                    </span>
+                    <span className="hidden md:block">{t("Upload CVs")}</span>
+                  </button>
+                     
                       </div>
+                      
+                   
                     </td>
                   ) : (
                     <td className="text-center py-6" colSpan="8">
