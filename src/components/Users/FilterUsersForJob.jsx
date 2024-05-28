@@ -150,7 +150,6 @@ export default function FilterUsersForJob({ refresh }) {
                 <tr className="bg-white h-[380px] 2xl:h-[700px] border-b dark:bg-gray-800 dark:border-gray-700">
                   {accountCredits > 0 ? (
                     <td className="text-center py-6 px-32 sm:px-0" colSpan="8">
-                     
                       <p className="text-sm sm:text-2xl 2xl:text-5xl  font-semibold">
                         {t("No applications for this job yet...")}
                       </p>
@@ -159,20 +158,19 @@ export default function FilterUsersForJob({ refresh }) {
                         <span className="text-indigo-500 ms-2">{t("CV!")}</span>
                       </p>
                       <div className="flex items-center justify-center mt-5 sm:mt-20">
-                      <button
-                    onClick={openModal}
-                    type="button"
-                    className="inline-flex items-center rounded-2xl bg-indigo-600 px-2 py-2 md:px-4 md:py-3 2xl:px-5 text-base 2xl:text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                  >
-                    <span>
-                      <BsStars className="me-0 md:me-2 md:w-6 md:h-6" />
-                    </span>
-                    <span className="hidden md:block">{t("Upload CVs")}</span>
-                  </button>
-                     
+                        <button
+                          onClick={openModal}
+                          type="button"
+                          className="inline-flex items-center rounded-2xl bg-indigo-600 px-2 py-2 md:px-4 md:py-3 2xl:px-5 text-base 2xl:text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        >
+                          <span>
+                            <BsStars className="me-0 md:me-2 md:w-6 md:h-6" />
+                          </span>
+                          <span className="hidden md:block">
+                            {t("Upload CVs")}
+                          </span>
+                        </button>
                       </div>
-                      
-                   
                     </td>
                   ) : (
                     <td className="text-center py-6" colSpan="8">
@@ -330,7 +328,7 @@ export default function FilterUsersForJob({ refresh }) {
                           applicant.rating === undefined ? (
                             <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
                           ) : (
-                            <>
+                            <div className="flex flex-row  flex-nowrap">
                               <StarRatings
                                 rating={applicant.rating}
                                 starRatedColor="gold"
@@ -346,7 +344,7 @@ export default function FilterUsersForJob({ refresh }) {
                                     : applicant.rating
                                 }`}
                               </p>
-                            </>
+                            </div>
                           )}
                         </div>
                       </Link>

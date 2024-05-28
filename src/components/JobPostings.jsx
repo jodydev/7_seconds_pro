@@ -285,7 +285,7 @@ export default function JobPostings() {
                 <Link
                   onClick={() => handlePageChange(currentPage - 1)}
                   className={`${
-                    currentPage === 1 ? "disabled" : ""
+                    currentPage === 1 ? "hidden" : ""
                   } relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-xs font-medium text-gray-700 hover:bg-gray-50`}
                 >
                   {t("Previous")}
@@ -294,7 +294,7 @@ export default function JobPostings() {
                   onClick={() => handlePageChange(currentPage + 1)}
                   className={`${
                     currentPage === totalPages ? "hidden" : ""
-                  } relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-xs font-medium text-gray-700 hover:bg-gray-50`}
+                  } relative  inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-xs font-medium text-gray-700 hover:bg-gray-50`}
                 >
                   {t("Next")}
                 </Link>
