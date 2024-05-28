@@ -201,13 +201,16 @@ export default function UserDetails() {
             </div>
           </div>
 
-          <div className="" data-aos="fade-left">
+          <div
+            data-aos="fade-left"
+            className="w-full h-screen md:h-auto overflow-hidden"
+          >
             <embed
               src={applicant.file}
               type="application/pdf"
               width="100%"
               height="100%"
-              className="shadow-2xl rounded-2xl"
+              className="shadow-2xl rounded-2xl w-full h-full"
             />
           </div>
         </section>
