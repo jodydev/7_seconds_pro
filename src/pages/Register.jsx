@@ -24,8 +24,7 @@ export default function Register() {
     try {
       const { error } = await supabase.auth.signUp({ email, password });
 
-      const passwordRegex =
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()])[A-Za-z\d!@#$%^&*()]{8,}$/;
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()])[A-Za-z\d!@#$%^&*()]{8,}$/;
 
       if (!passwordRegex.test(password)) {
         setError(false);

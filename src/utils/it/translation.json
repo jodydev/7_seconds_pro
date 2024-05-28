@@ -122,5 +122,11 @@
   "Reset email sent, please check your inbox" : "Email di reset password inviata, controlla la tua casella di posta",
   "Reset your password" : "Reimposta la tua password",
   "Send reset email" : "Invia email di reset",
-  "Click here" : "Clicca qui"
+  "Click here" : "Clicca qui",
+  "Confirm Password" : "Conferma Password",
+  "New Password" : "Nuova Password",
+  "Passwords do not match" : "Le password non corrispondono",
+  "The new password must be different from the previous one" : "La nuova password deve essere diversa da quella precedente",
+  "Internal server error, please try again later" : "Errore interno del server, riprova più tardi",
+  "Password updated successfully, you can now log in" : "Password aggiornata con successo, ora puoi accedere"
 }

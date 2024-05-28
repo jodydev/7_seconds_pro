@@ -20,6 +20,7 @@ import UpgradePlan from "./pages/UpgradePlan";
 import Loader from "./components/Loader";
 import { I18nextProvider } from "react-i18next";
 import i18n from "./i18n";
+import SetNewPassword from "./pages/SetNewPassword";
 
 export function App() {
   useEffect(() => {
@@ -36,6 +37,7 @@ export function App() {
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/set-new-password" element={<SetNewPassword />} />
       <Route
         path="/*"
         element={<LayoutWithRoutes session={session} user={user} />}
