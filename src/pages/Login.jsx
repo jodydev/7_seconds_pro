@@ -105,9 +105,9 @@ export default function Login() {
             </div>
           </div>
         )}
-        <div className="flex min-h-full flex-col py-40  h-screen px-6 2xl:px-0">
+        <div className="flex min-h-full flex-col py-40 2xl:py-96  h-screen px-6 2xl:px-0">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm ">
-            <h2 className="text-center text-2xl 2xl:text-4xl text-nowrap font-bold leading-9 tracking-tight text-white">
+            <h2 className="text-center text-2xl 2xl:text-4xl font-bold leading-9 tracking-tight text-white">
               {!showReset ? t("Login to your account") : t("Reset your password")}
             </h2>
           </div>

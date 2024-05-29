@@ -62,11 +62,14 @@ export default function SetNewPassword() {
           setErrorMessage(
             t("The new password must be different from the previous one")
           );
-        } else if (error.status === 500) {
+        } else {
           setError(true);
           setErrorMessage(t("Internal server error, please try again later"));
-        }
+          console.log(error);
+        } 
       } else {
+        setError(false);
+        setErrorMessage("");
         setMessage(true);
       }
     } catch (error) {
@@ -115,9 +118,9 @@ export default function SetNewPassword() {
           </div>
         </div>
       )}
-      <div className="flex min-h-full flex-col py-40  h-screen px-6 2xl:px-0">
+      <div className="flex min-h-full flex-col py-40 2xl:py-96 h-screen px-6 2xl:px-0">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm ">
-          <h2 className="text-center text-2xl 2xl:text-4xl text-nowrap font-bold leading-9 tracking-tight text-white">
+          <h2 className="text-center text-2xl 2xl:text-4xl  font-bold leading-9 tracking-tight text-white">
             {t("Reset your password")}
           </h2>
         </div>

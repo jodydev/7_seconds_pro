@@ -3,9 +3,11 @@ import { useAppContext } from "../context/AppContext";
 import { Link } from "react-router-dom";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import { TbSquareRoundedPlusFilled } from "react-icons/tb";
+import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/20/solid";
 import { FaCheckCircle } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 import supabase from "../supabase/client";
+import useSorting from "../hook/useSorting";
 import Job from "./Modal/Job";
 import Loader from "./Loader";
 
@@ -13,6 +15,8 @@ export default function JobPostings() {
   const { t } = useTranslation();
   const { modalOpen, openModal, closeModal, checkDeviceSizeJobTable } =
     useAppContext();
+  const [sortDirection, setSortDirection] = useState("asc");
+  const [sortKey, setSortKey] = useState(null);
   const [totalJobs, setTotalJobs] = useState(0);
   const [cvsForJob, setCvsForJob] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -133,6 +137,29 @@ export default function JobPostings() {
     getFilterJobs();
   }, []);
 
+  const handleSort = (key) => {
+    const newSortDirection = sortDirection === "asc" ? "desc" : "asc";
+    setSortDirection(newSortDirection);
+    setSortKey(key);
+  };
+
+  useEffect(() => {
+    const sortJobs = () => {
+      const sortedJobs = [...cvsForJob].sort((a, b) => {
+        if (sortDirection === "asc") {
+          return new Date(a[sortKey]) - new Date(b[sortKey]);
+        } else {
+          return new Date(b[sortKey]) - new Date(a[sortKey]);
+        }
+      });
+      setCvsForJob(sortedJobs);
+    };
+
+    if (sortKey) {
+      sortJobs();
+    }
+  }, [sortDirection, sortKey]);
+
   return (
     <section>
       {modalOpen && <Job onResult={handleResult} closeModal={closeModal} />}
@@ -196,6 +223,20 @@ export default function JobPostings() {
                     <th scope="col" className="px-6 py-3">
                       {t("Seniority")}
                     </th>
+
+                    <th scope="col" className="px-6 py-3">
+                      <button
+                        onClick={() => handleSort("created_at")}
+                        className="flex items-center focus:outline-none hover:cursor-pointer"
+                      >
+                        {t("Created at")}
+                        {sortDirection === "asc" ? (
+                          <ChevronUpIcon className="h-4 w-4 ml-1 text-gray-500" />
+                        ) : (
+                          <ChevronDownIcon className="h-4 w-4 ml-1 text-gray-500" />
+                        )}
+                      </button>
+                    </th>
                     <th scope="col" className="px-6 py-3">
                       {t("#CVs")}
                     </th>
@@ -220,6 +261,16 @@ export default function JobPostings() {
                       <td className="px-6 py-4">
                         <Link to={`/job-details/${job.id}`}>
                           <div className="w-full">{job.seniority}</div>
+                        </Link>
+                      </td>
+                      <td
+                        title={new Date(job.created_at).toLocaleString()}
+                        className="px-6 py-4"
+                      >
+                        <Link to={`/job-details/${job.id}`}>
+                          <div className="w-full">
+                            {new Date(job.created_at).toLocaleDateString()}
+                          </div>
                         </Link>
                       </td>
                       <td className="px-6 py-4">

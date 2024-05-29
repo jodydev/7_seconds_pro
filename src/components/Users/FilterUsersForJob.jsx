@@ -12,7 +12,6 @@ import ProcessingSpan from "../ProcessingSpan";
 import ErrorSpan from "../ErrorSpan";
 import extractFileName from "../../hook/extractFileName";
 import usePagination from "../../hook/usePagination";
-import useSorting from "../../hook/useSorting";
 import ApplicantsPagination from "../ApplicantsPagination";
 
 export default function FilterUsersForJob({ refresh }) {
@@ -24,6 +23,8 @@ export default function FilterUsersForJob({ refresh }) {
     useAppContext();
   const [applicants, setApplicants] = useState([]);
   const [totalApplicants, setTotalApplicants] = useState(0);
+  const [sortDirection, setSortDirection] = useState("desc");
+  const [sortKey, setSortKey] = useState("cv_created_at");
   const {
     currentPage,
     itemsPerPage,
@@ -32,15 +33,31 @@ export default function FilterUsersForJob({ refresh }) {
     handleItemsPerPageChange,
     currentItemsSlice,
   } = usePagination(totalApplicants, checkDeviceSizeApplicantsTable);
-  const { sortDirection: sortDirectionC, handleSort: handleSortByCreatedAt } =
-    useSorting();
-  const { sortDirection: sortDirectionR, handleSort: handleSortByRating } =
-    useSorting();
   const currentApplicants = currentItemsSlice(applicants);
 
   //! Funzione per cambiare il numero di candidati per pagina
   const handleApplicantsPerPageChange = (event) => {
     handleItemsPerPageChange(parseInt(event.target.value));
+  };
+
+  //! Funzione per ordinare i candidati
+  const sortApplicants = (key, direction) => {
+    setApplicants((prevApplicants) =>
+      [...prevApplicants].sort((a, b) => {
+        if (direction === "asc") {
+          return new Date(a[key]) - new Date(b[key]);
+        } else {
+          return new Date(b[key]) - new Date(a[key]);
+        }
+      })
+    );
+  };
+
+  //! Funzione per gestire il click sul pulsante di ordinamento
+  const handleSortClick = () => {
+    const newDirection = sortDirection === "asc" ? "desc" : "asc";
+    setSortDirection(newDirection);
+    sortApplicants(sortKey, newDirection);
   };
 
   //! Funzione per aggiornare il numero totale di candidati ogni volta che ne viene aggiunto uno in tempo reale
@@ -105,6 +122,11 @@ export default function FilterUsersForJob({ refresh }) {
     getApplicantsForJob(jobId);
     return () => clearInterval(intervalId);
   }, [jobId]);
+
+  //! Funzione per ordinare i candidati per data di creazione al caricamento iniziale della pagina
+  useEffect(() => {
+    sortApplicants(sortKey, sortDirection);
+  }, [applicants]);
 
   return (
     <section data-aos="fade-up">
@@ -207,11 +229,11 @@ export default function FilterUsersForJob({ refresh }) {
                   </th>
                   <th scope="col" className="px-2 md:px-3 md:py-3">
                     <button
-                      onClick={handleSortByCreatedAt}
                       className="flex items-center focus:outline-none hover:cursor-pointer"
+                      onClick={handleSortClick}
                     >
                       {t("Created at")}
-                      {sortDirectionC === "asc" ? (
+                      {sortDirection === "asc" ? (
                         <ChevronUpIcon className="h-4 w-4 ml-1 text-gray-500" />
                       ) : (
                         <ChevronDownIcon className="h-4 w-4 ml-1 text-gray-500" />
@@ -226,16 +248,6 @@ export default function FilterUsersForJob({ refresh }) {
                   </th>
                   <th scope="col" className="px-2 md:px-3 md:py-3">
                     {t("AI Score")}
-                    <button
-                      onClick={handleSortByRating}
-                      className="flex-row items-center focus:outline-none hover:cursor-pointer"
-                    >
-                      {sortDirectionR === "asc" ? (
-                        <ChevronUpIcon className="h-4 w-4 ml-1 text-gray-500" />
-                      ) : (
-                        <ChevronDownIcon className="h-4 w-4 ml-1 text-gray-500" />
-                      )}
-                    </button>
                   </th>
                 </tr>
               </thead>

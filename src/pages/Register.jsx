@@ -108,7 +108,7 @@ export default function Register() {
       )}
 
       {registerStep && (
-        <div className="flex min-h-full flex-1 flex-col py-40 h-screen px-6 2xl:px-0">
+        <div className="flex min-h-full flex-1 flex-col py-40 2xl:py-96 h-screen px-6 2xl:px-0">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <h2 className="text-center text-2xl 2xl:text-4xl text-nowrap font-bold leading-9 tracking-tight text-white">
               {t("Register your account")}
