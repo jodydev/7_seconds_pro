@@ -33,9 +33,10 @@ export default function Job({ closeModal, onResult }) {
 
   const editorConfiguration = {
     toolbar: {
-      items: ["undo", "redo", "|", "heading", "|", "bold", "|", "italic"],
+      items: ["undo", "redo", "|", "heading", "|", "bold", "|", "italic" ],
     },
     placeholder: t("Enter your job description here..."),
+    disableWatchdog: true,
   };
 
   const sendJob = async (e) => {
@@ -54,7 +55,6 @@ export default function Job({ closeModal, onResult }) {
 
       setFormErrors({});
 
-      // Check if jobDescription is empty
       if (jobDescription.trim() === "") {
         setFormErrors((prevErrors) => ({
           ...prevErrors,
@@ -91,7 +91,7 @@ export default function Job({ closeModal, onResult }) {
       aria-hidden="true"
       className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden"
     >
-      <div className="relative w-full max-w-2xl p-2 overflow-y-scroll md:overflow-hidden max-h-full ">
+      <div className="relative w-full max-w-3xl 2xl:max-w-5xl p-2 overflow-y-scroll md:overflow-hidden max-h-full ">
         <div className="relative p-6 md:p-10 w-full ">
           <div className="relative bg-white rounded-2xl py-6 px-4 md:px-12 border border-indigo-50 shadow-lg shadow-indigo-500/50">
             <div className="flex items-center justify-between border-b pb-3 mb-6">

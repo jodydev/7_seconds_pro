@@ -123,7 +123,7 @@ export default function FilterUsersForJob({ refresh }) {
     return () => clearInterval(intervalId);
   }, [jobId]);
 
-  //! Funzione per ordinare i candidati per data di creazione al caricamento iniziale della pagina
+  //! Funzione per ordinare i candidati in base alla chiave e alla direzione
   useEffect(() => {
     sortApplicants(sortKey, sortDirection);
   }, [applicants]);

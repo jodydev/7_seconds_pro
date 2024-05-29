@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useAppContext } from "../context/AppContext";
 import { Link } from "react-router-dom";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
@@ -17,6 +17,7 @@ export default function JobPostings() {
     useAppContext();
   const [sortDirection, setSortDirection] = useState("asc");
   const [sortKey, setSortKey] = useState(null);
+  const [sortedJobs, setSortedJobs] = useState([]);
   const [totalJobs, setTotalJobs] = useState(0);
   const [cvsForJob, setCvsForJob] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -28,9 +29,57 @@ export default function JobPostings() {
   const indexOfLastJob = currentPage * jobsPerPage;
   const indexOfFirstJob = indexOfLastJob - jobsPerPage;
   const currentJobs = showAllJobs
-    ? cvsForJob
-    : cvsForJob.slice(indexOfFirstJob, indexOfLastJob);
+    ? sortedJobs
+    : sortedJobs.slice(indexOfFirstJob, indexOfLastJob);
+  const cvsForJobRef = useRef(null);
 
+  //! Funzione associata al button per cambiare pagina
+  const handlePageChange = (pageNumber) => {
+    if (pageNumber >= 1 && pageNumber <= totalPages) {
+      setCurrentPage(pageNumber);
+    }
+  };
+
+  //! Funzione per cambiare pagina e muoversi tra i lavori
+  const handleJobsPerPageChange = (event) => {
+    setJobsPerPage(parseInt(event.target.value));
+    setCurrentPage(1);
+  };
+
+  //! Funzione per settare il messaggio di inserimento job  
+  const handleResult = (data) => {
+    setMessage(data);
+  };
+
+  //! Funzione per ordinare i lavori associata al button di ordinamento
+  const handleSort = (key) => {
+    const newSortDirection = sortDirection === "asc" ? "desc" : "asc";
+    setSortDirection(newSortDirection);
+    setSortKey(key);
+  };
+
+  //! Funzione per ordinare i lavori
+  const sortJobs = (jobs, key, direction) => {
+    const sorted = [...jobs].sort((a, b) => {
+      const aValue = a[key];
+      const bValue = b[key];
+
+      if (direction === "asc") {
+        return aValue < bValue ? -1 : 1;
+      } else {
+        return aValue > bValue ? -1 : 1;
+      }
+    });
+
+    return sorted;
+  };
+
+  //! Funzione per ordinare i lavori per data di creazione
+  const sortJobsByCreatedAt = (jobs) => {
+    return jobs.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+  };
+
+  //! Effetto per il primo caricamento dei lavori al montaggio del componente
   useEffect(() => {
     const getJobs = async () => {
       try {
@@ -38,6 +87,8 @@ export default function JobPostings() {
         if (error) {
           throw error;
         } else {
+          const sortedJobs = sortJobsByCreatedAt(data);
+          setSortedJobs(sortedJobs);
           setTotalJobs(data.length);
         }
       } catch (error) {
@@ -47,21 +98,7 @@ export default function JobPostings() {
     getJobs();
   }, []);
 
-  const handlePageChange = (pageNumber) => {
-    if (pageNumber >= 1 && pageNumber <= totalPages) {
-      setCurrentPage(pageNumber);
-    }
-  };
-
-  const handleJobsPerPageChange = (event) => {
-    setJobsPerPage(parseInt(event.target.value));
-    setCurrentPage(1);
-  };
-
-  const handleResult = (data) => {
-    setMessage(data);
-  };
-
+  //! Effetto per la chiusura del messaggio dopo 5 secondi
   useEffect(() => {
     if (message) {
       const timeoutId = setTimeout(() => {
@@ -72,7 +109,7 @@ export default function JobPostings() {
     }
   }, [message]);
 
-  //! Funzione per ottenere i jobs con il numero di cv associati
+  //! Funzione per ottenere i jobs con il numero di cv associati e ascoltare i cambiamenti
   useEffect(() => {
     const getFilterJobs = async () => {
       setLoading(true);
@@ -94,8 +131,10 @@ export default function JobPostings() {
             return { ...job, cvsCount: count };
           })
         );
-        setCvsForJob(jobsWithCvsCount);
 
+        const sortedJobs = sortJobsByCreatedAt(jobsWithCvsCount);
+        setCvsForJob(sortedJobs);
+        cvsForJobRef.current = sortedJobs;
         const handleChanges = (payload) => {
           if (payload.eventType === "INSERT") {
             setTotalJobs((prevTotal) => prevTotal + 1);
@@ -137,28 +176,15 @@ export default function JobPostings() {
     getFilterJobs();
   }, []);
 
-  const handleSort = (key) => {
-    const newSortDirection = sortDirection === "asc" ? "desc" : "asc";
-    setSortDirection(newSortDirection);
-    setSortKey(key);
-  };
-
+  //! Effetto per l'ordinamento dei lavori 
   useEffect(() => {
-    const sortJobs = () => {
-      const sortedJobs = [...cvsForJob].sort((a, b) => {
-        if (sortDirection === "asc") {
-          return new Date(a[sortKey]) - new Date(b[sortKey]);
-        } else {
-          return new Date(b[sortKey]) - new Date(a[sortKey]);
-        }
-      });
-      setCvsForJob(sortedJobs);
-    };
-
-    if (sortKey) {
-      sortJobs();
+    try {
+      const sorted = sortJobs(cvsForJobRef.current, sortKey, sortDirection);
+      setSortedJobs(sorted);
+    } catch (error) {
+      console.error("Errore durante l'ordinamento dei lavori:", error.message);
     }
-  }, [sortDirection, sortKey]);
+  }, [cvsForJobRef.current, sortKey, sortDirection]);
 
   return (
     <section>
@@ -231,9 +257,9 @@ export default function JobPostings() {
                       >
                         {t("Created at")}
                         {sortDirection === "asc" ? (
-                          <ChevronUpIcon className="h-4 w-4 ml-1 text-gray-500" />
-                        ) : (
                           <ChevronDownIcon className="h-4 w-4 ml-1 text-gray-500" />
+                        ) : (
+                          <ChevronUpIcon className="h-4 w-4 ml-1 text-gray-500" />
                         )}
                       </button>
                     </th>
