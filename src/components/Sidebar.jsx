@@ -34,7 +34,7 @@ export default function Sidebar() {
     },
     {
       name: t("Support"),
-      href: "mailto:support@7seconds.pro?subject=Richiesta%20di%20supporto", 
+      href: "https://mailto:support@7seconds.pro?subject=Richiesta%20di%20supporto",
       icon: BiSupport,
       current: false,
     },
@@ -154,7 +154,14 @@ export default function Sidebar() {
       {/* DESKTOP SIDEBAR */}
       <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
         <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6">
-          <h3 className="text-2xl font-semibold leading-6 text-gray-900 mt-10 ">
+          <a href="/home">
+            <img
+              className="w-auto md:h-8 2xl:h-10 mt-10 "
+              src="/logo/7seconds-logo.svg"
+              alt="7Seconds Pro"
+            />
+          </a>
+          <h3 className="text-2xl font-semibold leading-6 text-gray-900 mt-5">
             {t("Menu")}
           </h3>
           <nav className="flex flex-1 flex-col border-t text-gray-900">
@@ -227,8 +234,8 @@ export default function Sidebar() {
         <div className="flex-1 text-sm font-semibold leading-6 text-gray-900">
           <a href="/home">
             <img
-              className="w-auto h-[30px]"
-              src="/7secondspro-logo/1.png"
+              className="w-auto h-[23px]"
+              src="/logo/7seconds-logo.svg"
               alt="7Seconds Pro"
             />
           </a>

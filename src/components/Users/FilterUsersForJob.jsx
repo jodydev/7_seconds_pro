@@ -72,7 +72,7 @@ export default function FilterUsersForJob({ refresh }) {
   };
 
   const handleSortClickAi = () => {
-    const newDirection = sortDirection === "asc" ? "desc" : "asc";
+    const newDirection = sortDirectionAi === "asc" ? "desc" : "asc";
     setSortDirectionAi(newDirection);
     sortApplicantsAi(sortKeyAi, newDirection);
   };

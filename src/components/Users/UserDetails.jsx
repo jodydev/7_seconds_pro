@@ -170,7 +170,7 @@ export default function UserDetails() {
 
                   <div className="mt-1 flex flex-col">
                     <div className="mt-1 2xl:mt-3 border-t border-gray-100 ">
-                      <div className="mt-1 2xl:mt-5 text-xs 2xl:text-sm max-w-2xl leading-7 text-gray-500 w-full">
+                      <div className="mt-1 2xl:mt-5 text-xs 2xl:text-base max-w-2xl leading-7 text-gray-500 w-full">
                         {applicant.feedback ? (
                           <p>{applicant.feedback}</p>
                         ) : (
@@ -210,7 +210,7 @@ export default function UserDetails() {
               type="application/pdf"
               width="100%"
               height="100%"
-              className="shadow-2xl rounded-2xl w-full h-full"
+              className="shadow-2xl rounded-2xl w-full h-full 2xl:h-[90vh]"
             />
           </div>
         </section>
