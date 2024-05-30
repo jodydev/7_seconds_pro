@@ -15,120 +15,142 @@ import usePagination from "../../hook/usePagination";
 import ApplicantsPagination from "../ApplicantsPagination";
 
 export default function FilterUsersForJob({ refresh }) {
-
   const { t } = useTranslation();
-const jobId = useParams().id;
-const { accountCredits } = getUserData();
-const applicantsCountRef = useRef(0);
-const { modalOpen, openModal, checkDeviceSizeApplicantsTable } = useAppContext();
-const [applicants, setApplicants] = useState([]);
-const [totalApplicants, setTotalApplicants] = useState(0);
-const [sortDirection, setSortDirection] = useState("desc");
-const [sortKey, setSortKey] = useState("cv_created_at");
-const {
-  currentPage,
-  itemsPerPage,
-  totalPages,
-  handlePageChange,
-  handleItemsPerPageChange,
-  currentItemsSlice,
-} = usePagination(totalApplicants, checkDeviceSizeApplicantsTable);
-const currentApplicants = currentItemsSlice(applicants);
+  const jobId = useParams().id;
+  const { accountCredits } = getUserData();
+  const applicantsCountRef = useRef(0);
+  const { modalOpen, openModal, checkDeviceSizeApplicantsTable } =
+    useAppContext();
+  const [applicants, setApplicants] = useState([]);
+  const [totalApplicants, setTotalApplicants] = useState(0);
+  const [sortDirection, setSortDirection] = useState("desc");
+  const [sortDirectionAi, setSortDirectionAi] = useState("desc");
+  const [sortKey, setSortKey] = useState("cv_created_at");
+  const [sortKeyAi, setSortKeyAi] = useState("rating");
+  const {
+    currentPage,
+    itemsPerPage,
+    totalPages,
+    handlePageChange,
+    handleItemsPerPageChange,
+    currentItemsSlice,
+  } = usePagination(totalApplicants, checkDeviceSizeApplicantsTable);
+  const currentApplicants = currentItemsSlice(applicants);
 
-const handleApplicantsPerPageChange = (event) => {
-  handleItemsPerPageChange(parseInt(event.target.value));
-};
-
-const sortApplicants = (key, direction) => {
-  setApplicants((prevApplicants) =>
-    [...prevApplicants].sort((a, b) => {
-      if (direction === "asc") {
-        return new Date(a[key]) - new Date(b[key]);
-      } else {
-        return new Date(b[key]) - new Date(a[key]);
-      }
-    })
-  );
-};
-
-const handleSortClick = () => {
-  const newDirection = sortDirection === "asc" ? "desc" : "asc";
-  setSortDirection(newDirection);
-  sortApplicants(sortKey, newDirection);
-};
-
-useEffect(() => {
-  applicantsCountRef.current = applicants.length;
-  setTotalApplicants(applicantsCountRef.current);
-}, [applicants]);
-
-useEffect(() => {
-  const getApplicantsForJob = async (jobId) => {
-    try {
-      const { data, error } = await supabase
-        .from("cvs_data")
-        .select("*")
-        .eq("jobid", jobId);
-
-      if (error) {
-        throw error;
-      } else {
-        const sortedData = data.sort(
-          (a, b) => new Date(b.created_at) - new Date(a.created_at)
-        );
-        setApplicants(sortedData);
-        setTotalApplicants(sortedData.length);
-      }
-    } catch (error) {
-      console.error("Errore durante il caricamento dei jobs:", error.message);
-    }
+  const handleApplicantsPerPageChange = (event) => {
+    handleItemsPerPageChange(parseInt(event.target.value));
   };
 
-  const handleChanges = (payload) => {
-    if (payload.eventType === "INSERT" && payload.table === "threads") {
-      setApplicants((prevApplicants) => {
-        const newApplicants = [payload.new, ...prevApplicants];
-        return newApplicants.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-      });
-      setTotalApplicants((prevTotal) => prevTotal + 1);
-    }
+  const sortApplicants = (key, direction) => {
+    setApplicants((prevApplicants) =>
+      [...prevApplicants].sort((a, b) => {
+        if (direction === "asc") {
+          return new Date(a[key]) - new Date(b[key]);
+        } else {
+          return new Date(b[key]) - new Date(a[key]);
+        }
+      })
+    );
   };
 
-  const intervalId = setInterval(() => {
+  const sortApplicantsAi = (key, direction) => {
+    setApplicants((prevApplicants) =>
+      [...prevApplicants].sort((a, b) => {
+        if (direction === "asc") {
+          return a[key] - b[key];
+        } else {
+          return b[key] - a[key];
+        }
+      })
+    );
+  };
+
+  const handleSortClick = () => {
+    const newDirection = sortDirection === "asc" ? "desc" : "asc";
+    setSortDirection(newDirection);
+    sortApplicants(sortKey, newDirection);
+  };
+
+  const handleSortClickAi = () => {
+    const newDirection = sortDirection === "asc" ? "desc" : "asc";
+    setSortDirectionAi(newDirection);
+    sortApplicantsAi(sortKeyAi, newDirection);
+  };
+
+  useEffect(() => {
+    applicantsCountRef.current = applicants.length;
+    setTotalApplicants(applicantsCountRef.current);
+  }, [applicants]);
+
+  useEffect(() => {
+    const getApplicantsForJob = async (jobId) => {
+      try {
+        const { data, error } = await supabase
+          .from("cvs_data")
+          .select("*")
+          .eq("jobid", jobId);
+
+        if (error) {
+          throw error;
+        } else {
+          const sortedData = data.sort(
+            (a, b) => new Date(b.created_at) - new Date(a.created_at)
+          );
+          setApplicants(sortedData);
+          setTotalApplicants(sortedData.length);
+        }
+      } catch (error) {
+        console.error("Errore durante il caricamento dei jobs:", error.message);
+      }
+    };
+
+    const handleChanges = (payload) => {
+      if (payload.eventType === "INSERT" && payload.table === "threads") {
+        setApplicants((prevApplicants) => {
+          const newApplicants = [payload.new, ...prevApplicants];
+          return newApplicants.sort(
+            (a, b) => new Date(b.created_at) - new Date(a.created_at)
+          );
+        });
+        setTotalApplicants((prevTotal) => prevTotal + 1);
+      }
+    };
+
+    const intervalId = setInterval(() => {
+      getApplicantsForJob(jobId);
+    }, 10000);
+
+    const channel = supabase
+      .channel("schema-db-changes")
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          view: "cvs_data",
+        },
+        handleChanges
+      )
+      .subscribe();
+
     getApplicantsForJob(jobId);
-  }, 10000);
+    return () => {
+      clearInterval(intervalId);
+      channel.unsubscribe();
+    };
+  }, [jobId]);
 
-  const channel = supabase
-    .channel("schema-db-changes")
-    .on(
-      "postgres_changes",
-      {
-        event: "*",
-        schema: "public",
-        view: "cvs_data",
-      },
-      handleChanges
-    )
-    .subscribe();
-
-  getApplicantsForJob(jobId);
-  return () => {
-    clearInterval(intervalId);
-    channel.unsubscribe();
-  };
-}, [jobId]);
-
-useEffect(() => {
-  sortApplicants(sortKey, sortDirection);
-}, [sortKey, sortDirection]);
-
+  useEffect(() => {
+    sortApplicants(sortKey, sortDirection);
+    sortApplicantsAi(sortKeyAi, sortDirectionAi);
+  }, [sortKey, sortKeyAi, sortDirection, sortDirectionAi]);
 
   return (
     <section data-aos="fade-up">
       <div
         className={`${
           modalOpen ? "opacity-10" : "opacity-100"
-        } bg-white px-6 py-6 shadow-lg rounded-2xl mt-4 sm:mt-8 2xl:mt-10 `}
+        } bg-white px-6 py-6 shadow-lg rounded-2xl mt-4 2xl:mt-10 `}
       >
         <div className="flex flex-wrap items-center justify-between sm:flex-nowrap border-b border-gray-200">
           <div className="ml-0 2xl:ml-4 mb-4 2xl:mb-6">
@@ -242,122 +264,139 @@ useEffect(() => {
                     {t("City")}
                   </th>
                   <th scope="col" className="px-2 md:px-3 md:py-3">
-                    {t("AI Score")}
+                    <button
+                      className="flex items-center focus:outline-none hover:cursor-pointer"
+                      onClick={handleSortClickAi}
+                    >
+                      {t("AI Score")}
+                      {sortDirectionAi === "asc" ? (
+                        <ChevronUpIcon className="h-4 w-4 ml-1 text-gray-500" />
+                      ) : (
+                        <ChevronDownIcon className="h-4 w-4 ml-1 text-gray-500" />
+                      )}
+                    </button>
                   </th>
                 </tr>
               </thead>
               <tbody className="hover:cursor-pointer ">
-                {currentApplicants.map((applicant) => (
-                  <tr
-                    key={applicant.thread_id}
-                    className="text-sm 2xl:text-lg bg-white border-b"
-                  >
-                    <td className="px-3 py-4">
-                      <Link to={`/user-details/${applicant.thread_id}`}>
-                        <div className="w-full">
-                          {applicant.thread_status === "new" ||
-                          applicant.thread_status === "queued" ||
-                          applicant.thread_status === "new" ? (
-                            <ProcessingSpan />
-                          ) : applicant.thread_status === "failed" ? (
-                            <ErrorSpan />
-                          ) : (
-                            <ReadySpan />
-                          )}
-                        </div>
-                      </Link>
-                    </td>
-                    <td className="px-3 py-4">
-                      <Link to={`/user-details/${applicant.thread_id}`}>
-                        <div className="w-full truncate">
-                          {applicant.fullname ||
-                            extractFileName(applicant.file) || (
-                              <div className="animate-pulse  h-6 bg-gray-200 rounded-lg"></div>
-                            )}
-                        </div>
-                      </Link>
-                    </td>
-                    <td
-                      className="px-3 py-4"
-                      title={
-                        applicant.cv_created_at
-                          ? new Date(applicant.cv_created_at).toLocaleString()
-                          : ""
-                      }
-                    >
-                      <Link to={`/user-details/${applicant.thread_id}`}>
-                        <div className="w-full">
-                          {applicant.cv_created_at ? (
-                            new Date(
-                              applicant.cv_created_at
-                            ).toLocaleDateString()
-                          ) : (
-                            <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
-                          )}
-                        </div>
-                      </Link>
-                    </td>
-
-                    <td className="px-3 py-4">
-                      <Link to={`/user-details/${applicant.thread_id}`}>
-                        <div className="w-full">
-                          {applicant.age === null ||
-                          applicant.age === undefined ? (
-                            <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
-                          ) : applicant.age === 0 ? (
-                            <span>N/D</span>
-                          ) : (
-                            <span>{applicant.age}</span>
-                          )}
-                        </div>
-                      </Link>
-                    </td>
-
-                    <td className="px-3 py-4">
-                      <Link to={`/user-details/${applicant.thread_id}`}>
-                        <div className="w-full">
-                          {applicant.city === null ||
-                          applicant.city === undefined ? (
-                            <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
-                          ) : applicant.city === 0 ? (
-                            <span>N/D</span>
-                          ) : (
-                            <span>{applicant.city}</span>
-                          )}
-                        </div>
-                      </Link>
-                    </td>
-
-                    <td className="px-3 py-4">
-                      <Link to={`/user-details/${applicant.thread_id}`}>
-                        <div className="w-full">
-                          {applicant.rating === null ||
-                          applicant.rating === undefined ? (
-                            <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
-                          ) : (
-                            <div className="flex flex-row  flex-nowrap">
-                              <StarRatings
-                                rating={applicant.rating}
-                                starRatedColor="gold"
-                                numberOfStars={5}
-                                name="rating"
-                                starDimension="20px"
-                                starSpacing="2px"
-                              />
-                              <p className="ms-2 inline-flex items-center rounded-md bg-purple-50 px-2 py-1 text-xs 2xl:text-sm font-medium text-purple-700 ring-1 ring-inset ring-purple-700/10">
-                                {`${
-                                  applicant.rating === 0
-                                    ? "0"
-                                    : applicant.rating
-                                }`}
-                              </p>
+                {currentApplicants.map(
+                  (applicant) => (
+                    (
+                      <tr
+                        key={applicant.thread_id}
+                        className="text-sm 2xl:text-lg bg-white border-b"
+                      >
+                        <td className="px-3 py-4">
+                          <Link to={`/user-details/${applicant.thread_id}`}>
+                            <div className="w-full">
+                              {["null", "undefined", "new", "queued"].includes(
+                                applicant.thread_status
+                              ) ? (
+                                <ProcessingSpan />
+                              ) : applicant.thread_status === "failed" ? (
+                                <ErrorSpan />
+                              ) : (
+                                <ReadySpan />
+                              )}
                             </div>
-                          )}
-                        </div>
-                      </Link>
-                    </td>
-                  </tr>
-                ))}
+                          </Link>
+                        </td>
+
+                        <td className="px-3 py-4">
+                          <Link to={`/user-details/${applicant.thread_id}`}>
+                            <div className="w-full truncate">
+                              {applicant.fullname ||
+                                extractFileName(applicant.file) || (
+                                  <div className="animate-pulse  h-6 bg-gray-200 rounded-lg"></div>
+                                )}
+                            </div>
+                          </Link>
+                        </td>
+                        <td
+                          className="px-3 py-4"
+                          title={
+                            applicant.cv_created_at
+                              ? new Date(
+                                  applicant.cv_created_at
+                                ).toLocaleString()
+                              : ""
+                          }
+                        >
+                          <Link to={`/user-details/${applicant.thread_id}`}>
+                            <div className="w-full">
+                              {applicant.cv_created_at ? (
+                                new Date(
+                                  applicant.cv_created_at
+                                ).toLocaleDateString()
+                              ) : (
+                                <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
+                              )}
+                            </div>
+                          </Link>
+                        </td>
+
+                        <td className="px-3 py-4">
+                          <Link to={`/user-details/${applicant.thread_id}`}>
+                            <div className="w-full">
+                              {applicant.age === null ||
+                              applicant.age === undefined ? (
+                                <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
+                              ) : applicant.age === 0 ? (
+                                <span>N/D</span>
+                              ) : (
+                                <span>{applicant.age}</span>
+                              )}
+                            </div>
+                          </Link>
+                        </td>
+
+                        <td className="px-3 py-4">
+                          <Link to={`/user-details/${applicant.thread_id}`}>
+                            <div className="w-full">
+                              {applicant.city === null ||
+                              applicant.city === undefined ? (
+                                <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
+                              ) : applicant.city === 0 ? (
+                                <span>N/D</span>
+                              ) : (
+                                <span>{applicant.city}</span>
+                              )}
+                            </div>
+                          </Link>
+                        </td>
+
+                        <td className="px-3 py-4">
+                          <Link to={`/user-details/${applicant.thread_id}`}>
+                            <div className="w-full">
+                              {applicant.rating === null ||
+                              applicant.rating === undefined ? (
+                                <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
+                              ) : (
+                                <div className="flex flex-row  flex-nowrap">
+                                  <StarRatings
+                                    rating={applicant.rating}
+                                    starRatedColor="gold"
+                                    numberOfStars={5}
+                                    name="rating"
+                                    starDimension="20px"
+                                    starSpacing="2px"
+                                  />
+                                  <p className="ms-2 inline-flex items-center rounded-md bg-purple-50 px-2 py-1 text-xs 2xl:text-sm font-medium text-purple-700 ring-1 ring-inset ring-purple-700/10">
+                                    {`${
+                                      applicant.rating === 0
+                                        ? "0"
+                                        : applicant.rating
+                                    }`}
+                                  </p>
+                                </div>
+                              )}
+                            </div>
+                          </Link>
+                        </td>
+                      </tr>
+                    )
+                  )
+                )}
               </tbody>
             </table>
           )}

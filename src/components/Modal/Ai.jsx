@@ -209,7 +209,7 @@ export default function Ai({ closeModal, onResult, onUploadCv, refreshData }) {
                             <img
                               src="/upload.gif"
                               alt="Upload File"
-                              className="mx-auto h-[180px] w-[180px] md:h-[220px] md:w-[220px] 2xl:h-[260px] 2xl:w-[260px] text-gray-400"
+                              className="mx-auto h-[150px] w-[150px] md:h-[200px] md:w-[200px] 2xl:h-[260px] 2xl:w-[260px] text-gray-400"
                             />
                             <h3 className="text-sm md:text-lg font-semibold text-gray-900">
                               {t(
@@ -245,6 +245,11 @@ export default function Ai({ closeModal, onResult, onUploadCv, refreshData }) {
                           <>
                             {ready && (
                               <div className="my-10">
+                                <img
+                                  src="/files.gif"
+                                  alt="Files"
+                                  className="mx-auto mb-5  h-[150px] w-[150px] md:h-[150px] md:w-[150px] 2xl:h-[200px] 2xl:w-[200px] text-gray-400"
+                                />
                                 {files.map((file, index) => (
                                   <div
                                     className="flex items-center justify-center"
@@ -279,8 +284,7 @@ export default function Ai({ closeModal, onResult, onUploadCv, refreshData }) {
                                                 />
                                               </svg>
                                               <p className="hidden sm:block">
-                                              {t("Delete")}
-
+                                                {t("Delete")}
                                               </p>
                                             </button>
                                           </span>

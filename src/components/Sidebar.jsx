@@ -32,7 +32,12 @@ export default function Sidebar() {
       icon: trial || expired ? BsStars : LuUser2,
       current: false,
     },
-    { name: t("Support"), to: "/support", icon: BiSupport, current: false },
+    {
+      name: t("Support"),
+      href: "mailto:support@7seconds.pro?subject=Richiesta%20di%20supporto", 
+      icon: BiSupport,
+      current: false,
+    },
   ];
 
   const signOut = async () =>
@@ -152,28 +157,47 @@ export default function Sidebar() {
           <h3 className="text-2xl font-semibold leading-6 text-gray-900 mt-10 ">
             {t("Menu")}
           </h3>
-          <nav className="flex flex-1 flex-col border-t text-gray-900 ">
+          <nav className="flex flex-1 flex-col border-t text-gray-900">
             <ul role="list" className="flex flex-1 flex-col gap-y-2 mt-3">
               {navigation.map((item) => (
                 <li key={item.name}>
-                  <Link
-                    to={item.to}
-                    className={`${
-                      location.pathname === item.to
-                        ? "bg-gray-50 text-indigo-600"
-                        : "text-gray-700 hover:text-indigo-600 hover:bg-gray-50"
-                    } group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold`}
-                  >
-                    <item.icon
+                  {item.href ? (
+                    <a
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`text-gray-700 hover:text-indigo-600 hover:bg-gray-50 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold`}
+                    >
+                      <item.icon
+                        className={`${
+                          location.pathname === item.to
+                            ? "text-indigo-600"
+                            : "text-gray-400 group-hover:text-indigo-600"
+                        } h-6 w-6 shrink-0`}
+                        aria-hidden="true"
+                      />
+                      {item.name}
+                    </a>
+                  ) : (
+                    <Link
+                      to={item.to}
                       className={`${
                         location.pathname === item.to
-                          ? "text-indigo-600"
-                          : "text-gray-400 group-hover:text-indigo-600"
-                      } h-6 w-6 shrink-0`}
-                      aria-hidden="true"
-                    />
-                    {item.name}
-                  </Link>
+                          ? "bg-gray-50 text-indigo-600"
+                          : "text-gray-700 hover:text-indigo-600 hover:bg-gray-50"
+                      } group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold`}
+                    >
+                      <item.icon
+                        className={`${
+                          location.pathname === item.to
+                            ? "text-indigo-600"
+                            : "text-gray-400 group-hover:text-indigo-600"
+                        } h-6 w-6 shrink-0`}
+                        aria-hidden="true"
+                      />
+                      {item.name}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>

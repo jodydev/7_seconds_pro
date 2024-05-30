@@ -153,7 +153,7 @@ export default function JobDetails() {
         data-aos="fade-down"
         className={`${
           modalOpen ? "opacity-10" : "opacity-100 shadow-md"
-        } bg-white px-6 py-4 2xl:py-8 2xl:px-10 rounded-2xl mt-5 2xl:mt-10`}
+        } bg-white px-6 py-4 2xl:py-8 2xl:px-10 rounded-2xl mt-2 2xl:mt-10`}
       >
         {selectedJob && (
           <div className={`${modalOpen ? "opacity-10" : "opacity-100"}`}>
@@ -217,7 +217,7 @@ export default function JobDetails() {
                   <span className="text-base 2xl:text-2xl font-semibold leading-6 text-gray-900 ">
                     {t("Job Description:")}
                     <div
-                      className={`text-sm 2xl:text-base font-light mt-2 leading-8 text-gray-900 w-full italic ${
+                      className={`text-sm 2xl:text-base font-light mt-2 2xl:leading-8 text-gray-900 w-full italic ${
                         isExpanded ? "" : "line-clamp-3"
                       }`}
                       dangerouslySetInnerHTML={{
