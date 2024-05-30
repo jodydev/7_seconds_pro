@@ -15,118 +15,113 @@ import usePagination from "../../hook/usePagination";
 import ApplicantsPagination from "../ApplicantsPagination";
 
 export default function FilterUsersForJob({ refresh }) {
+
   const { t } = useTranslation();
-  const jobId = useParams().id;
-  const { accountCredits } = getUserData();
-  const applicantsCountRef = useRef(0);
-  const { modalOpen, openModal, checkDeviceSizeApplicantsTable } =
-    useAppContext();
-  const [applicants, setApplicants] = useState([]);
-  const [totalApplicants, setTotalApplicants] = useState(0);
-  const [sortDirection, setSortDirection] = useState("desc");
-  const [sortKey, setSortKey] = useState("cv_created_at");
-  const {
-    currentPage,
-    itemsPerPage,
-    totalPages,
-    handlePageChange,
-    handleItemsPerPageChange,
-    currentItemsSlice,
-  } = usePagination(totalApplicants, checkDeviceSizeApplicantsTable);
-  const currentApplicants = currentItemsSlice(applicants);
+const jobId = useParams().id;
+const { accountCredits } = getUserData();
+const applicantsCountRef = useRef(0);
+const { modalOpen, openModal, checkDeviceSizeApplicantsTable } = useAppContext();
+const [applicants, setApplicants] = useState([]);
+const [totalApplicants, setTotalApplicants] = useState(0);
+const [sortDirection, setSortDirection] = useState("desc");
+const [sortKey, setSortKey] = useState("cv_created_at");
+const {
+  currentPage,
+  itemsPerPage,
+  totalPages,
+  handlePageChange,
+  handleItemsPerPageChange,
+  currentItemsSlice,
+} = usePagination(totalApplicants, checkDeviceSizeApplicantsTable);
+const currentApplicants = currentItemsSlice(applicants);
 
-  //! Funzione per cambiare il numero di candidati per pagina
-  const handleApplicantsPerPageChange = (event) => {
-    handleItemsPerPageChange(parseInt(event.target.value));
-  };
+const handleApplicantsPerPageChange = (event) => {
+  handleItemsPerPageChange(parseInt(event.target.value));
+};
 
-  //! Funzione per ordinare i candidati
-  const sortApplicants = (key, direction) => {
-    setApplicants((prevApplicants) =>
-      [...prevApplicants].sort((a, b) => {
-        if (direction === "asc") {
-          return new Date(a[key]) - new Date(b[key]);
-        } else {
-          return new Date(b[key]) - new Date(a[key]);
-        }
-      })
-    );
-  };
-
-  //! Funzione per gestire il click sul pulsante di ordinamento
-  const handleSortClick = () => {
-    const newDirection = sortDirection === "asc" ? "desc" : "asc";
-    setSortDirection(newDirection);
-    sortApplicants(sortKey, newDirection);
-  };
-
-  //! Funzione per aggiornare il numero totale di candidati ogni volta che ne viene aggiunto uno in tempo reale
-  useEffect(() => {
-    applicantsCountRef.current = applicants.length;
-    setTotalApplicants(applicantsCountRef.current);
-  }, [applicants]);
-
-  //! Funzione per ordinare i candidati per data di creazione al caricamento iniziale della pagina
-  useEffect(() => {
-    setApplicants((prevApplicants) =>
-      prevApplicants.sort(
-        (a, b) => new Date(b.created_at) - new Date(a.created_at)
-      )
-    );
-  }, [applicants]);
-
-  //! Funzione per gestire i cambiamenti nel database e aggiungere i nuovi candidati in tempo reale
-  useEffect(() => {
-    const getApplicantsForJob = async (jobId) => {
-      try {
-        const { data, error } = await supabase
-          .from("cvs_data")
-          .select("*")
-          .eq("jobid", jobId);
-
-        if (error) {
-          throw error;
-        } else {
-          setApplicants(data);
-          setTotalApplicants(data.length);
-        }
-      } catch (error) {
-        console.error("Errore durante il caricamento dei jobs:", error.message);
+const sortApplicants = (key, direction) => {
+  setApplicants((prevApplicants) =>
+    [...prevApplicants].sort((a, b) => {
+      if (direction === "asc") {
+        return new Date(a[key]) - new Date(b[key]);
+      } else {
+        return new Date(b[key]) - new Date(a[key]);
       }
-    };
+    })
+  );
+};
 
-    const handleChanges = (payload) => {
-      if (payload.eventType === "INSERT" && payload.table === "threads") {
-        setApplicants((prevApplicants) => [payload.new, ...prevApplicants]);
-        setTotalApplicants((prevTotal) => prevTotal + 1);
+const handleSortClick = () => {
+  const newDirection = sortDirection === "asc" ? "desc" : "asc";
+  setSortDirection(newDirection);
+  sortApplicants(sortKey, newDirection);
+};
+
+useEffect(() => {
+  applicantsCountRef.current = applicants.length;
+  setTotalApplicants(applicantsCountRef.current);
+}, [applicants]);
+
+useEffect(() => {
+  const getApplicantsForJob = async (jobId) => {
+    try {
+      const { data, error } = await supabase
+        .from("cvs_data")
+        .select("*")
+        .eq("jobid", jobId);
+
+      if (error) {
+        throw error;
+      } else {
+        const sortedData = data.sort(
+          (a, b) => new Date(b.created_at) - new Date(a.created_at)
+        );
+        setApplicants(sortedData);
+        setTotalApplicants(sortedData.length);
       }
-    };
+    } catch (error) {
+      console.error("Errore durante il caricamento dei jobs:", error.message);
+    }
+  };
 
-    const intervalId = setInterval(() => {
-      getApplicantsForJob(jobId);
-    }, 10000);
+  const handleChanges = (payload) => {
+    if (payload.eventType === "INSERT" && payload.table === "threads") {
+      setApplicants((prevApplicants) => {
+        const newApplicants = [payload.new, ...prevApplicants];
+        return newApplicants.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+      });
+      setTotalApplicants((prevTotal) => prevTotal + 1);
+    }
+  };
 
-    supabase
-      .channel("schema-db-changes")
-      .on(
-        "postgres_changes",
-        {
-          event: "*",
-          schema: "public",
-          view: "cvs_data",
-        },
-        handleChanges
-      )
-      .subscribe();
-
+  const intervalId = setInterval(() => {
     getApplicantsForJob(jobId);
-    return () => clearInterval(intervalId);
-  }, [jobId]);
+  }, 10000);
 
-  //! Funzione per ordinare i candidati in base alla chiave e alla direzione
-  useEffect(() => {
-    sortApplicants(sortKey, sortDirection);
-  }, [applicants]);
+  const channel = supabase
+    .channel("schema-db-changes")
+    .on(
+      "postgres_changes",
+      {
+        event: "*",
+        schema: "public",
+        view: "cvs_data",
+      },
+      handleChanges
+    )
+    .subscribe();
+
+  getApplicantsForJob(jobId);
+  return () => {
+    clearInterval(intervalId);
+    channel.unsubscribe();
+  };
+}, [jobId]);
+
+useEffect(() => {
+  sortApplicants(sortKey, sortDirection);
+}, [sortKey, sortDirection]);
+
 
   return (
     <section data-aos="fade-up">
@@ -260,8 +255,8 @@ export default function FilterUsersForJob({ refresh }) {
                     <td className="px-3 py-4">
                       <Link to={`/user-details/${applicant.thread_id}`}>
                         <div className="w-full">
-                          {applicant.status === "new" ||
-                          applicant.status === "queued" ||
+                          {applicant.thread_status === "new" ||
+                          applicant.thread_status === "queued" ||
                           applicant.thread_status === "new" ? (
                             <ProcessingSpan />
                           ) : applicant.thread_status === "failed" ? (

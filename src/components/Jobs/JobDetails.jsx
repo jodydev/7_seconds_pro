@@ -193,7 +193,7 @@ export default function JobDetails() {
                   </div>
                 </div>
               </div>
-              {accountCredits > 0 || applicants.length >= 1 ? (
+              {accountCredits > 0 && applicants.length >= 1 ? (
                 <div className="relative md:static md:flex">
                   <button
                     onClick={openModal}

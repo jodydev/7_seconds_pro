@@ -31,7 +31,7 @@ export default function JobPostings() {
   const currentJobs = showAllJobs
     ? sortedJobs
     : sortedJobs.slice(indexOfFirstJob, indexOfLastJob);
-  const cvsForJobRef = useRef(null);
+  const cvsForJobRef = useRef([]);
 
   //! Funzione associata al button per cambiare pagina
   const handlePageChange = (pageNumber) => {

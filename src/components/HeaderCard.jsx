@@ -49,7 +49,6 @@ export default function HeaderCard() {
   const { t } = useTranslation();
   const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
-
   const config = {
     home: [
       {
