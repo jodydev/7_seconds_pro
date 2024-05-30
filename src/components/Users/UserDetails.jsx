@@ -77,14 +77,21 @@ export default function UserDetails() {
                       applicant.rating === undefined ? (
                         <div className="animate-pulse h-7 w-32 sm:w-40 bg-gray-200 rounded-lg mb-1"></div>
                       ) : (
-                        <StarRatings
-                          rating={applicant.rating}
-                          starRatedColor="gold"
-                          numberOfStars={5}
-                          name="rating"
-                          starDimension="20px"
-                          starSpacing="2px"
-                        />
+                        <div className="flex flex-row items-center ">
+                          <StarRatings
+                            rating={applicant.rating}
+                            starRatedColor="gold"
+                            numberOfStars={5}
+                            name="rating"
+                            starDimension="20px"
+                            starSpacing="2px"
+                          />
+                          <p className="ms-2 rounded-md bg-purple-50 px-2 py-1 text-xs 2xl:text-sm font-medium text-purple-700 ring-1 ring-inset ring-purple-700/10">
+                            {`${
+                              applicant.rating === 0 ? "0" : applicant.rating
+                            }`}
+                          </p>
+                        </div>
                       )}
                     </div>
                   </div>
