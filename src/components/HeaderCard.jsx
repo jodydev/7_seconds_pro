@@ -57,6 +57,7 @@ export default function HeaderCard() {
         icon: WorkIcon,
         aos: isMobile ? "fade-left" : "fade-down",
         bgCard: "indigo-700",
+        src: "/job-icon.png",
       },
       {
         name: "CVs",
@@ -64,6 +65,7 @@ export default function HeaderCard() {
         icon: FileIcon,
         aos: isMobile ? "fade-right" : "fade-down",
         bgCard: "indigo-700",
+        src: "/cvs.png",
       },
       {
         name: t("Credits"),
@@ -71,6 +73,7 @@ export default function HeaderCard() {
         icon: BsStars,
         aos: isMobile ? "fade-left" : "fade-down",
         bgCard: "indigo-700",
+        src: "/credits.png",
       },
       {
         name: t("Subscription"),
@@ -79,6 +82,7 @@ export default function HeaderCard() {
         aos: isMobile ? "fade-right" : "fade-down",
         bgCard: "white",
         colorText: "gray-900",
+        src: "/stars.png",
       },
     ],
   };
@@ -88,29 +92,50 @@ export default function HeaderCard() {
     if (!currentConfig) return null;
 
     return currentConfig.map((item, index) => (
-      <div
-        data-aos={item.aos}
-        key={index}
-        className={`overflow-hidden rounded-2xl ${
-          item.bgCard ? `bg-${item.bgCard}` : ""
-        } ${
-          item.colorText ? `text-${item.colorText}` : "text-white"
-        } px-4 py-4 2xl:py-8 shadow-lg flex-col items-center justify-center hover:cursor-pointer mt-5 2xl:mt-5`}
-      >
-        <div className="flex items-center justify-center gap-3">
-          <p className="ml-2 truncate text-xl 2xl:text-4xl font-medium ">
-            {item.name}
-          </p>
-          <item.icon className="h-5 w-5 2xl:h-8 2xl:w-8 " />
-        </div>
-        <div
-          className={`${
-            item.colorText ? `border-${item.colorText}` : "border-white"
-          } flex items-center justify-center border-t-2 mt-3  `}
+      // <div
+      //   data-aos={item.aos}
+      //   key={index}
+      //   className={`overflow-hidden rounded-2xl ${
+      //     item.bgCard ? `bg-${item.bgCard}` : ""
+      //   } ${
+      //     item.colorText ? `text-${item.colorText}` : "text-white"
+      //   }  shadow-lg flex-col items-center justify-center hover:cursor-pointer mt-5 2xl:mt-5`}
+      // >
+      <div data-aos={item.aos} key={index} class="card ">
+        <svg
+          fill="none"
+          viewBox="0 0 342 175"
+          height="200"
+          width="400"
+          xmlns="http://www.w3.org/2000/svg"
+          className="background"
         >
-          <p className="mt-3 text-2xl 2xl:text-5xl font-semibold flex gap-1 tracking-tight">
-            {item.stat}
-          </p>
+          <path
+            fill="url(#paint0_linear_103_640)"
+            d="M0 66.4396C0 31.6455 0 14.2484 11.326 5.24044C22.6519 -3.76754 39.6026 0.147978 73.5041 7.97901L307.903 62.1238C324.259 65.9018 332.436 67.7909 337.218 73.8031C342 79.8154 342 88.2086 342 104.995V131C342 151.742 342 162.113 335.556 168.556C329.113 175 318.742 175 298 175H44C23.2582 175 12.8873 175 6.44365 168.556C0 162.113 0 151.742 0 131V66.4396Z"
+          ></path>
+          <defs>
+            <linearGradient
+              gradientUnits="userSpaceOnUse"
+              y2="128"
+              x2="354.142"
+              y1="128"
+              x1="0"
+              id="paint0_linear_103_640"
+            >
+              <stop stop-color="#5750ec"></stop>
+              <stop stop-color="#362A84" offset="1"></stop>
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="absolute right-[-20px] top-[5px]">
+          <img className="w-[100px]" src={item.src} />
+        </div>
+        <p class="mt-5 ms-3 text-white font-semibold text-5xl"> {item.stat}</p>
+        <div class="info">
+          <div class="ms-3">
+            <p class="text-4xl text-nowrap font-medium">{item.name}</p>
+          </div>
         </div>
       </div>
     ));
