@@ -19,14 +19,8 @@ export default function Login() {
   const [resetEmail, setResetEmail] = useState("");
   const [resetSuccess, setResetSuccess] = useState(false);
   const [showReset, setShowReset] = useState(false);
-
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [showPassword, setShowPassword] = useState(false);
   const [registerStep, setRegisterStep] = useState(true);
   const [confirmEmail, setConfirmEmail] = useState(false);
-  // const [error, setError] = useState(false);
-  // const [errMessage, setErrMessage] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
   //! Funzione per la login utente
@@ -53,6 +47,7 @@ export default function Login() {
     }
   };
 
+  //! Funzione per la registrazione utente
   const handleRegister = async (event) => {
     event.preventDefault();
 
@@ -100,53 +95,68 @@ export default function Login() {
     event.preventDefault();
     try {
       const { error } = await supabase.auth.resetPasswordForEmail(resetEmail);
+
       if (error) {
         console.error("Error resetting password:", error.message);
         setError(true);
-        setErrMessage(t("Failed to send reset email"));
+        setErrMessage(t("Failed to send reset email, try again"));
       } else {
+        setError(false);
         setResetSuccess(true);
       }
     } catch (error) {
       console.error("Error resetting password:", error.message);
       setError(true);
-      setErrMessage(t("Failed to send reset email"));
+      setErrMessage(t("Failed to send reset email, try again"));
     }
   };
 
   useEffect(() => {
     const signUpButton = document.getElementById("signUp");
     const signInButton = document.getElementById("signIn");
+    const signUppButton = document.getElementById("signUpp");
+    const signInnButton = document.getElementById("signInn");
     const container = document.getElementById("container");
 
-    if (signUpButton && signInButton && container) {
-      signUpButton.addEventListener("click", () => {
+    if (
+      signUpButton &&
+      signInButton &&
+      container &&
+      signUppButton &&
+      signInnButton
+    ) {
+      const handleSignUpClick = () => {
         container.classList.add("right-panel-active");
-      });
+      };
 
-      signInButton.addEventListener("click", () => {
+      const handleSignInClick = () => {
         container.classList.remove("right-panel-active");
+      };
+
+      signUpButton.addEventListener("click", handleSignUpClick);
+      signInButton.addEventListener("click", handleSignInClick);
+      signUppButton.addEventListener("click", handleSignUpClick);
+      signInnButton.addEventListener("click", handleSignInClick);
+
+      return () => {
+        signUpButton.removeEventListener("click", handleSignUpClick);
+        signInButton.removeEventListener("click", handleSignInClick);
+        signUppButton.removeEventListener("click", handleSignUpClick);
+        signInnButton.removeEventListener("click", handleSignInClick);
+      };
+    } else {
+      console.log("Elements not found:", {
+        signUpButton,
+        signInButton,
+        container,
       });
     }
-
-    // Cleanup event listeners on unmount
-    return () => {
-      if (signUpButton && signInButton && container) {
-        signUpButton.removeEventListener("click", () => {
-          container.classList.add("right-panel-active");
-        });
-
-        signInButton.removeEventListener("click", () => {
-          container.classList.remove("right-panel-active");
-        });
-      }
-    };
   }, []);
 
   return (
     <div className="flex items-center justify-center h-screen">
       {error && (
-        <div className="text-center absolute right-0 left-0 top-20">
+        <div className="text-center absolute right-0 left-0 px-5 md:px-0 top-16 md:top-20">
           <div
             className="p-4 bg-red-500 items-center text-indigo-100 leading-none rounded-full flex lg:inline-flex"
             role="alert"
@@ -165,7 +175,7 @@ export default function Login() {
         </div>
       )}
       {resetSuccess && (
-        <div className="text-center absolute right-0 left-0 top-20">
+        <div className="text-center absolute right-0 left-0 px-5 md:px-0 top-16 md:top-20">
           <div
             className="p-3 bg-green-500 items-center text-indigo-100 leading-none rounded-full flex lg:inline-flex"
             role="alert"
@@ -209,13 +219,13 @@ export default function Login() {
         </div>
       )}
       {showReset && (
-        <form className="w-3/5 " onSubmit={handleResetPassword}>
-          <h2 className="md:text-4xl 2xl:text-6xl my-5 font-bold">
+        <form className="w-full md:w-3/5" onSubmit={handleResetPassword}>
+          <h2 className="text-2xl md:text-4xl 2xl:text-6xl my-5 font-bold">
             {t(
               "Inserisci la tua email per proseguire con il reset della password"
             )}
           </h2>
-          <div className="w-3/6 mt-10">
+          <div className="w-3/4 md:w-3/6 mt-10">
             <input
               id="resetEmail"
               name="resetEmail"
@@ -228,7 +238,7 @@ export default function Login() {
             <div className="my-5 w-full flex items-center justify-center">
               <button
                 type="submit"
-                className="mt-10 flex md:w-3/4 2xl:w-3/6 justify-center rounded-full bg-indigo-600 px-3 py-3 text-xl font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="mt-10 flex md:w-3/4 2xl:w-3/6 justify-center rounded-full bg-indigo-600 px-3 py-3 text-lg md:text-xl font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 {t("Send reset email")}
               </button>
@@ -237,13 +247,16 @@ export default function Login() {
         </form>
       )}
       {registerStep && !showReset && (
-        <div className="container md:h-[500px] 2xl:h-[700px]" id="container">
-          <div className="form-container sign-up-container">
+        <div
+          className="container w-[85%] md:w-[70%] h-[450px] md:h-[500px] 2xl:h-[700px]"
+          id="container"
+        >
+          <div className="form-container sign-up-container w-full md:w-1/2">
             <form onSubmit={handleRegister}>
-              <h2 className="md:text-4xl 2xl:text-7xl my-5 font-bold">
+              <h2 className="text-3xl md:text-5xl 2xl:text-7xl font-bold my-5">
                 {t("Create new account")}
               </h2>
-              <div className="md:w-3/4  2xl:w-3/6 md:mt-5 2xl:mt-10">
+              <div className="mt-5 md:mt-10 w-full md:w-3/4 2xl:w-3/6">
                 <label
                   htmlFor="email"
                   className="block text-sm font-medium leading-6 text-gray-900 text-start"
@@ -261,7 +274,7 @@ export default function Login() {
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
-              <div className="md:w-3/4  2xl:w-3/6  relative">
+              <div className="mt-2 w-full md:w-3/4 2xl:w-3/6 relative">
                 <label
                   htmlFor="password"
                   className="block text-sm leading-6 text-gray-900 text-start font-semibold"
@@ -296,27 +309,37 @@ export default function Login() {
                 </div>
               </div>
               {passwordError && (
-                <div className="w-3/6">
-                  <p className="mt-1 text-red-500 text-xs text-start">
+                <div className="w-full md:w-3/6">
+                  <p className=" text-red-500 text-xs text-start">
                     {passwordError}
                   </p>
                 </div>
               )}
-
+              <p className="block md:hidden text-center text-xs text-gray-500">
+                {t("If you already have an account")}
+                <button
+                  id="signIn"
+                  type="button"
+                  className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 ms-1"
+                >
+                  {t("Sign in")}
+                </button>
+              </p>
               <button
                 type="submit"
-                className="mt-10 flex w-3/6 justify-center rounded-full bg-indigo-600 px-3 py-3 text-xl font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="my-5 flex w-3/6 justify-center rounded-full bg-indigo-600 px-3 py-3 text-xl font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 {t("Register")}
               </button>
             </form>
           </div>
-          <div className="form-container sign-in-container">
+
+          <div className="form-container sign-in-container w-full md:w-1/2">
             <form onSubmit={handleLogin}>
-              <h1 className="md:text-5xl 2xl:text-7xl font-bold my-5">
+              <h1 className="text-4xl md:text-5xl 2xl:text-7xl font-bold my-5">
                 {t("Sign in")}
               </h1>
-              <div className="mt-10 md:w-3/4 2xl:w-3/6">
+              <div className="mt-5 md:mt-10 w-full md:w-3/4 2xl:w-3/6">
                 <label
                   htmlFor="email"
                   className="block text-sm leading-6 text-gray-900 text-start font-semibold"
@@ -333,7 +356,7 @@ export default function Login() {
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
-              <div className="mt-2 md:w-3/4 2xl:w-3/6 relative">
+              <div className="mt-2 w-full md:w-3/4 2xl:w-3/6 relative">
                 <label
                   htmlFor="password"
                   className="block text-sm font-semibold leading-6 text-gray-900 text-start"
@@ -365,7 +388,7 @@ export default function Login() {
                   )}
                 </div>
               </div>
-              <p className="md:my-5 2xl:mt-10 text-center text-nowrap text-xs 2xl:text-sm text-gray-500">
+              <p className="md:my-5 2xl:mt-10 text-center text-xs 2xl:text-sm text-gray-500">
                 {t("Forgot your password?")}
                 <button
                   onClick={() => setShowReset(true)}
@@ -374,15 +397,25 @@ export default function Login() {
                   {t("Click here")}
                 </button>
               </p>
+              <p className="block md:hidden text-center text-xs text-gray-500">
+                {t("or if you dont'have account")}
+                <button
+                  id="signUp"
+                  type="button"
+                  className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 ms-1"
+                >
+                  {t("Sign up")}
+                </button>
+              </p>
               <button
                 type="submit"
-                className="md:mt-3 2xl:mt-10 flex w-3/6 justify-center rounded-full bg-indigo-600 px-3 py-3 text-xl font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="my-5 2xl:mt-10 flex w-3/6 justify-center rounded-full bg-indigo-600 px-3 py-3 text-xl font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 {t("Sign in")}
               </button>
             </form>
           </div>
-          <div className="overlay-container">
+          <div className="overlay-container hidden md:block">
             <div className="overlay bg-indigo-600">
               <div className="overlay-panel overlay-left">
                 <h2 className="md:text-5xl 2xl:text-7xl my-5 text-white font-bold">
@@ -392,7 +425,8 @@ export default function Login() {
                   {t("To access your personal dashboard, first log in")}
                 </p>
                 <button
-                  id="signIn"
+                  id="signInn"
+                  type="button"
                   className="flex w-3/6 justify-center rounded-full bg-white px-3 py-3 text-xl font-semibold leading-6 text-indigo-600 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
                   {t("Sign in")}
@@ -409,7 +443,7 @@ export default function Login() {
                   {t("Do not have an account? Create now")}
                 </p>
                 <button
-                  id="signUp"
+                  id="signUpp"
                   type="button"
                   className="mt-10 flex w-3/6 justify-center rounded-full bg-white px-3 py-3 text-xl font-semibold leading-6 text-indigo-600 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >

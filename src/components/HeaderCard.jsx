@@ -92,23 +92,12 @@ export default function HeaderCard() {
     if (!currentConfig) return null;
 
     return currentConfig.map((item, index) => (
-      // <div
-      //   data-aos={item.aos}
-      //   key={index}
-      //   className={`overflow-hidden rounded-2xl ${
-      //     item.bgCard ? `bg-${item.bgCard}` : ""
-      //   } ${
-      //     item.colorText ? `text-${item.colorText}` : "text-white"
-      //   }  shadow-lg flex-col items-center justify-center hover:cursor-pointer mt-5 2xl:mt-5`}
-      // >
-      <div data-aos={item.aos} key={index} class="card ">
+      <div data-aos={item.aos} key={index} className="card ms-5 md:ms-0">
         <svg
           fill="none"
           viewBox="0 0 342 175"
-          height="200"
-          width="400"
           xmlns="http://www.w3.org/2000/svg"
-          className="background"
+          className="background h-[150px] w-full md:w-[250px] md:h-[180px] 2xl:w-[400px] 2xl:h-[200px] "
         >
           <path
             fill="url(#paint0_linear_103_640)"
@@ -123,19 +112,23 @@ export default function HeaderCard() {
               x1="0"
               id="paint0_linear_103_640"
             >
-              <stop stop-color="#5750ec"></stop>
-              <stop stop-color="#362A84" offset="1"></stop>
+              <stop stopColor="#5750ec"></stop>
+              <stop stopColor="#362A84" offset="1"></stop>
             </linearGradient>
           </defs>
         </svg>
-        <div class="absolute right-[-20px] top-[5px]">
-          <img className="w-[100px]" src={item.src} />
+        <div className="absolute right-[20px] top-[10px] md:right-[5%] 2xl:right-[30%] md:top-[20px] 2xl:top-[5px]">
+          <img className="w-[75px] 2xl:w-[100px]" src={item.src} />
         </div>
-        <p class="mt-5 ms-3 text-white font-semibold text-5xl"> {item.stat}</p>
-        <div class="info">
-          <div class="ms-3">
-            <p class="text-4xl text-nowrap font-medium">{item.name}</p>
-          </div>
+        <p className="2xl:mt-5 md:mt-7 2xl:ms-3 md:ms-0 ms-10 text-white font-semibold text-4xl md:text-3xl 2xl:text-5xl">
+          {" "}
+          {item.stat}
+        </p>
+
+        <div className="ms-10 mt-10 md:mt-5 2xl:mt-10 md:ms-0 2xl:ms-3">
+          <p className="text-3xl md:text-2xl 2xl:text-4xl text-nowrap font-medium">
+            {item.name}
+          </p>
         </div>
       </div>
     ));
@@ -143,7 +136,7 @@ export default function HeaderCard() {
 
   return (
     <div className={`${modalOpen ? "opacity-10" : "opacity-100"}`}>
-      <div className="2xl:mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="2xl:mt-5 grid grid-cols-1 gap-5 md:gap-0 md:grid-cols-4">
         {renderCards(location.pathname)}
       </div>
     </div>
