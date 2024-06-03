@@ -10,7 +10,6 @@ import { AppProvider } from "./context/AppContext";
 import "aos/dist/aos.css";
 import Layout from "./pages/Layout";
 import Login from "./pages/Login";
-import Register from "./pages/Register";
 import Aos from "aos";
 import Home from "./pages/Home";
 import PageNotFound from "./pages/PageNotFound";
@@ -36,7 +35,6 @@ export function App() {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
       <Route path="/set-new-password" element={<SetNewPassword />} />
       <Route
         path="/*"

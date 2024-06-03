@@ -111,6 +111,13 @@ export default function Login() {
     }
   };
 
+  //! Funzione per prevenire l'azione del tasto Enter negli input
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+    }
+  };
+
   useEffect(() => {
     const signUpButton = document.getElementById("signUp");
     const signInButton = document.getElementById("signIn");
@@ -352,6 +359,7 @@ export default function Login() {
                   autoComplete="email"
                   required
                   value={email}
+                  onKeyDown={handleKeyDown}
                   onChange={(e) => setEmail(e.target.value)}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
@@ -369,6 +377,7 @@ export default function Login() {
                   autoComplete="new-password"
                   required
                   value={password}
+                  onKeyDown={handleKeyDown}
                   onChange={(e) => {
                     setPassword(e.target.value);
                   }}
