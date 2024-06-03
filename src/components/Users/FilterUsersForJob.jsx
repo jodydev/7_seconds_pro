@@ -26,7 +26,6 @@ export default function FilterUsersForJob({ refresh }) {
   const [sortDirectionAi, setSortDirectionAi] = useState("desc");
   const [sortKey, setSortKey] = useState("cv_created_at");
   const [sortKeyAi, setSortKeyAi] = useState("rating");
-  
   const {
     currentPage,
     itemsPerPage,
@@ -37,52 +36,50 @@ export default function FilterUsersForJob({ refresh }) {
   } = usePagination(totalApplicants, checkDeviceSizeApplicantsTable);
   const currentApplicants = currentItemsSlice(applicants);
   
+  //! Funzione per cambiare il numero di candidati per pagina
   const handleApplicantsPerPageChange = (event) => {
     handleItemsPerPageChange(parseInt(event.target.value));
   };
-  
-  const sortApplicants = (key, direction, applicantsList) => {
+
+  //! Funzione per ordinare i candidati in base a Created At o AI Score (NON FUNZIONA CORRETTAMENTE)
+  const combinedSortApplicants = (applicantsList) => {
     return [...applicantsList].sort((a, b) => {
-      if (direction === "asc") {
-        return new Date(a[key]) - new Date(b[key]);
-      } else {
-        return new Date(b[key]) - new Date(a[key]);
+      let primarySortResult;
+      if (sortKey === "cv_created_at") {
+        primarySortResult = sortDirection === "asc" 
+          ? new Date(a.cv_created_at) - new Date(b.cv_created_at) 
+          : new Date(b.cv_created_at) - new Date(a.cv_created_at);
+      } else if (sortKey === "rating") {
+        primarySortResult = sortDirection === "asc" 
+          ? a.rating - b.rating 
+          : b.rating - a.rating;
       }
+  
+      let secondarySortResult = 0;
+      if (primarySortResult === 0) {
+        if (sortKeyAi === "cv_created_at") {
+          secondarySortResult = sortDirectionAi === "asc" 
+            ? new Date(a.cv_created_at) - new Date(b.cv_created_at) 
+            : new Date(b.cv_created_at) - new Date(a.cv_created_at);
+        } else if (sortKeyAi === "rating") {
+          secondarySortResult = sortDirectionAi === "asc" 
+            ? a.rating - b.rating 
+            : b.rating - a.rating;
+        }
+      }
+  
+      return primarySortResult !== 0 ? primarySortResult : secondarySortResult;
     });
   };
   
-  const sortApplicantsAi = (key, direction, applicantsList) => {
-    return [...applicantsList].sort((a, b) => {
-      if (direction === "asc") {
-        return a[key] - b[key];
-      } else {
-        return b[key] - a[key];
-      }
-    });
-  };
   
-  const handleSortClick = () => {
-    const newDirection = sortDirection === "asc" ? "desc" : "asc";
-    setSortDirection(newDirection);
-    setApplicants(sortApplicants(sortKey, newDirection, applicants));
-  };
-  
-  const handleSortClickAi = () => {
-    const newDirection = sortDirectionAi === "asc" ? "desc" : "asc";
-    setSortDirectionAi(newDirection);
-    setApplicants(sortApplicantsAi(sortKeyAi, newDirection, applicants));
-  };
-  
+  //! Effetto per calcolare il numero totale di candidati
   useEffect(() => {
     applicantsCountRef.current = applicants.length;
     setTotalApplicants(applicantsCountRef.current);
   }, [applicants]);
   
-  useEffect(() => {
-    setApplicants(sortApplicants(sortKey, sortDirection, applicants));
-    setApplicants(sortApplicantsAi(sortKeyAi, sortDirectionAi, applicants));
-  }, [sortKey, sortKeyAi, sortDirection, sortDirectionAi]);
-  
+  //! Effetto per caricare i candidati e gestire i cambiamenti in tempo reale
   useEffect(() => {
     const getApplicantsForJob = async (jobId) => {
       try {
@@ -94,7 +91,7 @@ export default function FilterUsersForJob({ refresh }) {
         if (error) {
           throw error;
         } else {
-          const sortedData = sortApplicants(sortKey, sortDirection, data);
+          const sortedData = combinedSortApplicants(data);
           setApplicants(sortedData);
           setTotalApplicants(sortedData.length);
         }
@@ -107,7 +104,7 @@ export default function FilterUsersForJob({ refresh }) {
       if (payload.eventType === "INSERT" && payload.table === "threads") {
         setApplicants((prevApplicants) => {
           const newApplicants = [payload.new, ...prevApplicants];
-          const sortedApplicants = sortApplicants(sortKey, sortDirection, newApplicants);
+          const sortedApplicants = combinedSortApplicants(newApplicants);
           return sortedApplicants;
         });
         setTotalApplicants((prevTotal) => prevTotal + 1);
@@ -116,7 +113,7 @@ export default function FilterUsersForJob({ refresh }) {
   
     const intervalId = setInterval(() => {
       getApplicantsForJob(jobId);
-    }, 5000);
+    }, 10000);
   
     const channel = supabase
       .channel("schema-db-changes")
@@ -136,10 +133,26 @@ export default function FilterUsersForJob({ refresh }) {
       clearInterval(intervalId);
       channel.unsubscribe();
     };
-  }, [jobId, sortKey, sortDirection]);
+  }, [jobId, sortKey, sortDirection, sortKeyAi, sortDirectionAi]);
   
+  //! Effetto per ordinare i candidati
+  useEffect(() => {
+    setApplicants(combinedSortApplicants(applicants));
+  }, [sortKey, sortKeyAi, sortDirection, sortDirectionAi]);
   
-
+  //! Funzione per ordinare per Created At
+  const handleSortClick = () => {
+    const newDirection = sortDirection === "asc" ? "desc" : "asc";
+    setSortDirection(newDirection);
+    setApplicants(combinedSortApplicants(applicants));
+  };
+  
+  //! Funzione per ordinare per AI Score
+  const handleSortClickAi = () => {
+    const newDirection = sortDirectionAi === "asc" ? "desc" : "asc";
+    setSortDirectionAi(newDirection);
+    setApplicants(combinedSortApplicants(applicants));
+  };
 
   return (
     <section data-aos="fade-up">
@@ -275,122 +288,116 @@ export default function FilterUsersForJob({ refresh }) {
                 </tr>
               </thead>
               <tbody className="hover:cursor-pointer ">
-                {currentApplicants.map(
-                  (applicant) => (
-                    (
-                      <tr
-                        key={applicant.thread_id}
-                        className="text-sm 2xl:text-lg bg-white border-b"
-                      >
-                        <td className="px-3 py-4">
-                          <Link to={`/user-details/${applicant.thread_id}`}>
-                            <div className="w-full">
-                              {applicant.thread_status === "ready" ? (
-                                <ReadySpan />
-                              ) : applicant.thread_status === "failed" ? (
-                                <ErrorSpan />
-                              ) : (
-                                <ProcessingSpan />
-                              )}
-                            </div>
-                          </Link>
-                        </td>
+                {currentApplicants.map((applicant) => (
+                  <tr
+                    key={applicant.thread_id}
+                    className="text-sm 2xl:text-lg bg-white border-b"
+                  >
+                    <td className="px-3 py-4">
+                      <Link to={`/user-details/${applicant.thread_id}`}>
+                        <div className="w-full">
+                          {applicant.thread_status === "ready" ? (
+                            <ReadySpan />
+                          ) : applicant.thread_status === "failed" ? (
+                            <ErrorSpan />
+                          ) : (
+                            <ProcessingSpan />
+                          )}
+                        </div>
+                      </Link>
+                    </td>
 
-                        <td className="px-3 py-4">
-                          <Link to={`/user-details/${applicant.thread_id}`}>
-                            <div className="w-full truncate">
-                              {applicant.fullname ||
-                                extractFileName(applicant.file) || (
-                                  <div className="animate-pulse  h-6 bg-gray-200 rounded-lg"></div>
-                                )}
-                            </div>
-                          </Link>
-                        </td>
-                        <td
-                          className="px-3 py-4"
-                          title={
-                            applicant.cv_created_at
-                              ? new Date(
-                                  applicant.cv_created_at
-                                ).toLocaleString()
-                              : ""
-                          }
-                        >
-                          <Link to={`/user-details/${applicant.thread_id}`}>
-                            <div className="w-full">
-                              {applicant.cv_created_at ? (
-                                new Date(
-                                  applicant.cv_created_at
-                                ).toLocaleDateString()
-                              ) : (
-                                <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
-                              )}
-                            </div>
-                          </Link>
-                        </td>
+                    <td className="px-3 py-4">
+                      <Link to={`/user-details/${applicant.thread_id}`}>
+                        <div className="w-full truncate">
+                          {applicant.fullname ||
+                            extractFileName(applicant.file) || (
+                              <div className="animate-pulse  h-6 bg-gray-200 rounded-lg"></div>
+                            )}
+                        </div>
+                      </Link>
+                    </td>
+                    <td
+                      className="px-3 py-4"
+                      title={
+                        applicant.cv_created_at
+                          ? new Date(applicant.cv_created_at).toLocaleString()
+                          : ""
+                      }
+                    >
+                      <Link to={`/user-details/${applicant.thread_id}`}>
+                        <div className="w-full">
+                          {applicant.cv_created_at ? (
+                            new Date(
+                              applicant.cv_created_at
+                            ).toLocaleDateString()
+                          ) : (
+                            <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
+                          )}
+                        </div>
+                      </Link>
+                    </td>
 
-                        <td className="px-3 py-4">
-                          <Link to={`/user-details/${applicant.thread_id}`}>
-                            <div className="w-full">
-                              {applicant.age === null ||
-                              applicant.age === undefined ? (
-                                <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
-                              ) : applicant.age === 0 ? (
-                                <span>N/D</span>
-                              ) : (
-                                <span>{applicant.age}</span>
-                              )}
-                            </div>
-                          </Link>
-                        </td>
+                    <td className="px-3 py-4">
+                      <Link to={`/user-details/${applicant.thread_id}`}>
+                        <div className="w-full">
+                          {applicant.age === null ||
+                          applicant.age === undefined ? (
+                            <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
+                          ) : applicant.age === 0 ? (
+                            <span>N/D</span>
+                          ) : (
+                            <span>{applicant.age}</span>
+                          )}
+                        </div>
+                      </Link>
+                    </td>
 
-                        <td className="px-3 py-4">
-                          <Link to={`/user-details/${applicant.thread_id}`}>
-                            <div className="w-full">
-                              {applicant.city === null ||
-                              applicant.city === undefined ? (
-                                <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
-                              ) : applicant.city === 0 ? (
-                                <span>N/D</span>
-                              ) : (
-                                <span>{applicant.city}</span>
-                              )}
-                            </div>
-                          </Link>
-                        </td>
+                    <td className="px-3 py-4">
+                      <Link to={`/user-details/${applicant.thread_id}`}>
+                        <div className="w-full">
+                          {applicant.city === null ||
+                          applicant.city === undefined ? (
+                            <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
+                          ) : applicant.city === 0 ? (
+                            <span>N/D</span>
+                          ) : (
+                            <span>{applicant.city}</span>
+                          )}
+                        </div>
+                      </Link>
+                    </td>
 
-                        <td className="px-3 py-4">
-                          <Link to={`/user-details/${applicant.thread_id}`}>
-                            <div className="w-full">
-                              {applicant.rating === null ||
-                              applicant.rating === undefined ? (
-                                <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
-                              ) : (
-                                <div className="flex flex-row  flex-nowrap">
-                                  <StarRatings
-                                    rating={applicant.rating}
-                                    starRatedColor="gold"
-                                    numberOfStars={5}
-                                    name="rating"
-                                    starDimension="20px"
-                                    starSpacing="2px"
-                                  />
-                                  <p className="ms-2 inline-flex items-center rounded-md bg-purple-50 px-2 py-1 text-xs 2xl:text-sm font-medium text-purple-700 ring-1 ring-inset ring-purple-700/10">
-                                    {`${
-                                      applicant.rating === 0
-                                        ? "0"
-                                        : applicant.rating
-                                    }`}
-                                  </p>
-                                </div>
-                              )}
+                    <td className="px-3 py-4">
+                      <Link to={`/user-details/${applicant.thread_id}`}>
+                        <div className="w-full">
+                          {applicant.rating === null ||
+                          applicant.rating === undefined ? (
+                            <div className="animate-pulse h-6 bg-gray-200 rounded-lg"></div>
+                          ) : (
+                            <div className="flex flex-row  flex-nowrap">
+                              <StarRatings
+                                rating={applicant.rating}
+                                starRatedColor="gold"
+                                numberOfStars={5}
+                                name="rating"
+                                starDimension="20px"
+                                starSpacing="2px"
+                              />
+                              <p className="ms-2 inline-flex items-center rounded-md bg-purple-50 px-2 py-1 text-xs 2xl:text-sm font-medium text-purple-700 ring-1 ring-inset ring-purple-700/10">
+                                {`${
+                                  applicant.rating === 0
+                                    ? "0"
+                                    : applicant.rating
+                                }`}
+                              </p>
                             </div>
-                          </Link>
-                        </td>
-                      </tr>
-                    )
-                  )
-                )}
+                          )}
+                        </div>
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           )}
