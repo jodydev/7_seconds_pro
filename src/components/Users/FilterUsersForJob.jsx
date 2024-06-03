@@ -94,7 +94,7 @@ export default function FilterUsersForJob({ refresh }) {
           throw error;
         } else {
           const sortedData = data.sort(
-            (a, b) => new Date(b.created_at) - new Date(a.created_at)
+            (a, b) => new Date(b.cv_created_at) - new Date(a.cv_created_at)
           );
           setApplicants(sortedData);
           setTotalApplicants(sortedData.length);
@@ -116,9 +116,9 @@ export default function FilterUsersForJob({ refresh }) {
       }
     };
 
-    const intervalId = setInterval(() => {
-      getApplicantsForJob(jobId);
-    }, 10000);
+    // const intervalId = setInterval(() => {
+    //   getApplicantsForJob(jobId);
+    // }, 10000);
 
     const channel = supabase
       .channel("schema-db-changes")
@@ -134,10 +134,10 @@ export default function FilterUsersForJob({ refresh }) {
       .subscribe();
 
     getApplicantsForJob(jobId);
-    return () => {
-      clearInterval(intervalId);
-      channel.unsubscribe();
-    };
+    // return () => {
+    //   clearInterval(intervalId);
+    //   channel.unsubscribe();
+    // };
   }, [jobId]);
 
   useEffect(() => {
@@ -289,14 +289,12 @@ export default function FilterUsersForJob({ refresh }) {
                         <td className="px-3 py-4">
                           <Link to={`/user-details/${applicant.thread_id}`}>
                             <div className="w-full">
-                              {["null", "undefined", "new", "queued"].includes(
-                                applicant.thread_status
-                              ) ? (
-                                <ProcessingSpan />
+                              {applicant.thread_status === "ready" ? (
+                                <ReadySpan />
                               ) : applicant.thread_status === "failed" ? (
                                 <ErrorSpan />
                               ) : (
-                                <ReadySpan />
+                                <ProcessingSpan />
                               )}
                             </div>
                           </Link>
