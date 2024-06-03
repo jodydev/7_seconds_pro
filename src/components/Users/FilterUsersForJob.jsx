@@ -26,6 +26,7 @@ export default function FilterUsersForJob({ refresh }) {
   const [sortDirectionAi, setSortDirectionAi] = useState("desc");
   const [sortKey, setSortKey] = useState("cv_created_at");
   const [sortKeyAi, setSortKeyAi] = useState("rating");
+  
   const {
     currentPage,
     itemsPerPage,
@@ -35,91 +36,88 @@ export default function FilterUsersForJob({ refresh }) {
     currentItemsSlice,
   } = usePagination(totalApplicants, checkDeviceSizeApplicantsTable);
   const currentApplicants = currentItemsSlice(applicants);
-
+  
   const handleApplicantsPerPageChange = (event) => {
     handleItemsPerPageChange(parseInt(event.target.value));
   };
-
-  const sortApplicants = (key, direction) => {
-    setApplicants((prevApplicants) =>
-      [...prevApplicants].sort((a, b) => {
-        if (direction === "asc") {
-          return new Date(a[key]) - new Date(b[key]);
-        } else {
-          return new Date(b[key]) - new Date(a[key]);
-        }
-      })
-    );
+  
+  const sortApplicants = (key, direction, applicantsList) => {
+    return [...applicantsList].sort((a, b) => {
+      if (direction === "asc") {
+        return new Date(a[key]) - new Date(b[key]);
+      } else {
+        return new Date(b[key]) - new Date(a[key]);
+      }
+    });
   };
-
-  const sortApplicantsAi = (key, direction) => {
-    setApplicants((prevApplicants) =>
-      [...prevApplicants].sort((a, b) => {
-        if (direction === "asc") {
-          return a[key] - b[key];
-        } else {
-          return b[key] - a[key];
-        }
-      })
-    );
+  
+  const sortApplicantsAi = (key, direction, applicantsList) => {
+    return [...applicantsList].sort((a, b) => {
+      if (direction === "asc") {
+        return a[key] - b[key];
+      } else {
+        return b[key] - a[key];
+      }
+    });
   };
-
+  
   const handleSortClick = () => {
     const newDirection = sortDirection === "asc" ? "desc" : "asc";
     setSortDirection(newDirection);
-    sortApplicants(sortKey, newDirection);
+    setApplicants(sortApplicants(sortKey, newDirection, applicants));
   };
-
+  
   const handleSortClickAi = () => {
     const newDirection = sortDirectionAi === "asc" ? "desc" : "asc";
     setSortDirectionAi(newDirection);
-    sortApplicantsAi(sortKeyAi, newDirection);
+    setApplicants(sortApplicantsAi(sortKeyAi, newDirection, applicants));
   };
-
+  
   useEffect(() => {
     applicantsCountRef.current = applicants.length;
     setTotalApplicants(applicantsCountRef.current);
   }, [applicants]);
-
+  
   useEffect(() => {
-    sortApplicants(sortKey, sortDirection);
-    sortApplicantsAi(sortKeyAi, sortDirectionAi);
+    setApplicants(sortApplicants(sortKey, sortDirection, applicants));
+    setApplicants(sortApplicantsAi(sortKeyAi, sortDirectionAi, applicants));
   }, [sortKey, sortKeyAi, sortDirection, sortDirectionAi]);
-
+  
   useEffect(() => {
     const getApplicantsForJob = async (jobId) => {
       try {
         const { data, error } = await supabase
           .from("cvs_data")
           .select("*")
-          .eq("jobid", jobId)
-          .order("cv_created_at", { ascending: false });
-
+          .eq("jobid", jobId);
+  
         if (error) {
           throw error;
         } else {
-          setApplicants(data);
-          setTotalApplicants(data.length);
+          const sortedData = sortApplicants(sortKey, sortDirection, data);
+          setApplicants(sortedData);
+          setTotalApplicants(sortedData.length);
         }
       } catch (error) {
         console.error("Errore durante il caricamento dei jobs:", error.message);
       }
     };
-
+  
     const handleChanges = (payload) => {
       if (payload.eventType === "INSERT" && payload.table === "threads") {
         setApplicants((prevApplicants) => {
           const newApplicants = [payload.new, ...prevApplicants];
-          return newApplicants;
+          const sortedApplicants = sortApplicants(sortKey, sortDirection, newApplicants);
+          return sortedApplicants;
         });
         setTotalApplicants((prevTotal) => prevTotal + 1);
       }
     };
-
+  
     const intervalId = setInterval(() => {
       getApplicantsForJob(jobId);
-    }, 10000);
-
+    }, 5000);
+  
     const channel = supabase
       .channel("schema-db-changes")
       .on(
@@ -132,14 +130,15 @@ export default function FilterUsersForJob({ refresh }) {
         handleChanges
       )
       .subscribe();
-
+  
     getApplicantsForJob(jobId);
     return () => {
       clearInterval(intervalId);
       channel.unsubscribe();
     };
-  }, [jobId]);
-
+  }, [jobId, sortKey, sortDirection]);
+  
+  
 
 
   return (
