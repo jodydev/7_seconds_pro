@@ -19,8 +19,7 @@ export default function FilterUsersForJob({ refresh }) {
   const jobId = useParams().id;
   const { accountCredits } = getUserData();
   const applicantsCountRef = useRef(0);
-  const { modalOpen, openModal, checkDeviceSizeApplicantsTable } =
-    useAppContext();
+  const { modalOpen, openModal, checkDeviceSizeApplicantsTable } = useAppContext();
   const [applicants, setApplicants] = useState([]);
   const [totalApplicants, setTotalApplicants] = useState(0);
   const [sortDirection, setSortDirection] = useState("desc");
@@ -83,21 +82,24 @@ export default function FilterUsersForJob({ refresh }) {
   }, [applicants]);
 
   useEffect(() => {
+    sortApplicants(sortKey, sortDirection);
+    sortApplicantsAi(sortKeyAi, sortDirectionAi);
+  }, [sortKey, sortKeyAi, sortDirection, sortDirectionAi]);
+
+  useEffect(() => {
     const getApplicantsForJob = async (jobId) => {
       try {
         const { data, error } = await supabase
           .from("cvs_data")
           .select("*")
-          .eq("jobid", jobId);
+          .eq("jobid", jobId)
+          .order("cv_created_at", { ascending: false });
 
         if (error) {
           throw error;
         } else {
-          const sortedData = data.sort(
-            (a, b) => new Date(b.cv_created_at) - new Date(a.cv_created_at)
-          );
-          setApplicants(sortedData);
-          setTotalApplicants(sortedData.length);
+          setApplicants(data);
+          setTotalApplicants(data.length);
         }
       } catch (error) {
         console.error("Errore durante il caricamento dei jobs:", error.message);
@@ -108,17 +110,15 @@ export default function FilterUsersForJob({ refresh }) {
       if (payload.eventType === "INSERT" && payload.table === "threads") {
         setApplicants((prevApplicants) => {
           const newApplicants = [payload.new, ...prevApplicants];
-          return newApplicants.sort(
-            (a, b) => new Date(b.created_at) - new Date(a.created_at)
-          );
+          return newApplicants;
         });
         setTotalApplicants((prevTotal) => prevTotal + 1);
       }
     };
 
-    // const intervalId = setInterval(() => {
-    //   getApplicantsForJob(jobId);
-    // }, 10000);
+    const intervalId = setInterval(() => {
+      getApplicantsForJob(jobId);
+    }, 10000);
 
     const channel = supabase
       .channel("schema-db-changes")
@@ -134,16 +134,13 @@ export default function FilterUsersForJob({ refresh }) {
       .subscribe();
 
     getApplicantsForJob(jobId);
-    // return () => {
-    //   clearInterval(intervalId);
-    //   channel.unsubscribe();
-    // };
+    return () => {
+      clearInterval(intervalId);
+      channel.unsubscribe();
+    };
   }, [jobId]);
 
-  useEffect(() => {
-    sortApplicants(sortKey, sortDirection);
-    sortApplicantsAi(sortKeyAi, sortDirectionAi);
-  }, [sortKey, sortKeyAi, sortDirection, sortDirectionAi]);
+
 
   return (
     <section data-aos="fade-up">
