@@ -132,8 +132,9 @@
   "Hi, welcome to" : "Ciao, benvenuto su",
   "Welcome Back!" : "Bentornato!",
   "To access your personal dashboard, first log in" : "Per accedere alla tua dashboard personale effettua prima la login",
-  "Create new account" : "Crea un nuovo account",
+  "Create account" : "Crea account",
   "If you already have an account" : "Se hai già un account",
   "or if you dont'have account" : "o se non hai un account",
-  "Failed to send reset email, try again" : "Invio email di reset fallito, riprova"
+  "Failed to send reset email, try again" : "Invio email di reset fallito, riprova",
+  "Enter your email to proceed with resetting your password": "Inserisci la tua email per proseguire con il reset della password"
 }

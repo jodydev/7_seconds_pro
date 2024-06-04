@@ -34,7 +34,7 @@ export default function Sidebar() {
     },
     {
       name: t("Support"),
-      href: "https://mailto:support@7seconds.pro?subject=Richiesta%20di%20supporto",
+      href: "https://mailto:support@7seconds.pro",
       icon: BiSupport,
       current: false,
     },
