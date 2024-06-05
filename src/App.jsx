@@ -20,6 +20,8 @@ import Loader from "./components/Loader";
 import { I18nextProvider } from "react-i18next";
 import i18n from "./i18n";
 import SetNewPassword from "./pages/SetNewPassword";
+import MeetingPage from "./pages/MeetingPage";
+
 
 export function App() {
   useEffect(() => {
@@ -56,6 +58,7 @@ function LayoutWithRoutes({ session, user }) {
         <Route path="/job-details/:id" element={<JobDetails />} />
         <Route path="/user-details/:id" element={<UserDetails />} />
         <Route path="/upgrade-plan" element={<UpgradePlan />} />
+        <Route path="/meetings" element={<MeetingPage />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </Layout>

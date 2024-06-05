@@ -207,7 +207,7 @@ export default function JobPostings() {
         )}
         <div
           className={`${modalOpen ? "opacity-10" : "opacity-100"} 
-           ${message ? "my-0" : "my-10 2xl:my-20"}
+           ${message ? "my-0" : "my-5 2xl:my-10"}
            ${totalJobs === 0 ? "h-[600px] 2xl:min-h-[1000px]" : ""}
            bg-white px-6 py-4 shadow-lg rounded-2xl`}
         >

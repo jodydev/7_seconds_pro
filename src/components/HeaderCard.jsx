@@ -6,6 +6,9 @@ import { useGetTotalJobs } from "../hook/useGetTotalJobs";
 import { useFileCount } from "../hook/useFileCount";
 import { getUserData } from "../hook/getUserData";
 import { useTranslation } from "react-i18next";
+import { ArrowDownIcon, ArrowUpIcon } from '@heroicons/react/20/solid';
+import { CursorArrowRaysIcon, EnvelopeOpenIcon, UsersIcon } from '@heroicons/react/24/outline';
+import classNames from 'classnames'; // Add this import statement
 
 const WorkIcon = () => (
   <svg
@@ -88,47 +91,19 @@ export default function HeaderCard() {
   };
 
   const renderCards = (pathname) => {
-    const currentConfig = config[pathname.slice(1)];
-    if (!currentConfig) return null;
-
-    return currentConfig.map((item, index) => (
-      <div data-aos={item.aos} key={index} className="card ms-5 md:ms-0">
-        <svg
-          fill="none"
-          viewBox="0 0 342 175"
-          xmlns="http://www.w3.org/2000/svg"
-          className="background h-[150px] w-full md:w-[250px] md:h-[180px] 2xl:w-[400px] 2xl:h-[200px] "
+    return config.home.map((item, index) => (
+      <div data-aos={item.aos} key={index} className="ms-5 md:ms-0">
+        <div
+          className="relative overflow-hidden rounded-lg bg-white shadow px-4 py-3"
         >
-          <path
-            fill="url(#paint0_linear_103_640)"
-            d="M0 66.4396C0 31.6455 0 14.2484 11.326 5.24044C22.6519 -3.76754 39.6026 0.147978 73.5041 7.97901L307.903 62.1238C324.259 65.9018 332.436 67.7909 337.218 73.8031C342 79.8154 342 88.2086 342 104.995V131C342 151.742 342 162.113 335.556 168.556C329.113 175 318.742 175 298 175H44C23.2582 175 12.8873 175 6.44365 168.556C0 162.113 0 151.742 0 131V66.4396Z"
-          ></path>
-          <defs>
-            <linearGradient
-              gradientUnits="userSpaceOnUse"
-              y2="128"
-              x2="354.142"
-              y1="128"
-              x1="0"
-              id="paint0_linear_103_640"
-            >
-              <stop stopColor="#5750ec"></stop>
-              <stop stopColor="#362A84" offset="1"></stop>
-            </linearGradient>
-          </defs>
-        </svg>
-        <div className="absolute right-[20px] top-[10px] md:right-[5%] 2xl:right-[30%] md:top-[20px] 2xl:top-[5px]">
-          <img className="w-[75px] 2xl:w-[100px]" src={item.src} />
-        </div>
-        <p className="2xl:mt-5 md:mt-7 2xl:ms-3 md:ms-0 ms-10 text-white font-semibold text-4xl md:text-3xl 2xl:text-5xl">
-          {" "}
-          {item.stat}
-        </p>
-
-        <div className="ms-10 mt-10 md:mt-5 2xl:mt-10 md:ms-0 2xl:ms-3">
-          <p className="text-3xl md:text-2xl 2xl:text-4xl text-nowrap font-medium">
-            {item.name}
-          </p>
+          <dt>
+            <div className="absolute">
+              <img src={item.src} className="h-16 w-16 text-white" aria-hidden="true" />
+            </div>
+            <p className="ml-20 truncate text-2xl font-medium text-gray-500">{item.name}</p>
+          </dt>
+          <dd className="ml-20 text-3xl font-semibold text-gray-900">{item.stat}</dd>
+      
         </div>
       </div>
     ));
@@ -136,7 +111,7 @@ export default function HeaderCard() {
 
   return (
     <div className={`${modalOpen ? "opacity-10" : "opacity-100"}`}>
-      <div className="2xl:mt-5 grid grid-cols-1 gap-5 md:gap-0 md:grid-cols-4">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-4">
         {renderCards(location.pathname)}
       </div>
     </div>
