@@ -98,11 +98,11 @@ export default function HeaderCard() {
         >
           <dt>
             <div className="absolute">
-              <img src={item.src} className="h-16 w-16 text-white" aria-hidden="true" />
+              <img src={item.src} className="h-14 w-14 2xl:h-16 2xl:w-16 text-white" aria-hidden="true" />
             </div>
-            <p className="ml-20 truncate text-2xl font-medium text-gray-500">{item.name}</p>
+            <p className="ml-20 truncate 2xl:text-2xl font-medium text-gray-500">{item.name}</p>
           </dt>
-          <dd className="ml-20 text-3xl font-semibold text-gray-900">{item.stat}</dd>
+          <dd className="ml-20 text-2xl 2xl:text-3xl font-semibold text-gray-900">{item.stat}</dd>
       
         </div>
       </div>

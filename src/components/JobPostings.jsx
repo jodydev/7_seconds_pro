@@ -13,8 +13,13 @@ import Loader from "./Loader";
 
 export default function JobPostings() {
   const { t } = useTranslation();
-  const { modalOpen, openModal, closeModal, checkDeviceSizeJobTable } =
-    useAppContext();
+  const {
+    modalOpen,
+    openModal,
+    closeModal,
+    checkDeviceSizeJobTable,
+    searchTerm,
+  } = useAppContext();
   const [sortDirection, setSortDirection] = useState("asc");
   const [sortKey, setSortKey] = useState(null);
   const [sortedJobs, setSortedJobs] = useState([]);
@@ -46,7 +51,7 @@ export default function JobPostings() {
     setCurrentPage(1);
   };
 
-  //! Funzione per settare il messaggio di inserimento job  
+  //! Funzione per settare il messaggio di inserimento job
   const handleResult = (data) => {
     setMessage(data);
   };
@@ -176,7 +181,7 @@ export default function JobPostings() {
     getFilterJobs();
   }, []);
 
-  //! Effetto per l'ordinamento dei lavori 
+  //! Effetto per l'ordinamento dei lavori
   useEffect(() => {
     try {
       const sorted = sortJobs(cvsForJobRef.current, sortKey, sortDirection);
@@ -185,6 +190,14 @@ export default function JobPostings() {
       console.error("Errore durante l'ordinamento dei lavori:", error.message);
     }
   }, [cvsForJobRef.current, sortKey, sortDirection]);
+
+  const filteredJobs = currentJobs.filter((job) =>
+    Object.values(job).some(
+      (value) =>
+        typeof value === "string" &&
+        value.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+  );
 
   return (
     <section>
@@ -207,7 +220,7 @@ export default function JobPostings() {
         )}
         <div
           className={`${modalOpen ? "opacity-10" : "opacity-100"} 
-           ${message ? "my-0" : "my-5 2xl:my-10"}
+           ${message ? "my-0" : "my-5 md:my-10"}
            ${totalJobs === 0 ? "h-[600px] 2xl:min-h-[1000px]" : ""}
            bg-white px-6 py-4 shadow-lg rounded-2xl`}
         >
@@ -269,7 +282,7 @@ export default function JobPostings() {
                   </tr>
                 </thead>
                 <tbody className="hover:cursor-pointer">
-                  {currentJobs.map((job) => (
+                  {filteredJobs.map((job) => (
                     <tr
                       key={job.id}
                       className="2xl:text-lg bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"

@@ -21,6 +21,7 @@ import { I18nextProvider } from "react-i18next";
 import i18n from "./i18n";
 import SetNewPassword from "./pages/SetNewPassword";
 import MeetingPage from "./pages/MeetingPage";
+import UpdateAccountPage from "./pages/UpdateAccountPage";
 
 
 export function App() {
@@ -59,6 +60,7 @@ function LayoutWithRoutes({ session, user }) {
         <Route path="/user-details/:id" element={<UserDetails />} />
         <Route path="/upgrade-plan" element={<UpgradePlan />} />
         <Route path="/meetings" element={<MeetingPage />} />
+        <Route path="/update-account" element={<UpdateAccountPage />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </Layout>

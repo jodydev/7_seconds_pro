@@ -8,6 +8,8 @@ export const AppProvider = ({ children }) => {
   const checkDeviceSizeJobTable = is1440p ? 10 : is1080p ? 10 : 5;
   const checkDeviceSizeApplicantsTable = is1440p ? 10 : is1080p ? 10 : 5;
   const [modalOpen, setModalOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [jobApplicants, setJobApplicants] = useState([]);
 
   const openModal = () => {
     setModalOpen(true);
@@ -18,7 +20,7 @@ export const AppProvider = ({ children }) => {
   };
 
   return (
-    <AppContext.Provider value={{ modalOpen, openModal, closeModal, checkDeviceSizeJobTable, checkDeviceSizeApplicantsTable }}>
+    <AppContext.Provider value={{ jobApplicants, setJobApplicants, searchTerm, setSearchTerm, modalOpen, openModal, closeModal, checkDeviceSizeJobTable, checkDeviceSizeApplicantsTable }}>
       {children}
     </AppContext.Provider>
   );

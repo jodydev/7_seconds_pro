@@ -228,9 +228,7 @@ export default function Login() {
       {showReset && (
         <form className="w-full md:w-3/5" onSubmit={handleResetPassword}>
           <h2 className="text-2xl md:text-4xl 2xl:text-6xl my-5 font-bold">
-            {t(
-              "Enter your email to proceed with resetting your password"
-            )}
+            {t("Enter your email to proceed with resetting your password")}
           </h2>
           <div className="w-3/4 md:w-3/6 mt-10">
             <input
@@ -255,22 +253,53 @@ export default function Login() {
       )}
       {registerStep && !showReset && (
         <div
-          className="container w-[85%] md:w-[70%] h-[450px] md:h-[500px] 2xl:h-[700px]"
+          className="container w-[85%] md:w-[70%] h-[80%] md:h-[600px] 2xl:h-[800px]"
           id="container"
         >
           <div className="form-container sign-up-container w-full md:w-1/2">
             <form onSubmit={handleRegister}>
-              <h2 className="text-3xl md:text-5xl 2xl:text-7xl font-bold my-5">
+              <h2 className="text-3xl md:text-5xl 2xl:text-7xl font-bold my-8">
                 {t("Create account")}
               </h2>
-              <div className="mt-5 md:mt-10 w-full md:w-3/4 2xl:w-3/6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6  w-full md:w-3/4 2xl:w-3/6">
+                <div className="col-span-1">
+                  <label
+                    htmlFor="firstName"
+                    className="block text-sm font-medium leading-6 text-gray-900 text-start"
+                  >
+                    {t("First Name")}
+                  </label>
+                  <input
+                    name="firstName"
+                    type="text"
+                    autoComplete="given-name"
+                    required
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+                <div className="col-span-1">
+                  <label
+                    htmlFor="lastName"
+                    className="block text-sm font-medium leading-6 text-gray-900 text-start"
+                  >
+                    {t("Last Name")}
+                  </label>
+                  <input
+                    name="lastName"
+                    type="text"
+                    autoComplete="family-name"
+                    required
+                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+              </div>
+              <div className="mt-2 w-full md:w-3/4 2xl:w-3/6">
                 <label
                   htmlFor="email"
                   className="block text-sm font-medium leading-6 text-gray-900 text-start"
                 >
                   {t("Email address")}
                 </label>
-
                 <input
                   name="email"
                   type="email"
@@ -288,7 +317,6 @@ export default function Login() {
                 >
                   {t("Password")}
                 </label>
-
                 <input
                   name="password"
                   type={showPassword ? "text" : "password"}
@@ -317,11 +345,24 @@ export default function Login() {
               </div>
               {passwordError && (
                 <div className="w-full md:w-3/6">
-                  <p className=" text-red-500 text-xs text-start">
+                  <p className="text-red-500 text-xs text-start">
                     {passwordError}
                   </p>
                 </div>
               )}
+              <div className="my-5 w-full md:w-3/4 2xl:w-3/6">
+                <label
+                  htmlFor="profilePhoto"
+                  className="block text-sm font-medium leading-6 text-gray-900 text-start"
+                >
+                  {t("Profile Photo")}
+                </label>
+                <input
+                  name="profilePhoto"
+                  type="file"
+                  className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-white focus:outline-none"
+                />
+              </div>
               <p className="block md:hidden text-center text-xs text-gray-500">
                 {t("If you already have an account")}
                 <button
@@ -334,7 +375,7 @@ export default function Login() {
               </p>
               <button
                 type="submit"
-                className="my-5 flex w-3/6 justify-center rounded-full bg-indigo-600 px-3 py-3 text-xl font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="my-5 flex w-3/6 justify-center rounded-full bg-indigo-600 px-3 py-2 text-base font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 {t("Register")}
               </button>
@@ -397,6 +438,8 @@ export default function Login() {
                   )}
                 </div>
               </div>
+
+              {/* FORGOT PASSWORD */}
               <p className="md:my-5 2xl:mt-10 text-center text-xs 2xl:text-sm text-gray-500">
                 {t("Forgot your password?")}
                 <button
@@ -416,11 +459,36 @@ export default function Login() {
                   {t("Sign up")}
                 </button>
               </p>
+
               <button
                 type="submit"
-                className="my-5 2xl:mt-10 flex w-3/6 justify-center rounded-full bg-indigo-600 px-3 py-3 text-xl font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="my-3 flex w-3/6 justify-center rounded-full bg-indigo-600 px-3 py-2 text-base 2xl:text-xl font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
                 {t("Sign in")}
+              </button>
+              <p className="text-center text-xs text-gray-500">
+                {t("oppure")}
+              </p>
+              <button className="button rounded-full my-3">
+                <svg
+                  viewBox="0 0 16 16"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                >
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                  <g
+                    id="SVGRepo_tracerCarrier"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></g>
+                  <g id="SVGRepo_iconCarrier">
+                    <path
+                      fill="#ffffff"
+                      d="M12.225 12.225h-1.778V9.44c0-.664-.012-1.519-.925-1.519-.926 0-1.068.724-1.068 1.47v2.834H6.676V6.498h1.707v.783h.024c.348-.594.996-.95 1.684-.925 1.802 0 2.135 1.185 2.135 2.728l-.001 3.14zM4.67 5.715a1.037 1.037 0 01-1.032-1.031c0-.566.466-1.032 1.032-1.032.566 0 1.031.466 1.032 1.032 0 .566-.466 1.032-1.032 1.032zm.889 6.51h-1.78V6.498h1.78v5.727zM13.11 2H2.885A.88.88 0 002 2.866v10.268a.88.88 0 00.885.866h10.226a.882.882 0 00.889-.866V2.865a.88.88 0 00-.889-.864z"
+                    ></path>
+                  </g>
+                </svg>
+                Continue with LinkedIn
               </button>
             </form>
           </div>

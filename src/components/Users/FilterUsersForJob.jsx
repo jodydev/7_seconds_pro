@@ -15,11 +15,19 @@ import usePagination from "../../hook/usePagination";
 import ApplicantsPagination from "../ApplicantsPagination";
 
 export default function FilterUsersForJob({ refresh }) {
+  const {
+    jobApplicants,
+    setJobApplicants,
+    searchTerm,
+    setSearchTerm,
+    modalOpen,
+    openModal,
+    checkDeviceSizeApplicantsTable,
+  } = useAppContext();
   const { t } = useTranslation();
   const jobId = useParams().id;
   const { accountCredits } = getUserData();
   const applicantsCountRef = useRef(0);
-  const { modalOpen, openModal, checkDeviceSizeApplicantsTable } = useAppContext();
   const [applicants, setApplicants] = useState([]);
   const [totalApplicants, setTotalApplicants] = useState(0);
   const [sortDirection, setSortDirection] = useState("desc");
@@ -35,7 +43,8 @@ export default function FilterUsersForJob({ refresh }) {
     currentItemsSlice,
   } = usePagination(totalApplicants, checkDeviceSizeApplicantsTable);
   const currentApplicants = currentItemsSlice(applicants);
-  
+  const [filteredApplicants, setFilteredApplicants] = useState([]);
+
   //! Funzione per cambiare il numero di candidati per pagina
   const handleApplicantsPerPageChange = (event) => {
     handleItemsPerPageChange(parseInt(event.target.value));
@@ -46,39 +55,54 @@ export default function FilterUsersForJob({ refresh }) {
     return [...applicantsList].sort((a, b) => {
       let primarySortResult;
       if (sortKey === "cv_created_at") {
-        primarySortResult = sortDirection === "asc" 
-          ? new Date(a.cv_created_at) - new Date(b.cv_created_at) 
-          : new Date(b.cv_created_at) - new Date(a.cv_created_at);
+        primarySortResult =
+          sortDirection === "asc"
+            ? new Date(a.cv_created_at) - new Date(b.cv_created_at)
+            : new Date(b.cv_created_at) - new Date(a.cv_created_at);
       } else if (sortKey === "rating") {
-        primarySortResult = sortDirection === "asc" 
-          ? a.rating - b.rating 
-          : b.rating - a.rating;
+        primarySortResult =
+          sortDirection === "asc" ? a.rating - b.rating : b.rating - a.rating;
       }
-  
+
       let secondarySortResult = 0;
       if (primarySortResult === 0) {
         if (sortKeyAi === "cv_created_at") {
-          secondarySortResult = sortDirectionAi === "asc" 
-            ? new Date(a.cv_created_at) - new Date(b.cv_created_at) 
-            : new Date(b.cv_created_at) - new Date(a.cv_created_at);
+          secondarySortResult =
+            sortDirectionAi === "asc"
+              ? new Date(a.cv_created_at) - new Date(b.cv_created_at)
+              : new Date(b.cv_created_at) - new Date(a.cv_created_at);
         } else if (sortKeyAi === "rating") {
-          secondarySortResult = sortDirectionAi === "asc" 
-            ? a.rating - b.rating 
-            : b.rating - a.rating;
+          secondarySortResult =
+            sortDirectionAi === "asc"
+              ? a.rating - b.rating
+              : b.rating - a.rating;
         }
       }
-  
+
       return primarySortResult !== 0 ? primarySortResult : secondarySortResult;
     });
   };
-  
-  
+
+  //! Funzione per ordinare per Created At
+  const handleSortClick = () => {
+    const newDirection = sortDirection === "asc" ? "desc" : "asc";
+    setSortDirection(newDirection);
+    setApplicants(combinedSortApplicants(applicants));
+  };
+
+  //! Funzione per ordinare per AI Score
+  const handleSortClickAi = () => {
+    const newDirection = sortDirectionAi === "asc" ? "desc" : "asc";
+    setSortDirectionAi(newDirection);
+    setApplicants(combinedSortApplicants(applicants));
+  };
+
   //! Effetto per calcolare il numero totale di candidati
   useEffect(() => {
     applicantsCountRef.current = applicants.length;
     setTotalApplicants(applicantsCountRef.current);
   }, [applicants]);
-  
+
   //! Effetto per caricare i candidati e gestire i cambiamenti in tempo reale
   useEffect(() => {
     const getApplicantsForJob = async (jobId) => {
@@ -87,34 +111,57 @@ export default function FilterUsersForJob({ refresh }) {
           .from("cvs_data")
           .select("*")
           .eq("jobid", jobId);
-  
+
         if (error) {
           throw error;
         } else {
           const sortedData = combinedSortApplicants(data);
           setApplicants(sortedData);
           setTotalApplicants(sortedData.length);
+          // Applica il filtro di ricerca ai nuovi dati
+          const filtered = sortedData.filter(
+            (applicant) =>
+              applicant.fullname
+                .toLowerCase()
+                .includes(searchTerm.toLowerCase()) ||
+              applicant.city.toLowerCase().includes(searchTerm.toLowerCase())
+          );
+          setFilteredApplicants(filtered);
         }
       } catch (error) {
         console.error("Errore durante il caricamento dei jobs:", error.message);
       }
     };
-  
+
     const handleChanges = (payload) => {
       if (payload.eventType === "INSERT" && payload.table === "threads") {
         setApplicants((prevApplicants) => {
           const newApplicants = [payload.new, ...prevApplicants];
           const sortedApplicants = combinedSortApplicants(newApplicants);
+          // Applica il filtro di ricerca ai nuovi dati
+          const filtered = sortedApplicants.filter(
+            (applicant) =>
+              applicant.fullname
+                .toLowerCase()
+                .includes(searchTerm.toLowerCase()) ||
+              applicant.city.toLowerCase().includes(searchTerm.toLowerCase())
+          );
+          setFilteredApplicants(filtered);
           return sortedApplicants;
         });
         setTotalApplicants((prevTotal) => prevTotal + 1);
       }
     };
-  
+
     const intervalId = setInterval(() => {
       getApplicantsForJob(jobId);
     }, 10000);
-  
+
+    // Aggiorna i candidati filtrati dopo il refresh
+    if (refresh) {
+      setFilteredApplicants([]);
+    }
+
     const channel = supabase
       .channel("schema-db-changes")
       .on(
@@ -127,32 +174,45 @@ export default function FilterUsersForJob({ refresh }) {
         handleChanges
       )
       .subscribe();
-  
+
     getApplicantsForJob(jobId);
     return () => {
       clearInterval(intervalId);
       channel.unsubscribe();
     };
-  }, [jobId, sortKey, sortDirection, sortKeyAi, sortDirectionAi]);
-  
+  }, [
+    jobId,
+    refresh,
+    sortKey,
+    sortDirection,
+    sortKeyAi,
+    sortDirectionAi,
+    searchTerm,
+  ]);
+
   //! Effetto per ordinare i candidati
   useEffect(() => {
     setApplicants(combinedSortApplicants(applicants));
   }, [sortKey, sortKeyAi, sortDirection, sortDirectionAi]);
-  
-  //! Funzione per ordinare per Created At
-  const handleSortClick = () => {
-    const newDirection = sortDirection === "asc" ? "desc" : "asc";
-    setSortDirection(newDirection);
-    setApplicants(combinedSortApplicants(applicants));
-  };
-  
-  //! Funzione per ordinare per AI Score
-  const handleSortClickAi = () => {
-    const newDirection = sortDirectionAi === "asc" ? "desc" : "asc";
-    setSortDirectionAi(newDirection);
-    setApplicants(combinedSortApplicants(applicants));
-  };
+
+  //! Ordina i candidati e applica il filtro dopo il refresh
+  useEffect(() => {
+    const sortedApplicants = combinedSortApplicants(
+      filteredApplicants.length > 0 ? filteredApplicants : applicants
+    );
+    setApplicants(sortedApplicants);
+    setTotalApplicants(sortedApplicants.length);
+  }, [filteredApplicants, sortKey, sortDirection, sortKeyAi, sortDirectionAi]);
+
+  //! Applica il filtro di ricerca ai nuovi dati
+  useEffect(() => {
+    const filtered = jobApplicants.filter(
+      (applicant) =>
+        applicant.fullname.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        applicant.city.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredApplicants(filtered);
+  }, [jobApplicants, searchTerm]);
 
   return (
     <section data-aos="fade-up">

@@ -153,7 +153,7 @@ export default function JobDetails() {
         data-aos="fade-down"
         className={`${
           modalOpen ? "opacity-10" : "opacity-100 shadow-md"
-        } bg-white px-6 py-4 2xl:py-8 2xl:px-10 rounded-2xl mt-2 md:mt-5 2xl:mt-10`}
+        } bg-white px-6 py-4 2xl:py-8 2xl:px-10 rounded-2xl`}
       >
         {selectedJob && (
           <div className={`${modalOpen ? "opacity-10" : "opacity-100"}`}>
