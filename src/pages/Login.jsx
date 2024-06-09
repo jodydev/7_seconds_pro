@@ -226,7 +226,7 @@ export default function Login() {
         </div>
       )}
       {showReset && (
-        <form className="w-full md:w-3/5" onSubmit={handleResetPassword}>
+        <form className="w-full md:w-3/5 form-login" onSubmit={handleResetPassword}>
           <h2 className="text-2xl md:text-4xl 2xl:text-6xl my-5 font-bold">
             {t("Enter your email to proceed with resetting your password")}
           </h2>
@@ -257,7 +257,7 @@ export default function Login() {
           id="container"
         >
           <div className="form-container sign-up-container w-full md:w-1/2">
-            <form onSubmit={handleRegister}>
+            <form className="form-login" onSubmit={handleRegister}>
               <h2 className="text-3xl md:text-5xl 2xl:text-7xl font-bold my-8">
                 {t("Create account")}
               </h2>
@@ -383,7 +383,7 @@ export default function Login() {
           </div>
 
           <div className="form-container sign-in-container w-full md:w-1/2">
-            <form onSubmit={handleLogin}>
+            <form  className="form-login" onSubmit={handleLogin}>
               <h1 className="text-4xl md:text-5xl 2xl:text-7xl font-bold my-5">
                 {t("Sign in")}
               </h1>

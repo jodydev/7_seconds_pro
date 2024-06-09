@@ -138,20 +138,25 @@ export default function FilterUsersForJob({ refresh }) {
         setApplicants((prevApplicants) => {
           const newApplicants = [payload.new, ...prevApplicants];
           const sortedApplicants = combinedSortApplicants(newApplicants);
+          
           // Applica il filtro di ricerca ai nuovi dati
+          console.log(sortedApplicants);
           const filtered = sortedApplicants.filter(
-            (applicant) =>
-              applicant.fullname
-                .toLowerCase()
-                .includes(searchTerm.toLowerCase()) ||
-              applicant.city.toLowerCase().includes(searchTerm.toLowerCase())
+            (applicant) => {
+              const fullname = applicant.fullname ?? "";
+              const city = applicant.city ?? "";
+              return fullname.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                     city.toLowerCase().includes(searchTerm.toLowerCase());
+            }
           );
+    
           setFilteredApplicants(filtered);
           return sortedApplicants;
         });
         setTotalApplicants((prevTotal) => prevTotal + 1);
       }
     };
+    
 
     const intervalId = setInterval(() => {
       getApplicantsForJob(jobId);

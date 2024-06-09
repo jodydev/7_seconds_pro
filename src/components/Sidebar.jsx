@@ -71,6 +71,8 @@ export default function Sidebar({ onSearch }) {
     },
   ];
 
+  const classNames = (...classes) => classes.filter(Boolean).join(" ");
+
   const signOut = async () =>
     (await supabase.auth.signOut()) && navigate("/login");
 
@@ -295,13 +297,13 @@ export default function Sidebar({ onSearch }) {
               />
             </form>
             <div className="flex items-center gap-x-4 lg:gap-x-6">
-              <button
+              {/* <button
                 type="button"
                 className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
               >
                 <span className="sr-only">View notifications</span>
                 <BellIcon className="h-6 w-6" aria-hidden="true" />
-              </button>
+              </button> */}
 
               <div
                 className="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-200"
@@ -317,14 +319,55 @@ export default function Sidebar({ onSearch }) {
                     src="https://media.licdn.com/dms/image/D4D03AQFOLtuImXQOkQ/profile-displayphoto-shrink_200_200/0/1716934558915?e=1723075200&v=beta&t=yECdP8vMAean6DSe5TrvrLrITHaAmBu1NovknTIPGgI"
                     alt=""
                   />
-                  <span className="hidden lg:flex lg:items-center">
+                  {/* <span className="hidden lg:flex lg:items-center">
                     <span
                       className="ml-4 text-sm font-semibold leading-6 text-gray-900"
                       aria-hidden="true"
                     >
                       Jody Ossino
                     </span>
-                  </span>
+                  </span> */}
+
+                  <Menu as="div" className="relative inline-block text-left">
+                    <div>
+                      <MenuButton className="ms-1 inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900  hover:bg-gray-50">
+                        Jody Ossino
+                        <ChevronDownIcon
+                          className="-mr-1 h-5 w-5 text-gray-400"
+                          aria-hidden="true"
+                        />
+                      </MenuButton>
+                    </div>
+
+                    <Transition
+                      enter="transition ease-out duration-100"
+                      enterFrom="transform opacity-0 scale-95"
+                      enterTo="transform opacity-100 scale-100"
+                      leave="transition ease-in duration-75"
+                      leaveFrom="transform opacity-100 scale-100"
+                      leaveTo="transform opacity-0 scale-95"
+                    >
+                      <MenuItems className="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                        <div className="py-1">
+                          <MenuItem>
+                            {({ focus }) => (
+                              <a
+                                href="#"
+                                className={classNames(
+                                  focus
+                                    ? "bg-gray-100 text-gray-900"
+                                    : "text-gray-700",
+                                  "block px-4 py-2 text-sm"
+                                )}
+                              >
+                                Invita un collega
+                              </a>
+                            )}
+                          </MenuItem>
+                        </div>
+                      </MenuItems>
+                    </Transition>
+                  </Menu>
                 </MenuButton>
               </Menu>
             </div>

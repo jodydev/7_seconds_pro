@@ -11,6 +11,8 @@ import useSorting from "../hook/useSorting";
 import Job from "./Modal/Job";
 import Loader from "./Loader";
 
+import NewModalJob from "../components/2.0/NewModalJob";
+
 export default function JobPostings() {
   const { t } = useTranslation();
   const {
@@ -191,6 +193,7 @@ export default function JobPostings() {
     }
   }, [cvsForJobRef.current, sortKey, sortDirection]);
 
+  //! Funzione per la ricerca dei lavori in base al termine inserito
   const filteredJobs = currentJobs.filter((job) =>
     Object.values(job).some(
       (value) =>
@@ -201,7 +204,7 @@ export default function JobPostings() {
 
   return (
     <section>
-      {modalOpen && <Job onResult={handleResult} closeModal={closeModal} />}
+      {modalOpen && <NewModalJob onResult={handleResult} closeModal={closeModal} />}
       <div data-aos="fade-up">
         {message && (
           <div

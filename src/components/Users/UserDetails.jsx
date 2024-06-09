@@ -217,7 +217,7 @@ export default function UserDetails() {
               type="application/pdf"
               width="100%"
               height="100%"
-              className="shadow-2xl rounded-2xl w-full h-full 2xl:h-[90vh]"
+              className="shadow-2xl rounded-2xl w-full h-[50vh] md:h-[90vh]"
             />
           </div>
         </section>
