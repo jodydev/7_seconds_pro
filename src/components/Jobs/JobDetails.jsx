@@ -198,10 +198,10 @@ export default function JobDetails() {
                   <button
                     onClick={openModal}
                     type="button"
-                    className="absolute md:relative right-0 bottom-[-25px] sm:bottom-0 inline-flex items-center rounded-2xl bg-indigo-600 px-2 py-2 md:px-4 md:py-3 2xl:px-5 text-base 2xl:text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    className="absolute md:relative right-0 bottom-[-25px] sm:bottom-0 inline-flex items-center rounded-2xl bg-indigo-600 px-2 py-2 md:px-4 2xl:py-3 2xl:px-5 text-base 2xl:text-lg font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   >
                     <span>
-                      <BsStars className="me-0 md:me-2 md:w-6 md:h-6" />
+                      <BsStars className="me-0 md:me-2 md:w-5 md:h-5" />
                     </span>
                     <span className="hidden md:block">{t("Upload CVs")}</span>
                   </button>

@@ -20,7 +20,7 @@ export default function ProcessingSpan() {
           fill="currentFill"
         />
       </svg>
-      <span className=" text-black flex text-xs 2xl:text-sm">{t("Processing...")}</span>
+      <span className="flex text-xs 2xl:text-sm">{t("Processing...")}</span>
     </div>
   );
 }

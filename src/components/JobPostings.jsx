@@ -226,7 +226,7 @@ export default function JobPostings() {
         >
           <div className="flex flex-wrap items-center justify-between sm:flex-nowrap border-b border-gray-200">
             <div className="ml-4 my-2 2xl:my-4">
-              <h3 className="text-2xl 2xl:text-4xl font-bold leading-6 mb-2 text-gray-900">
+              <h3 className="text-3xl 2xl:text-4xl font-bold leading-6 mb-2 text-gray-900">
                 {t("Job Postings")}
               </h3>
             </div>
@@ -235,7 +235,7 @@ export default function JobPostings() {
                 <button
                   onClick={openModal}
                   type="button"
-                  className="relative inline-flex items-center rounded-xl bg-indigo-600 px-2 sm:px-3 py-2 text-lg 2xl:text-xl hover:cursor-pointer font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  className="relative inline-flex items-center rounded-xl bg-indigo-600 px-2 sm:px-3 py-2 text-base 2xl:text-lg hover:cursor-pointer font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                 >
                   <span>
                     <TbSquareRoundedPlusFilled className="w-6 h-6 me-0 sm:me-2" />
@@ -352,7 +352,7 @@ export default function JobPostings() {
                       <button
                         onClick={openModal}
                         type="button"
-                        className="mt-5 relative inline-flex items-center rounded-xl bg-indigo-600 px-2 sm:px-3 py-2 text-lg 2xl:text-xl hover:cursor-pointer font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        className="mt-5 relative inline-flex items-center rounded-xl bg-indigo-600 px-2 sm:px-3 py-2 text-base 2xl:text-lg hover:cursor-pointer font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                       >
                         <span>
                           <TbSquareRoundedPlusFilled className="w-6 h-6 me-0 sm:me-2" />

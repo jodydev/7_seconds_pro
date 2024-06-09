@@ -28,8 +28,9 @@ import {
   MenuItems,
   Transition,
 } from "@headlessui/react";
+import { MdManageAccounts } from "react-icons/md";
 
-export default function Sidebar({onSearch}) {
+export default function Sidebar({ onSearch }) {
   const { t } = useTranslation();
   const { subscription } = getUserData();
   const navigate = useNavigate();
@@ -37,17 +38,7 @@ export default function Sidebar({onSearch}) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const trial = subscription === "trial";
   const expired = subscription === "expired";
-  const {modalOpen, searchTerm, setSearchTerm } = useAppContext();
-
-  const teams = [
-    { id: 1, name: "Heroicons", href: "#", initial: "H", current: false },
-    { id: 2, name: "Tailwind Labs", href: "#", initial: "T", current: false },
-    { id: 3, name: "Workcation", href: "#", initial: "W", current: false },
-  ];
-  const userNavigation = [
-    { name: "Your profile", href: "#" },
-    { name: "Sign out", href: "#" },
-  ];
+  const { modalOpen, searchTerm, setSearchTerm } = useAppContext();
 
   const navigation = [
     { name: t("Dashboard"), to: "/home", icon: HomeIcon, current: true },
@@ -61,12 +52,6 @@ export default function Sidebar({onSearch}) {
       current: false,
     },
     {
-      name: t("Support"),
-      href: "https://mailto:support@7seconds.pro",
-      icon: BiSupport,
-      current: false,
-    },
-    {
       name: t("Meetings"),
       to: "/meetings",
       icon: PiVideoCameraBold,
@@ -75,7 +60,13 @@ export default function Sidebar({onSearch}) {
     {
       name: t("Update Account"),
       to: "/update-account",
-      icon: FaUsers,
+      icon: MdManageAccounts,
+      current: false,
+    },
+    {
+      name: t("Support"),
+      href: "https://mailto:support@7seconds.pro",
+      icon: BiSupport,
       current: false,
     },
   ];
@@ -196,7 +187,7 @@ export default function Sidebar({onSearch}) {
         <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6">
           <a href="/home">
             <img
-              className="w-auto md:h-8 2xl:h-10 mt-10 "
+              className="w-auto md:h-8 2xl:h-10 mt-5 2xl:mt-10 "
               src="/logo/7seconds-logo.svg"
               alt="7Seconds Pro"
             />
@@ -285,24 +276,24 @@ export default function Sidebar({onSearch}) {
       <div className="lg:pl-72">
         <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
           <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-          <form className="relative flex flex-1">
-      <label htmlFor="search-field" className="sr-only">
-        Search
-      </label>
-      <MagnifyingGlassIcon
-        className="pointer-events-none absolute inset-y-0 left-0 h-full w-5 text-gray-400"
-        aria-hidden="true"
-      />
-      <input
-        id="search-field"
-        className="block h-full w-full border-0 py-0 pl-8 pr-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm"
-        placeholder="Search..."
-        type="text"
-        name="search"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
-    </form>
+            <form className="relative flex flex-1">
+              <label htmlFor="search-field" className="sr-only">
+                Search
+              </label>
+              <MagnifyingGlassIcon
+                className="pointer-events-none absolute inset-y-0 left-0 h-full w-5 text-gray-400"
+                aria-hidden="true"
+              />
+              <input
+                id="search-field"
+                className="block h-full w-full border-0 py-0 pl-8 pr-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm"
+                placeholder="Search..."
+                type="text"
+                name="search"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </form>
             <div className="flex items-center gap-x-4 lg:gap-x-6">
               <button
                 type="button"

@@ -255,7 +255,7 @@ export default function FilterUsersForJob({ refresh }) {
                 </tr>
               </thead>
               <tbody>
-                <tr className="bg-white h-[380px] 2xl:h-[700px] border-b dark:bg-gray-800 dark:border-gray-700">
+                <tr className="bg-white h-[320px] 2xl:h-[500px] border-b dark:bg-gray-800 dark:border-gray-700">
                   {accountCredits > 0 ? (
                     <td className="text-center py-6 px-32 sm:px-0" colSpan="8">
                       <p className="text-sm sm:text-2xl 2xl:text-5xl  font-semibold">
@@ -355,7 +355,7 @@ export default function FilterUsersForJob({ refresh }) {
                   >
                     <td className="px-3 py-4">
                       <Link to={`/user-details/${applicant.thread_id}`}>
-                        <div className="w-full">
+                        <div className={`${applicant.thread_status === "ready" ? "text-green-500" : applicant.thread_status === "failed" ? "text-red-600" : "text-indigo-700" } w-full`}>
                           {applicant.thread_status === "ready" ? (
                             <ReadySpan />
                           ) : applicant.thread_status === "failed" ? (

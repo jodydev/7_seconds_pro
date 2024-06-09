@@ -7,7 +7,7 @@ export default function Layout({ children }) {
       <Sidebar />
 
       <main
-        className="lg:pl-72 py-10"
+        className="lg:pl-72 py-10 my-bg"
       >
         <div className="px-4 sm:px-6 lg:px-8">
           {children}
